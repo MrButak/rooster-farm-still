@@ -7,7 +7,7 @@ const config = useRuntimeConfig();
 
 // if(config.DEV_ENVIRONMENT == 'development') {
     let pool = new Pool({
-        connectionString: process.env.DB_URL,
+        connectionString: process.env.DATABASE_URL,
         // ssl: false
         ssl: {
                 required: true,
