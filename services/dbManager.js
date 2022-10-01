@@ -2,23 +2,23 @@ import pgPackage from 'pg';
 const { Pool } = pgPackage;
 
 const config = useRuntimeConfig();
-let pool = new Pool({});
+// let pool = new Pool({});
 
-if(config.DEV_ENVIRONMENT == 'development') {
-    pool = new Pool({
+// if(config.DEV_ENVIRONMENT == 'development') {
+    let pool = new Pool({
         connectionString: config.DB_URL,
         ssl: false
     });
-}
-else {
-    pool = new Pool({
-        connectionString: config.DB_URL,
-        ssl: {
-            required: true,
-            rejectUnauthorized: false
-        }
-    });
-}
+// }
+// else {
+//     pool = new Pool({
+//         connectionString: config.DB_URL,
+//         ssl: {
+//             required: true,
+//             rejectUnauthorized: false
+//         }
+//     });
+// }
 
 
 async function dbCall() {
