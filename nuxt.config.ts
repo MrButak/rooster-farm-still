@@ -6,18 +6,22 @@ export default defineNuxtConfig({
     // privateRuntimeConfig: {
 
     // }
-    // publicRuntimeConfig: {
+    publicRuntimeConfig: {
         
-    // }
-    
-    runtimeConfig: {
         STRIPE_SK: process.env.STRIPE_SK,
-        // DB_URL: process.env.DB_URL,
-        // DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
-        public: {
-            STRIPE_PK: process.env.STRIPE_PK
-        }
+        DB_URL: process.env.DB_URL,
+        DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
+        STRIPE_PK: process.env.STRIPE_PK
     }
+    
+    // runtimeConfig: {
+    //     STRIPE_SK: process.env.STRIPE_SK,
+    //     // DB_URL: process.env.DB_URL,
+    //     // DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
+    //     public: {
+    //         STRIPE_PK: process.env.STRIPE_PK
+    //     }
+    // }
     // meta: {
     //     link: [
     //         {
