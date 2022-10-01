@@ -1,12 +1,13 @@
 import pgPackage from 'pg';
 const { Pool } = pgPackage;
-
+import dotenv from "dotenv";
+dotenv.config();
 const config = useRuntimeConfig();
 // let pool = new Pool({});
 
 // if(config.DEV_ENVIRONMENT == 'development') {
     let pool = new Pool({
-        connectionString: config.DB_URL,
+        connectionString: process.env.DB_URL,
         // ssl: false
         ssl: {
                 required: true,
