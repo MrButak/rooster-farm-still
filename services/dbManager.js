@@ -7,7 +7,11 @@ const config = useRuntimeConfig();
 // if(config.DEV_ENVIRONMENT == 'development') {
     let pool = new Pool({
         connectionString: config.DB_URL,
-        ssl: false
+        // ssl: false
+        ssl: {
+                required: true,
+                rejectUnauthorized: false
+            }
     });
 // }
 // else {
