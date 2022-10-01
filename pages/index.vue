@@ -23,6 +23,12 @@ onMounted(() => {
     console.log(config)
 });
 
+
+
+
+
+
+
 async function testProdEndpoint() {
     let testData = await $fetch('/api/test-prod');
     console.log(testData)
