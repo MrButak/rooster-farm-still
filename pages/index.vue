@@ -1,5 +1,6 @@
 <template>
 <button @click="createPaymentIntent">init payment</button>
+<button @click="testDbCall">test DB</button>
 <Script src="https://js.stripe.com/v3/"></Script>
 <!-- Display a payment form -->
 <form id="payment-form">
@@ -10,13 +11,14 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig();
 
 
 let stripe;
 let elements = {};
 
 onMounted(() => {
-    stripe = window.Stripe('xxxxx', null)
+    stripe = window.Stripe(config.public.STRIPE_PK, null)
 });
 
 
@@ -34,6 +36,11 @@ async function createPaymentIntent() {
 
 };
 
+async function testDbCall() {
+    let testData = await $fetch('/api/test-db');
+    console.log(testData);
+
+}
 </script>
 
 <style scoped>

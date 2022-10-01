@@ -1,13 +1,13 @@
 import Stripe from "stripe";
-
+const config = useRuntimeConfig();
 async function createStripePaymentIntent() {
-
-    var stripe = new Stripe('xxxxx', null);
+    
+    var stripe = new Stripe(config.STRIPE_SK, null);
     const paymentIntent = await stripe.paymentIntents.create({
 
         amount: 100 * 100, // in cents
         currency: "usd",
-        receipt_email: 'xxxxx',
+        receipt_email: 'mspence5555@gmail.com',
         description: "Still order",
         metadata: {
             

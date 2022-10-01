@@ -9,9 +9,11 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
+    "@types/pg": "^8.6.5",
     "nuxt": "3.0.0-rc.11"
   },
   "dependencies": {
+    "pg": "^8.8.0",
     "stripe": "^10.12.0"
   }
 }
