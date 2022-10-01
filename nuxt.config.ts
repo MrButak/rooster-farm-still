@@ -3,16 +3,20 @@ dotenv.config();
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
 
-    // privateRuntimeConfig: {
-
-    // }
-    publicRuntimeConfig: {
-        
+    privateRuntimeConfig: {
         STRIPE_SK: process.env.STRIPE_SK,
         DB_URL: process.env.DB_URL,
         DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
         STRIPE_PK: process.env.STRIPE_PK
     }
+
+    // publicRuntimeConfig: {
+        
+    //     STRIPE_SK: process.env.STRIPE_SK,
+    //     DB_URL: process.env.DB_URL,
+    //     DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
+    //     STRIPE_PK: process.env.STRIPE_PK
+    // }
     
     // runtimeConfig: {
     //     STRIPE_SK: process.env.STRIPE_SK,
