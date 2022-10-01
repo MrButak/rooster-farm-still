@@ -19,7 +19,8 @@ let stripe;
 let elements = {};
 
 onMounted(() => {
-    stripe = window.Stripe(config.public.STRIPE_PK, null)
+    // stripe = window.Stripe(config.public.STRIPE_PK, null)
+    console.log(config)
 });
 
 async function testProdEndpoint() {
@@ -27,19 +28,19 @@ async function testProdEndpoint() {
     console.log(testData)
 }
 
-async function createPaymentIntent() {
+// async function createPaymentIntent() {
 
-    let clientSecret = await $fetch('/api/create-payment-intent');
+//     let clientSecret = await $fetch('/api/create-payment-intent');
     
-    const appearance = {
-        theme: 'stripe',
-    };
-    elements = stripe.elements({ appearance, clientSecret });
+//     const appearance = {
+//         theme: 'stripe',
+//     };
+//     elements = stripe.elements({ appearance, clientSecret });
 
-    const paymentElement = elements.create("payment");
-    paymentElement.mount("#payment-element");
+//     const paymentElement = elements.create("payment");
+//     paymentElement.mount("#payment-element");
 
-};
+// };
 
 async function testDbCall() {
     let testData = await $fetch('/api/test-db');
