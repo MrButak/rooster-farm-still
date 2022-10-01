@@ -7,7 +7,7 @@ const config = useRuntimeConfig();
 
 // if(config.DEV_ENVIRONMENT == 'development') {
     let pool = new Pool({
-        connectionString: 'postgres://yrkrpjoxpkchux:9c49f1cb41dd7fa15866697ec18d572eca940410f6db76c1e6b3848be83a0a24@ec2-34-200-35-222.compute-1.amazonaws.com:5432/deegcqc24qnodq',
+        connectionString: process.env.DB_URL,
         // ssl: false
         ssl: {
                 required: true,
