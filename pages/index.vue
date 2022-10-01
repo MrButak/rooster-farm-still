@@ -1,6 +1,7 @@
 <template>
 <button @click="createPaymentIntent">init payment</button>
 <button @click="testDbCall">test DB</button>
+<button @click="testProdEndpoint">test prod endpoint</button>
 <Script src="https://js.stripe.com/v3/"></Script>
 <!-- Display a payment form -->
 <form id="payment-form">
@@ -21,6 +22,10 @@ onMounted(() => {
     stripe = window.Stripe(config.public.STRIPE_PK, null)
 });
 
+function testProdEndpoint() {
+    let testData = $fetch('/api/test-prod');
+    console.log(testData)
+}
 
 async function createPaymentIntent() {
 
