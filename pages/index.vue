@@ -22,8 +22,8 @@ onMounted(() => {
     stripe = window.Stripe(config.public.STRIPE_PK, null)
 });
 
-function testProdEndpoint() {
-    let testData = $fetch('/api/test-prod');
+async function testProdEndpoint() {
+    let testData = await $fetch('/api/test-prod');
     console.log(testData)
 }
 
