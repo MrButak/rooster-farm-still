@@ -1,7 +1,6 @@
 <template>
 <button @click="createPaymentIntent">init payment</button>
 <button @click="testDbCall">test DB</button>
-<button @click="testProdEndpoint">test prod endpoint</button>
 <Script src="https://js.stripe.com/v3/"></Script>
 <!-- Display a payment form -->
 <form id="payment-form">
@@ -19,34 +18,21 @@ let stripe;
 let elements = {};
 
 onMounted(() => {
-    // stripe = window.Stripe(config.public.STRIPE_PK, null)
-    console.log(config)
+    stripe = window.Stripe(config.public.STRIPE_PK, null)
 });
 
+async function createPaymentIntent() {
 
-
-
-
-
-
-async function testProdEndpoint() {
-    let testData = await $fetch('/api/test-prod');
-    console.log(testData)
-}
-
-// async function createPaymentIntent() {
-
-//     let clientSecret = await $fetch('/api/create-payment-intent');
+    let clientSecret = await $fetch('/api/create-payment-intent');
     
-//     const appearance = {
-//         theme: 'stripe',
-//     };
-//     elements = stripe.elements({ appearance, clientSecret });
+    const appearance = {
+        theme: 'stripe',
+    };
 
-//     const paymentElement = elements.create("payment");
-//     paymentElement.mount("#payment-element");
-
-// };
+    elements = stripe.elements({ appearance, clientSecret });
+    const paymentElement = elements.create("payment");
+    paymentElement.mount("#payment-element");
+};
 
 async function testDbCall() {
     let testData = await $fetch('/api/test-db');
