@@ -53,7 +53,6 @@ import testLogo from  '../../assests/img/started-logo-1.svg';
 
     .hero-wrapper {
         width: 100%;
-        height: 1rem;
         background-color: #fce373;
     }
 }

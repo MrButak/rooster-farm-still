@@ -131,8 +131,11 @@ nav ul li a:hover, nav ul li a:focus {
 /*Desktop sizes*-----------------------------------------------------*/
 @media (min-width: 900px) { 
     /*Header start*/
-    .nav {
-        background: none;
+    nav {
+        position: absolute;
+    top: 5.9rem;
+    background: none;
+    width: 100%;
     }
     .menu-icon {
         display: none;
@@ -153,8 +156,7 @@ nav ul li a:hover, nav ul li a:focus {
         max-height: 178px;
         padding: 2rem 0 0 0;
         justify-content: space-between;
-        background-color: #fce373;
-        border-bottom: 2rem solid #fce373;
+        width: 100%;
     }
     // nav ul li {
     //     display: inline-flex;
