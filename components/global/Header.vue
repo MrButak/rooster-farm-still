@@ -56,6 +56,7 @@ import titleText from  '../../assests/img/title.svg';
     position: absolute;
     top: 7rem;
     left: calc(50% - 7rem);
+    width: 14rem;
 }
 #hamburg-icon {
     padding: 5rem 0 0 0;
