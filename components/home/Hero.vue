@@ -18,7 +18,7 @@ import testLogo from  '../../assests/img/started-logo-1.svg';
 
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 .hero-wrapper {
     display: flex;
@@ -54,6 +54,16 @@ import testLogo from  '../../assests/img/started-logo-1.svg';
     .hero-wrapper {
         width: 100%;
         background-color: #fce373;
+       
+    }
+    .logo-home {
+        left: calc(50% - 5.5rem);
+        width: 11rem;
+    }
+    .logo-circle {
+        width: 7rem;
+        height: 7rem;
+        left: calc(50% - 3.5rem);
     }
 }
 </style>

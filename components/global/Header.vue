@@ -28,7 +28,7 @@
 import titleText from  '../../assests/img/title.svg';
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 
 
 // pale yellow #fce373
@@ -61,7 +61,7 @@ import titleText from  '../../assests/img/title.svg';
 #hamburg-icon {
     padding: 5rem 0 0 0;
     fill: #231f20;
-    width: 3rem;
+    width: 2rem;
     margin-left: auto;
 }
 .mobile-header-icon {
@@ -131,12 +131,16 @@ nav ul li a:hover, nav ul li a:focus {
 }
 /*Desktop sizes*-----------------------------------------------------*/
 @media (min-width: 900px) { 
-    /*Header start*/
+    .heading-text {
+        left: calc(50% - 11rem);
+        width: 22rem;
+    }
+
     nav {
         position: absolute;
-    top: 5.9rem;
-    background: none;
-    width: 100%;
+        top: 5.9rem;
+        background: none;
+        width: 100%;
     }
     .menu-icon {
         display: none;
@@ -147,11 +151,7 @@ nav ul li a:hover, nav ul li a:focus {
         padding: 11px 0 0 0;
         margin: 0 0 0 6vw;
     }
-    // nav {
-    //     top: 8px;
-    //     background-color: transparent;
-    //     border-bottom: 1px solid #fce373;
-    // }
+   
     nav ul {
         display: flex;
         max-height: 178px;
@@ -159,23 +159,11 @@ nav ul li a:hover, nav ul li a:focus {
         justify-content: space-between;
         width: 100%;
     }
-    // nav ul li {
-    //     display: inline-flex;
-    //     padding-left: 20px;
-    // }
+    
     nav ul li a {
         color: #231f20;
     }
-    // .menu-wrap {
-    //     display: flex;
-    //     justify-content: space-between;
-    //     align-items: center;
-    //     padding: 0;
-    //     height: 5rem;
-    //     background-color: #fce373;
-    //     width: 100%;
-    // }
-    /*Header end*/
+    
 }
 
 </style>

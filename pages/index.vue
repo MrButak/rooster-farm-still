@@ -1,8 +1,9 @@
 <template>
 
-<div>
+<div class="home-page-wrapper">
     <Header />
     <Hero />
+    <Footer />
 </div>
     
 </template>
@@ -21,6 +22,10 @@ async function testDbCall() {
 
 <style scoped>
 
+.home-page-wrapper {
+    height: 100vh;
+    background: #ffd00038;
+}
 
 </style>
     
