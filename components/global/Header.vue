@@ -2,17 +2,16 @@
 
 <header class="menu">
         <div class="menu-wrap">
-            <div class="icon-wrapper">
-            <a href="https://github.com/MrButak" target="_blank" rel="noreferrer noopener"><GithubIcon class="mobile-header-icon"/></a>
-            <a href="mailto: mspence5555@gmail.com" target="_blank" rel="noreferrer noopener"><EmailIcon class="mobile-header-icon"/></a>
-            <a href="https://www.linkedin.com/in/matthew-w-spence" target="_blank" rel="noreferrer noopener"><LinkedinIcon class="mobile-header-icon"/></a>
-            </div>
+            
+            <img class="heading-text" :src="titleText" />
+          
             <input type="checkbox" id="checkbox">
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">Projects</a></li>
+                    <li><a href="#">About</a></li>
                 </ul>
+                
             </nav>
             <label id="hamburg-icon" class="menu-icon" for="checkbox">
                 <svg class="hamburgMenuIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24">
@@ -24,7 +23,11 @@
 
 </template>
     
+<script setup>
 
+import titleText from  '../../assests/img/title.svg';
+
+</script>
 <style lang="scss">
 
 
@@ -42,21 +45,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2.5rem 2rem;
+    padding: 0 0.8rem 0 0;
     height: 5rem;
     background-color: #fce373;
     width: 100%;
-    border-bottom: 1px solid black;
+
 }
-.icon-wrapper {
-    display: flex;
-    gap: 30px;
+.heading-text {
+    z-index: 3;
+    position: absolute;
+    top: 7rem;
+    left: calc(50% - 7rem);
 }
 #hamburg-icon {
-    padding: 10px 0 0 20px;
-    // fill: #5E454B;
+    padding: 5rem 0 0 0;
     fill: #231f20;
-    width: 4rem;
+    width: 3rem;
+    margin-left: auto;
 }
 .mobile-header-icon {
     fill: #CEE5D0;
@@ -66,13 +71,17 @@
     fill: #D06224;
 }
 nav {
-    z-index: 2;
+    display: flex;
     position: absolute;
-    background-color: #cca69a;
-    top: 80px;
-    left:0;
-    width: 100%; 
+    top: 10.9rem;
+    left: 0;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(149,57,16,1) 74%, rgba(181,69,20,1) 100%);
+    width: 100%;
+    justify-content: center;
+
 }
+
 nav ul {
     list-style-type: none;
     max-height: 0px;
@@ -86,7 +95,7 @@ nav ul li a {
     display: inline-block;
     padding: 12px;
     // color: #5E454B;
-    color: #231f20;
+    color: whitesmoke;
     font-weight: 700;
     text-decoration: none;
     letter-spacing: 0.05em;
@@ -101,28 +110,30 @@ nav ul li a:hover, nav ul li a:focus {
     max-height: 190px;
     padding: 15px 0;
     transition: all 0.5s;
-    border: 1px solid #5E454B;
+    // border: 1px solid #5E454B;
 }
 /*Header end*/
 /*Tablet sizes---------------------------------------------------------*/
 @media (min-width: 480px) {
     /*Header start*/
-    .menu-wrap {
-        height: 60px;
-        width: 100%
-    }
+    // .menu-wrap {
+    //     height: 60px;
+    //     width: 100%
+    // }
     /* nav {
         top: 60px;
     } */
-    #hamburg-icon {
-        padding: 6px 0 0 20px;
-    }
+    // #hamburg-icon {
+    //     padding: 6px 0 0 20px;
+    // }
     
 }
 /*Desktop sizes*-----------------------------------------------------*/
 @media (min-width: 900px) { 
     /*Header start*/
-    
+    .nav {
+        background: none;
+    }
     .menu-icon {
         display: none;
     }
@@ -132,23 +143,35 @@ nav ul li a:hover, nav ul li a:focus {
         padding: 11px 0 0 0;
         margin: 0 0 0 6vw;
     }
-    nav {
-        top: 8px;
-        background-color: transparent;
-    }
+    // nav {
+    //     top: 8px;
+    //     background-color: transparent;
+    //     border-bottom: 1px solid #fce373;
+    // }
     nav ul {
         display: flex;
         max-height: 178px;
         padding: 2rem 0 0 0;
         justify-content: space-between;
+        background-color: #fce373;
+        border-bottom: 2rem solid #fce373;
     }
-    nav ul li {
-        display: inline-flex;
-        padding-left: 20px;
-    }
+    // nav ul li {
+    //     display: inline-flex;
+    //     padding-left: 20px;
+    // }
     nav ul li a {
         color: #231f20;
     }
+    // .menu-wrap {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     padding: 0;
+    //     height: 5rem;
+    //     background-color: #fce373;
+    //     width: 100%;
+    // }
     /*Header end*/
 }
 

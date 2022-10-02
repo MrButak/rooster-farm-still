@@ -3,6 +3,8 @@
     <button @click="createPaymentIntent">init payment</button>
     <button @click="testDbCall">test DB</button>
     <Script src="https://js.stripe.com/v3/"></Script>
+
+    
     <!-- Display a payment form -->
     <form id="payment-form">
         <div id="payment-element">
