@@ -1,11 +1,10 @@
 import Stripe from "stripe";
-import dotenv from "dotenv";
-dotenv.config();
+import dotenv from "dotenv"; dotenv.config();
 
 async function createStripePaymentIntent() {
     
     var stripe = new Stripe(process.env.STRIPE_SK, null);
-    
+
     const paymentIntent = await stripe.paymentIntents.create({
 
         amount: 100 * 100, // in cents
