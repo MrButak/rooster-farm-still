@@ -56,8 +56,8 @@ import titleText from  '../../assests/img/title.svg';
     z-index: 3;
     position: absolute;
     top: 7rem;
-    left: calc(50% - 7rem);
-    width: 14rem;
+    left: calc(50% - 8.5rem);
+    width: 17rem;
 }
 #hamburg-icon {
     // padding: 5rem 0 0 0;

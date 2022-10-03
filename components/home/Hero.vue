@@ -72,9 +72,10 @@ import testLogo from  '../../assests/img/started-logo-1.svg';
     .logo-home {
         position: absolute;
         top: 0;
-        left: calc(50% - 4.5rem);
+        left: calc(50% - 5.5rem);
         z-index: 2;
-        width: 10rem;
+        width: 12rem;
+    }
     }
     .logo-circle {
         position: absolute;
@@ -87,7 +88,7 @@ import testLogo from  '../../assests/img/started-logo-1.svg';
         top: 1rem;
 
     }
-}
+
 .hero-wrapper-two {
     width: 100%;
     padding: 5rem 0;
@@ -115,11 +116,11 @@ import testLogo from  '../../assests/img/started-logo-1.svg';
 // }
 .mo-fire {
     z-index: 2;
-    width: 4rem;
+    width: 5rem;
     height: auto;
     position: absolute;
-    left: calc(50% - 2.8rem);
-    top: 6rem;
+    left: calc(50% - 3.4rem);
+    top: 8rem;
 }
 .mo-fire svg {
   width: 100%;
@@ -212,9 +213,14 @@ import testLogo from  '../../assests/img/started-logo-1.svg';
         width: 11rem;
     }
     .logo-circle {
+        position: absolute;
         width: 7rem;
         height: 7rem;
+        background: rgb(251, 254, 0);
+        background: radial-gradient(circle, rgb(251, 254, 0) 0%, rgb(255, 105, 3) 100%, rgb(214, 255, 0) 100%);
+        border-radius: 50%;
         left: calc(50% - 3.5rem);
+        top: 1rem;
     }
 }
 
