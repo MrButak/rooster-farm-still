@@ -10,6 +10,7 @@
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
                 
             </nav>
@@ -59,7 +60,7 @@ import titleText from  '../../assests/img/title.svg';
     width: 14rem;
 }
 #hamburg-icon {
-    padding: 5rem 0 0 0;
+    // padding: 5rem 0 0 0;
     fill: #231f20;
     width: 2rem;
     margin-left: auto;

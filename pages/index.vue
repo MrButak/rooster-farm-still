@@ -23,6 +23,8 @@ async function testDbCall() {
 <style scoped>
 
 .home-page-wrapper {
+    display: flex;
+    flex-direction: column;
     height: 100vh;
     background: #ffd00038;
 }
