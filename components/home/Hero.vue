@@ -11,7 +11,6 @@
 </div>
 
 <div class="hero-wrapper-three">
-    <h2 class="hero-three-text">Let's get cookin'</h2>
 </div>
 
 
