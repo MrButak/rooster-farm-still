@@ -2,7 +2,7 @@
 
 <div class="home-page-wrapper">
     <Header />
-    <Hero />
+    <!-- <Hero /> -->
     <Footer />
 </div>
     

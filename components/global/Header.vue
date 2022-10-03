@@ -5,7 +5,7 @@
             
             <img class="heading-text" :src="titleText" />
           
-            <input type="checkbox" id="checkbox">
+            <input v-model="dropdown" @change="handleShowFlame($event)" type="checkbox" id="checkbox">
             <nav>
                 <ul>
                     <li><a href="#">Home</a></li>
@@ -26,9 +26,23 @@
     
 <script setup>
 
+import { ref } from 'vue';
 import titleText from  '../../assests/img/title.svg';
+import { showFlame } from '../../services/stateStore';
 
+let dropdown = ref(null);
+function handleShowFlame(event) {
+
+    if(dropdown.value) {
+        showFlame.value = false;
+    }
+    else {
+        showFlame.value = true;
+    }
+}
 </script>
+
+
 <style lang="scss" scoped>
 
 

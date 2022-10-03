@@ -3,19 +3,18 @@
 <div class="hero-wrapper">
     <img :src="testLogo" class="logo-home" />
     <div class="logo-circle"></div>
-    <!-- <p>Made in Tennesse</p>
-    <p>text 2</p> -->
+
 </div>
 
-<div class="hero-wrapper-two">
+<!-- <div class="hero-wrapper-two">
 </div>
 
 <div class="hero-wrapper-three">
-</div>
+</div> -->
 
 
 
-<div class="mo-fire">
+<div v-if="showFlame" class="mo-fire">
   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="125px" height="189.864px" viewBox="0 0 125 189.864" enable-background="new 0 0 125 189.864" xml:space="preserve">
 <path class="flame-main" fill="#F36E21" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465
@@ -52,7 +51,7 @@
 <script setup>
 
 import testLogo from  '../../assests/img/started-logo-1.svg';
-
+import { showFlame } from '~~/services/stateStore';
 </script>
 
 
