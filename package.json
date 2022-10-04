@@ -9,13 +9,13 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@types/pg": "^8.6.5",
     "nuxt": "3.0.0-rc.11",
     "sass": "^1.55.0",
     "sass-loader": "^10.3.1"
   },
   "dependencies": {
     "pg": "^8.8.0",
-    "stripe": "^10.12.0"
+    "stripe": "^10.12.0",
+    "vue-gtag-next": "^1.14.0"
   }
 }
