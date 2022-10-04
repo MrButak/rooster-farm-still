@@ -1,20 +1,6 @@
 <template>
 
-<div class="hero-wrapper">
-    <img :src="testLogo" class="logo-home" />
-    <div class="logo-circle"></div>
-
-</div>
-
-<div class="hero-wrapper-two">
-</div>
-
-<div class="hero-wrapper-three">
-</div>
-
-
-
-<!-- <div v-if="showFlame" class="mo-fire">
+<div class="mo-fire">
   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="125px" height="189.864px" viewBox="0 0 125 189.864" enable-background="new 0 0 125 189.864" xml:space="preserve">
 <path class="flame-main" fill="#F36E21" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465
@@ -35,85 +21,20 @@
 </svg>
 
 
-</div> -->
-
-
-
-
-
-
-
-
+</div>
 
 </template>
 
 
 <script setup>
 
-import testLogo from  '../../assests/img/started-logo-1.svg';
-import { showFlame } from '~~/services/stateStore';
-</script>
 
+
+</script>
 
 
 <style lang="scss" scoped>
 
-.hero-wrapper {
-    display: flex;
-    width: 100%;
-    height: 6rem;
-    align-items: flex-end;
-    padding: 0 1rem 0.4rem 1rem;
-    background: rgb(182, 69, 21);
-    background: linear-gradient(0deg, #b54514 0%, #ff5e00 49%, rgb(252, 227, 115) 100%);
-    justify-content: space-between;
-
-        .logo-home {
-            position: absolute;
-            top: 0;
-            left: calc(50% - 5.5rem);
-            z-index: 2;
-            width: 12rem;
-        }
-        .logo-circle {
-            position: absolute;
-            width: 6rem;
-            height: 6rem;
-            background: rgb(251,254,0);
-            background: radial-gradient(circle, rgba(251,254,0,1) 0%, rgba(255,105,3,1) 100%, rgba(214,255,0,1) 100%);
-            border-radius: 50%;
-            left: calc(50% - 3rem);
-            top: 1rem;
-        }
-}
-
-.hero-wrapper-two {
-    position: absolute;
-    top: 10.9rem;
-    width: 100%;
-    padding: 1rem 0;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(149, 57, 16) 74%, rgb(181, 69, 20) 100%);
-}
-.hero-wrapper-three {
-    width: 100%;
-    background-color: black;
-    padding: 6rem 0;
-    .hero-three-text {
-        color: white;
-    }
-}
-
-
-
-
-// .flame-wrapper {
-//   width: 100%;
-//   position: relative;
-//   background-color: #000;
-//   padding: 0;
-//   margin: 0;
-// }
 .mo-fire {
     z-index: 2;
     width: 5rem;
@@ -122,11 +43,13 @@ import { showFlame } from '~~/services/stateStore';
     left: calc(50% - 3.4rem);
     top: 8rem;
 }
+
 .mo-fire svg {
   width: 100%;
   height: auto;
   position: relative
 }
+
 .flame {
   animation-name: flamefly;
   animation-duration: 2s;
@@ -135,10 +58,12 @@ import { showFlame } from '~~/services/stateStore';
   opacity: 0;
   transform-origin: 50% 50% 0;
 }
+
 .flame.one {
   animation-delay: 1s;
   animation-duration: 3s;
 }
+
 .flame3.two{
   animation-duration: 5s;
   animation-delay: 1s;
@@ -150,26 +75,32 @@ import { showFlame } from '~~/services/stateStore';
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+
 .flame-main.one {
   animation-duration: 4s;
   animation-delay: 1s;
 }
+
 .flame-main.two {
   animation-duration: 3s;
   animation-delay: 2s;
 }
+
 .flame-main.three {
   animation-duration: 2.1s;
   animation-delay: 3s;
 }
+
 .flame-main.four {
   animation-duration: 3.2s;
   animation-delay: 4s;
 }
+
 .flame-main.five {
   animation-duration: 2.5s;
   animation-delay: 5s;
 }
+
 @keyframes flameWobble {
   50% {
     transform: scale(1,1.2) translate(0, -30px) rotate(-2deg);
@@ -186,43 +117,5 @@ import { showFlame } from '~~/services/stateStore';
     transform: translate(-20px, -100px) rotate(180deg);
     opacity: 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-@media (min-width: 900px) { 
-
-    .hero-wrapper {
-        width: 100%;
-        background-color: #fce373;
-       
-    }
-    .logo-home {
-        left: calc(50% - 5.5rem);
-        width: 11rem;
-    }
-    .logo-circle {
-        position: absolute;
-        width: 7rem;
-        height: 7rem;
-        background: rgb(251, 254, 0);
-        background: radial-gradient(circle, rgb(251, 254, 0) 0%, rgb(255, 105, 3) 100%, rgb(214, 255, 0) 100%);
-        border-radius: 50%;
-        left: calc(50% - 3.5rem);
-        top: 1rem;
-    }
-}
-
-
 </style>

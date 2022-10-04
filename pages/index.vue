@@ -3,7 +3,7 @@
 <div class="home-page-wrapper">
     <Header />
     <!-- <Hero /> -->
-    <Footer />
+    <!-- <Footer /> -->
 </div>
     
 </template>

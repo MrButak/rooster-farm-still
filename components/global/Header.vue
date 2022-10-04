@@ -1,26 +1,45 @@
 <template>
 
-<header class="menu">
-        <div class="menu-wrap">
-            
-            <img class="heading-text" :src="titleText" />
-          
-            <input v-model="dropdown" @change="handleShowFlame($event)" type="checkbox" id="checkbox">
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-                
-            </nav>
-            <label id="hamburg-icon" class="menu-icon" for="checkbox">
-                <svg class="hamburgMenuIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24">
-                    <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-                </svg>
-            </label>
-        </div>
-    </header>
+
+<header class="header-wrapper">
+    
+    <img class="heading-text" :src="titleText" />
+    
+    <input v-model="dropdown" @change="handleShowFlame($event)" type="checkbox" id="checkbox">
+    <nav class="desktop">
+        <ul class="ul-left">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <ul class="ul-right">
+            <li><a href="#">Products</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+    <nav class="mobil">
+        <ul class="ul-left">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+
+    <label id="hamburg-icon" class="menu-icon" for="checkbox">
+        <svg class="hamburgMenuIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 24 24">
+            <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+        </svg>
+    </label>
+
+</header>
+
+<div class="logo-wrapper">
+    <img :src="testLogo" class="logo-home" />
+    <div class="logo-circle"></div>
+</div>
+<div class="bottom-border">
+</div>
+
 
 </template>
     
@@ -28,6 +47,7 @@
 
 import { ref } from 'vue';
 import titleText from  '../../assests/img/title.svg';
+import testLogo from  '../../assests/img/started-logo-1.svg';
 import { showFlame } from '../../services/stateStore';
 
 let dropdown = ref(null);
@@ -56,7 +76,9 @@ function handleShowFlame(event) {
 // light #E9C891  lighter #f0f0e4 orange #D06224 dark-rusty #AE431E olive #8A8635
 // darker rust #7B3C3C
 // #F3F0D7
-.menu-wrap {
+
+
+.header-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -64,91 +86,134 @@ function handleShowFlame(event) {
     height: 5rem;
     background-color: #fce373;
     width: 100%;
-
+    
+    #checkbox {
+        display: none;
+    }
+    #checkbox:checked ~ nav ul {
+        max-height: 190px;
+        padding: 15px 0;
+        transition: all 0.5s;
+    }
+    #hamburg-icon {
+        fill: #231f20;
+        width: 2rem;
+        margin-left: auto;
+    }
+    
 }
 .heading-text {
     z-index: 3;
     position: absolute;
     top: 7rem;
-    left: calc(50% - 8.5rem);
-    width: 17rem;
+    left: calc(50% - 10rem);
+    width: 20rem;
 }
-#hamburg-icon {
-    // padding: 5rem 0 0 0;
-    fill: #231f20;
-    width: 2rem;
-    margin-left: auto;
+.mobil {
+    display: flex;
 }
-.mobile-header-icon {
-    fill: #CEE5D0;
-    
-}
-.mobile-header-icon:hover, .mobile-header-icon:focus {
-    fill: #D06224;
+.desktop {
+    display: none;
 }
 nav {
     display: flex;
     position: absolute;
     top: 10.9rem;
     left: 0;
-    background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(149,57,16,1) 74%, rgba(181,69,20,1) 100%);
+    z-index: 1;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(149, 57, 16) 74%, rgb(181, 69, 20) 100%);
     width: 100%;
     justify-content: center;
-
 }
-
-nav ul {
+nav .ul-left {
+    list-style-type: none;
+    max-height: 0px;
+    text-align: center;
+    overflow: hidden;
+    transition: all .2s;
+}
+nav .ul-right {
     list-style-type: none;
     max-height: 0px;
     overflow: hidden;
     transition: all .2s;
 }
-nav ul li {
+nav .ul-left li {
     padding: 0 15px;
 }
-nav ul li a {
+nav .ul-right li {
+    padding: 0 15px;
+}
+nav .ul-left li a {
     display: inline-block;
     padding: 12px;
-    // color: #5E454B;
     color: whitesmoke;
     font-weight: 700;
     text-decoration: none;
     letter-spacing: 0.05em;
 }
-nav ul li a:hover, nav ul li a:focus {
+nav .ul-right li a {
+    display: inline-block;
+    padding: 12px;
+    color: whitesmoke;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+}
+nav .ul-left li a:hover, nav ul li a:focus {
     color: #C36839;
 }
-#checkbox {
-    display: none;
+nav .ul-right li a:hover, nav ul li a:focus {
+    color: #C36839;
 }
-#checkbox:checked ~ nav ul {
-    max-height: 190px;
-    padding: 15px 0;
-    transition: all 0.5s;
-    // border: 1px solid #5E454B;
+.logo-wrapper {
+    display: flex;
+    width: 100%;
+    height: 6rem;
+    align-items: flex-end;
+    padding: 0 1rem 0.4rem 1rem;
+    background: rgb(182, 69, 21);
+    background: linear-gradient(0deg, #b54514 0%, #ff5e00 49%, rgb(252, 227, 115) 100%);
+    justify-content: space-between;
+
+        .logo-home {
+            position: absolute;
+            top: 0;
+            left: calc(50% - 5.5rem);
+            z-index: 2;
+            width: 12rem;
+        }
+        .logo-circle {
+            position: absolute;
+            width: 6rem;
+            height: 6rem;
+            background: rgb(251,254,0);
+            background: radial-gradient(circle, rgba(251,254,0,1) 0%, rgba(255,105,3,1) 100%, rgba(214,255,0,1) 100%);
+            border-radius: 50%;
+            left: calc(50% - 3rem);
+            top: 1rem;
+        }
 }
-/*Header end*/
+.bottom-border {
+    position: absolute;
+    top: 10.9rem;
+    width: 100%;
+    padding: .7rem 0;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(149, 57, 16) 74%, rgb(181, 69, 20) 100%);
+}
+
 /*Tablet sizes---------------------------------------------------------*/
 @media (min-width: 480px) {
-    /*Header start*/
-    // .menu-wrap {
-    //     height: 60px;
-    //     width: 100%
-    // }
-    /* nav {
-        top: 60px;
-    } */
-    // #hamburg-icon {
-    //     padding: 6px 0 0 20px;
-    // }
     
 }
 /*Desktop sizes*-----------------------------------------------------*/
 @media (min-width: 900px) { 
     .heading-text {
-        left: calc(50% - 11rem);
-        width: 22rem;
+
+        width: 24rem;
+        left: calc(50% - 12rem);
     }
 
     nav {
@@ -167,18 +232,33 @@ nav ul li a:hover, nav ul li a:focus {
         margin: 0 0 0 6vw;
     }
    
-    nav ul {
+    nav .ul-left {
         display: flex;
         max-height: 178px;
-        padding: 2rem 0 0 0;
-        justify-content: space-between;
+        padding: 3.8rem 0 0 0;
+        justify-content: flex-start;
+        width: 100%;
+    }
+    nav .ul-right {
+        display: flex;
+        max-height: 178px;
+        padding: 3.8rem 0 0 0;
+        justify-content: flex-end;
         width: 100%;
     }
     
-    nav ul li a {
-        color: #231f20;
+    nav .ul-left li a {
+        color: whitesmoke;
     }
-    
+    nav .ul-right li a {
+        color: whitesmoke;
+    }
+    .mobil {
+        display: none;
+    }
+    .desktop {
+        display: flex;
+    }
 }
 
 </style>
