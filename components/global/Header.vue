@@ -98,8 +98,10 @@ function handleShowFlame(event) {
     #hamburg-icon {
         fill: #231f20;
         width: 2rem;
-        margin-left: auto;
+        position: absolute;
+        right: 1rem;
     }
+    
     
 }
 .heading-text {
@@ -199,7 +201,8 @@ nav .ul-right li a:hover, nav ul li a:focus {
     position: absolute;
     top: 10.9rem;
     width: 100%;
-    padding: .7rem 0;
+    // padding: .7rem 0;
+    padding: .5rem 0;
     background: rgb(0, 0, 0);
     background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(149, 57, 16) 74%, rgb(181, 69, 20) 100%);
 }

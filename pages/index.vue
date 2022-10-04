@@ -2,6 +2,7 @@
 
 <div class="home-page-wrapper">
     <Header />
+    <ProductsAtAGlance />
     <!-- <Hero /> -->
     <!-- <Footer /> -->
 </div>
@@ -10,6 +11,7 @@
 
 <script setup>
 import Hero from '~~/components/home/Hero.vue';
+import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
 
 const config = useRuntimeConfig();
 
@@ -20,13 +22,13 @@ async function testDbCall() {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .home-page-wrapper {
-    display: flex;
-    flex-direction: column;
+    
+    // background: #ffd00038;
     height: 100vh;
-    background: #ffd00038;
+    background-color: #fce37325;
 }
 
 </style>
