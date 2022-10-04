@@ -2,7 +2,10 @@
 
 
 <header class="header-wrapper">
-    
+    <span class="shopping-cart-wrapper">
+        <img class="shopping-cart-icon" :src="shoppingCartIcon" />
+    </span>
+
     <img class="heading-text" :src="titleText" />
     
     <input v-model="dropdown" @change="handleShowFlame($event)" type="checkbox" id="checkbox">
@@ -17,6 +20,7 @@
         </ul>
     </nav>
     <nav class="mobil">
+        
         <ul class="ul-left">
             <li><a href="#">Home</a></li>
             <li><a href="#">Contact</a></li>
@@ -48,6 +52,7 @@
 import { ref } from 'vue';
 import titleText from  '../../assests/img/title.svg';
 import testLogo from  '../../assests/img/started-logo-1.svg';
+import shoppingCartIcon from  '../../assests/img/shopping-cart.svg';
 import { showFlame } from '../../services/stateStore';
 
 let dropdown = ref(null);
@@ -76,7 +81,23 @@ function handleShowFlame(event) {
 // light #E9C891  lighter #f0f0e4 orange #D06224 dark-rusty #AE431E olive #8A8635
 // darker rust #7B3C3C
 // #F3F0D7
-
+.shopping-cart-wrapper {
+    display: flex;
+    z-index: 5;
+    position: fixed;
+    width: 4rem;
+    height: 5rem;
+    border-radius: 0% 0% 50% 50%;
+    transform: rotate(-90deg);
+    background-color: #fce373ad;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    .shopping-cart-icon {
+        width: 2.4rem;
+        transform: rotate(90deg);
+    }
+}
 
 .header-wrapper {
     display: flex;

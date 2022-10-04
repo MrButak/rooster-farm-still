@@ -5,7 +5,16 @@
 <!-- <div class="hero-wrapper">
     <h2 class="hero-text">Let's Get Cookin'</h2>
 </div> -->
-
+<!-- <svg xmlns="http://www.w3.org/2000/svg">
+    <filter id="filter">
+        <feTurbulence baseFrequency="0.2"/>
+        <feColorMatrix values="0 0 0 9 -4
+                               0 0 0 9 -4
+                               0 0 0 9 -4
+                               0 0 0 0 1"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#filter)"/>
+</svg> -->
 
 
 <div v-if="showFlame" class="mo-fire">
@@ -53,11 +62,95 @@ import { showFlame } from '~~/services/stateStore';
 
 .hero-wrapper {
     width: 100%;
-    background-color: black;
+    // background-color: black;
     padding: 6rem 0;
+ 
     .hero-text {
         color: white;
     }
+}
+
+.sky {
+  margin: 0;
+  position: relative;
+  background: black;
+  width: 100vw;
+  height: 100vh;
+  		background-image : linear-gradient(29deg, rgba(84, 84, 51, 0.2), rgba(92, 77, 36, 0.1), rgba(85, 72, 38, 0.1), rgba(2, 118, 175, 0.08), rgba(32, 37, 63, 0.09), rgba(38, 155, 46, 0.05), rgba(0, 0, 0, 0.3));
+		background-color : rgb(0, 0, 0);
+}
+
+.star {
+  margin: 0;
+  position: absolute;
+  color: white;
+  font-size: 0.5rem;
+	animation-iteration-count: infinite;
+  opacity: 1;
+  text-shadow: 0 0 10px white;
+  box-shadow: 0 0 20px 1px rgba(255, 255, 255, 0.3);
+  height: 2px;
+  width: 2px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 0.5;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.4;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  53% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0;
+  }
+}
+
+@keyframes twinkletwinkle {
+  0% {
+    opacity: 0;
+  }
+   5% {
+    opacity: 0.4;
+  }
+  10% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  53% {
+    opacity: 0;
+  }
+  56% {
+    opacity: 1;
+  }
+  59% {
+    opacity: 0;
+  }
+  60%{
+    opacity: 0.2;
+  }
+  65% {
+    opacity: 0;
+  }
 }
 
 

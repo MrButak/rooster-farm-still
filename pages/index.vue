@@ -2,9 +2,10 @@
 
 <div class="home-page-wrapper">
     <Header />
-    <ProductsAtAGlance />
     <!-- <Hero /> -->
-    <!-- <Footer /> -->
+    <ProductsAtAGlance />
+    
+    <Footer />
 </div>
     
 </template>
@@ -27,7 +28,7 @@ async function testDbCall() {
 .home-page-wrapper {
     
     // background: #ffd00038;
-    height: 100vh;
+    
     background-color: #fce37325;
 }
 

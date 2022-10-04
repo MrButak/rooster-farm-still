@@ -6,7 +6,7 @@
         <span class="product-image-wrapper">
             <img :src="sixGalStill" class="product-image" />
         </span>
-        <p>Price: 900$</p>
+        <p>Price: 700$</p>
         <p>Our 6 gallon copper still is handcrafted from 20 gauge copper.</p>
         <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
             See More
@@ -14,6 +14,29 @@
     </div>
     <div class="product-wrapper">
         <h3 class="product-title-text">12 Gal Still</h3>
+        <span class="product-image-wrapper">
+            <img :src="twelveGalStill" class="product-image" />
+        </span>
+        <p>Price: 1,100$</p>
+        <p>Our 12 gallon copper still is handcrafted from 20 gauge copper.</p>
+        <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
+            See More
+        </button>
+    </div>
+
+    <div class="product-wrapper">
+        <h3 class="product-title-text">6 Gal Still - Complete</h3>
+        <span class="product-image-wrapper">
+            <img :src="sixGalStill" class="product-image" />
+        </span>
+        <p>Price: 1,100$</p>
+        <p>Our 6 gallon copper still is handcrafted from 20 gauge copper.</p>
+        <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
+            See More
+        </button>
+    </div>
+    <div class="product-wrapper">
+        <h3 class="product-title-text">12 Gal Still - Complete</h3>
         <span class="product-image-wrapper">
             <img :src="twelveGalStill" class="product-image" />
         </span>
@@ -47,7 +70,7 @@ import twelveGalStill from '../../assests/img/product-images/10-gal.png';
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 6rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 1rem;
     width: 100%;
     gap: 2rem;
     
