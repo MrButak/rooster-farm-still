@@ -1,4 +1,4 @@
 import { ref } from 'vue';
-let showFlame = ref(true);
+let showFlame = ref(false);
 
 export { showFlame }

@@ -21,12 +21,16 @@
     </nav>
     <nav class="mobil">
         
-        <ul class="ul-left">
+        <ul class="ul-left" style="text-align: left;">
             <li><a href="#">Home</a></li>
             <li><a href="#">Contact</a></li>
+        </ul>
+
+        <ul class="ul-left" style="text-align: right;">
             <li><a href="#">Products</a></li>
             <li><a href="#">About</a></li>
         </ul>
+
     </nav>
 
     <label id="hamburg-icon" class="menu-icon" for="checkbox">
@@ -56,13 +60,14 @@ import shoppingCartIcon from  '../../assests/img/shopping-cart.svg';
 import { showFlame } from '../../services/stateStore';
 
 let dropdown = ref(null);
-function handleShowFlame(event) {
 
+function handleShowFlame(event) {
+    
     if(dropdown.value) {
-        showFlame.value = false;
+        showFlame.value = true;
     }
     else {
-        showFlame.value = true;
+        showFlame.value = false;
     }
 }
 </script>
@@ -94,7 +99,7 @@ function handleShowFlame(event) {
     align-items: center;
     justify-content: center;
     .shopping-cart-icon {
-        width: 2.4rem;
+        width: 2.15rem;
         transform: rotate(90deg);
     }
 }
@@ -143,11 +148,12 @@ nav {
     position: absolute;
     top: 10.9rem;
     left: 0;
+    // padding: 3rem 0 0 0;
     z-index: 1;
     background: rgb(0, 0, 0);
     background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(149, 57, 16) 74%, rgb(181, 69, 20) 100%);
     width: 100%;
-    justify-content: center;
+    justify-content: space-between;
 }
 nav .ul-left {
     list-style-type: none;
