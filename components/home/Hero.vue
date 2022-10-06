@@ -53,7 +53,7 @@ import { showFlame } from '~~/services/stateStore';
     height: auto;
     position: absolute;
     left: calc(50% - 3.4rem);
-    top: 7.6rem;
+    top: 8rem;
 }
 .mo-fire svg {
   width: 100%;

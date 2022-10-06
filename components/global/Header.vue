@@ -47,6 +47,10 @@
 </div>
 <div class="bottom-border">
 </div>
+<!-- <div class="black-spacer"></div>
+<div class="home-hero">
+
+</div> -->
 
 
 </template>
@@ -86,6 +90,18 @@ function handleShowFlame(event) {
 // light #E9C891  lighter #f0f0e4 orange #D06224 dark-rusty #AE431E olive #8A8635
 // darker rust #7B3C3C
 // #F3F0D7
+
+.home-hero {
+    background: rgb(252,227,115);
+    background: linear-gradient(0deg, rgba(252,227,115,1) 0%, rgba(254,156,53,1) 12%, rgba(255,94,0,1) 34%, rgba(218,82,10,1) 50%, rgba(181,69,20,1) 61%, rgba(5,2,0,1) 100%);
+    height: 4rem;
+    width: 100%;
+}
+.black-spacer {
+    width: 100%;
+    height: 2rem;
+    background-color: black;
+}
 .shopping-cart-wrapper {
     display: flex;
     z-index: 5;
@@ -203,7 +219,7 @@ nav .ul-right li a:hover, nav ul li a:focus {
     align-items: flex-end;
     padding: 0 1rem 0.4rem 1rem;
     background: rgb(182, 69, 21);
-    background: linear-gradient(0deg, #b54514 0%, #ff5e00 49%, rgb(252, 227, 115) 100%);
+    background: linear-gradient(0deg, #b54514 0%, #ff5e00 49%, #fce373 100%);
     justify-content: space-between;
 
         .logo-home {
@@ -242,8 +258,8 @@ nav .ul-right li a:hover, nav ul li a:focus {
 @media (min-width: 900px) { 
     .heading-text {
 
-        width: 24rem;
-        left: calc(50% - 12rem);
+        width: 40rem;
+        left: calc(50% - 20rem);
     }
 
     nav {
@@ -252,15 +268,17 @@ nav .ul-right li a:hover, nav ul li a:focus {
         background: none;
         width: 100%;
     }
+    // .logo-wrapper { 
+
+        
+    //     left: calc(50% - 7rem);
+        
+    //     width: 14rem;
+    // }
     .menu-icon {
         display: none;
     }
-    .icon-wrapper {
-        display: flex;
-        gap: 40px;
-        padding: 11px 0 0 0;
-        margin: 0 0 0 6vw;
-    }
+
    
     nav .ul-left {
         display: flex;
@@ -278,16 +296,21 @@ nav .ul-right li a:hover, nav ul li a:focus {
     }
     
     nav .ul-left li a {
-        color: whitesmoke;
+        color: rgb(255 248 218 / 88%);
+        font-size: xx-large;
     }
     nav .ul-right li a {
-        color: whitesmoke;
+        color: rgb(255 248 218 / 88%);
+        font-size: xx-large;
     }
     .mobil {
         display: none;
     }
     .desktop {
         display: flex;
+    }
+    .bottom-border {
+        padding: 2.8rem 0 0 0;
     }
 }
 
