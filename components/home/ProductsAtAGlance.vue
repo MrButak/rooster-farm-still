@@ -1,7 +1,20 @@
 <template>
 
 <div class="products-at-a-glance-wrapper">
-    <div class="product-wrapper">
+    
+    <div class="product-wrapper" v-for="product in productsData">
+        <h3 class="product-title-text">
+            {{ product.name }}
+        </h3>
+        <span class="product-image-wrapper">
+            <img class="product-image" :src="product.image_url" />
+        </span>
+        <p>Price: {{ product.price }}</p>
+        <p>{{ product.description }}</p>
+
+    </div>
+
+    <!-- <div class="product-wrapper">
         <h3 class="product-title-text">6 Gal Still</h3>
         <span class="product-image-wrapper">
             <img :src="sixGalStill" class="product-image" />
@@ -45,7 +58,7 @@
         <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
             See More
         </button>
-    </div>
+    </div> -->
     
 </div>
 
@@ -56,8 +69,26 @@
 
 <script setup>
 
+import { reactive, ref } from 'vue';
 import sixGalStill from '../../assests/img/product-images/5-gal.png';
 import twelveGalStill from '../../assests/img/product-images/10-gal.png';
+import { productsData, dataFetched } from '../../services/stateStore';
+
+// let productsData = reactive( [] );
+// let showProducts = ref(null);
+
+onMounted(() => {
+
+    (async() => {
+        
+        let productsDbData = await $fetch('/api/get-products');
+        productsData.length = 0;
+        productsDbData.forEach((product) => productsData.push(product));
+        dataFetched.value = true;
+    })();
+
+})
+
 
 </script>
 

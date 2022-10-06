@@ -16,7 +16,7 @@
         </ul>
         <ul class="ul-right">
             <li><a href="#">Products</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="#">About Us</a></li>
         </ul>
     </nav>
     <nav class="mobil">
@@ -28,7 +28,7 @@
 
         <ul class="ul-left" style="text-align: right;">
             <li><a href="#">Products</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="#">About Us</a></li>
         </ul>
 
     </nav>
@@ -47,11 +47,6 @@
 </div>
 <div class="bottom-border">
 </div>
-<!-- <div class="black-spacer"></div>
-<div class="home-hero">
-
-</div> -->
-
 
 </template>
     
@@ -252,7 +247,7 @@ nav .ul-right li a:hover, nav ul li a:focus {
 
 /*Tablet sizes---------------------------------------------------------*/
 @media (min-width: 480px) {
-    
+   
 }
 /*Desktop sizes*-----------------------------------------------------*/
 @media (min-width: 900px) { 
@@ -268,13 +263,7 @@ nav .ul-right li a:hover, nav ul li a:focus {
         background: none;
         width: 100%;
     }
-    // .logo-wrapper { 
 
-        
-    //     left: calc(50% - 7rem);
-        
-    //     width: 14rem;
-    // }
     .menu-icon {
         display: none;
     }
@@ -297,11 +286,11 @@ nav .ul-right li a:hover, nav ul li a:focus {
     
     nav .ul-left li a {
         color: rgb(255 248 218 / 88%);
-        font-size: xx-large;
+        font-size: x-large;
     }
     nav .ul-right li a {
         color: rgb(255 248 218 / 88%);
-        font-size: xx-large;
+        font-size: x-large;
     }
     .mobil {
         display: none;

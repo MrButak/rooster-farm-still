@@ -4,5 +4,49 @@ CREATE TABLE products (
     description TEXT,
     price NUMERIC,
     quantity INTEGER,
-    image_url TEXT
+    image_url TEXT,
+    category VARCHAR(255)
 );
+
+INSERT INTO products
+    (name, description, price, quantity, image_url, category)
+    VALUES
+    ('6 Gallon Still', 
+    'Our 6 gallon stills are made of 20 gauge copper and will last you a life time. This is just the boiler, no coil or thumper.' ,
+    700, 
+    3,
+    '../../assests/img/product-images/5-gal.png', 
+    'stills');
+
+INSERT INTO products
+    (name, description, price, quantity, image_url, category)
+    VALUES
+    ('12 Gallon Still', 
+    'Our 12 gallon stills are made of 20 gauge copper and will last you a life time. This is just the boiler, no coil or thumper.' ,
+    1000, 
+    3,
+    '../../assests/img/product-images/10-gal.png', 
+    'stills');
+
+
+
+    INSERT INTO products
+    (name, description, price, quantity, image_url, category)
+    VALUES
+    ('6 Gallon Still - Complete', 
+    'This is a 6 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
+    1000, 
+    3,
+    '../../assests/img/product-images/5-gal.png', 
+    'stills');
+
+
+        INSERT INTO products
+    (name, description, price, quantity, image_url, category)
+    VALUES
+    ('12 Gallon Still - Complete', 
+    'This is a 12 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
+    1000, 
+    3,
+    '../../assests/img/product-images/10-gal.png', 
+    'stills');

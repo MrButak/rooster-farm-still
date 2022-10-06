@@ -28,7 +28,7 @@ async function dbCall() {
     let dbStmt = `SELECT * FROM products`;
     try {
         let res = await pool.query(dbStmt);
-	    return res.rows[0];
+	    return res.rows;
     }
     catch(err) {
         console.log(err);
