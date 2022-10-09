@@ -1,9 +1,12 @@
 <template>
 
+<Fire />
 
 <header class="header-wrapper">
-    <span class="shopping-cart-wrapper">
+
+    <span @click="handleRoute" class="shopping-cart-wrapper">
         <img class="shopping-cart-icon" :src="shoppingCartIcon" />
+        <p v-if="shoppingCart.item_count" class="shopping-cart-count">{{ shoppingCart.item_count }}</p>
     </span>
 
     <img class="heading-text" :src="titleText" />
@@ -49,15 +52,18 @@
 </div>
 
 </template>
-    
+
+
+
 <script setup>
 
 import { ref } from 'vue';
 import titleText from  '/img/title.svg';
 import testLogo from  '/img/started-logo-1.svg';
 import shoppingCartIcon from  '/img/shopping-cart.svg';
-import { showFire } from '../../services/stateStore';
+import { showFire, shoppingCart } from '../../services/stateStore';
 
+const router = useRouter();
 let dropdown = ref(null);
 
 function handleShowFlame(event) {
@@ -69,7 +75,12 @@ function handleShowFlame(event) {
         showFire.value = false;
     }
 }
+
+function handleRoute() {
+    router.push({path: '/checkout'})
+}
 </script>
+
 
 
 <style lang="scss" scoped>
@@ -113,6 +124,13 @@ function handleShowFlame(event) {
         width: 2.15rem;
         transform: rotate(90deg);
     }
+    .shopping-cart-count {
+        transform: rotate(90deg);
+        transform: rotate(90deg);
+        position: absolute;
+        margin: 0 0 0 2.4rem;
+        font-weight: bold;
+    }
 }
 
 .header-wrapper {
@@ -137,9 +155,7 @@ function handleShowFlame(event) {
         width: 2rem;
         position: absolute;
         right: 1rem;
-    }
-    
-    
+    }  
 }
 .heading-text {
     z-index: 3;

@@ -1,19 +1,26 @@
 <template>
 
+<div>
+
+    <Script src="https://js.stripe.com/v3/"></Script>
     <button @click="createPaymentIntent">init payment</button>
     <button @click="testDbCall">test DB</button>
-    <Script src="https://js.stripe.com/v3/"></Script>
-
     
-    <!-- Display a payment form -->
+    <!-- Strip injects a payment form here -->
     <form id="payment-form">
         <div id="payment-element">
         </div>
     </form>
-         
+
+</div>
+
 </template>
 
+
+
 <script setup>
+
+import { shoppingCart } from '../services/stateStore';
 const config = useRuntimeConfig();
 
 
@@ -43,6 +50,8 @@ async function testDbCall() {
 };
 
 </script>
+
+
 
 <style scoped>
 

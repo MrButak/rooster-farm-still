@@ -1,26 +1,35 @@
 <template>
 
-<div v-show="productLoaded">
+<span>
+    <Header />
 
-    <p>{{ productData.description }}</p>
-    <button>Purchase</button>
+    <div v-show="productLoaded">
 
-    <div class="quantity-counter-wrapper">
-        <button class="quantity-button" @click="decrementCount">-</button>
-        <div class="quantity-number">{{ quantityCount }}</div>
-        <button class="quantity-button" @click="incrementCount(quantityInStock)">+</button>
+        <p>{{ productData.description }}</p>
+        <button @click="handleAddToCart">Add To Cart</button>
+
+        <div class="quantity-counter-wrapper">
+            <button class="quantity-button" @click="decrementCount">-</button>
+            <div class="quantity-number">{{ quantityCount }}</div>
+            <button class="quantity-button" @click="incrementCount(quantityInStock)">+</button>
+        </div>
+
     </div>
 
-</div>
+    <Footer />
+</span>
 
 </template>
 
+
+
 <script setup>
+
+import { shoppingCart } from '../../services/stateStore';
 
 const route = useRoute();
 
-
-let quantityCount = ref(1);
+let quantityCount = ref(0);
 let quantityInStock = ref(0);
 
 
@@ -36,12 +45,12 @@ onMounted(() => {
 
         Object.assign(productData, productDbData); // reassign reactive object
 
+        quantityCount.value = 1;
         quantityInStock.value = productDbData.quantity;
         productLoaded.value = true;
     })();
-
-    
 });
+
 
 function decrementCount() {
     
@@ -56,6 +65,12 @@ function incrementCount(quantityInStock) {
     if(quantityCount.value < quantityInStock) {
         quantityCount.value++;
     };
+};
+
+
+function handleAddToCart() {
+    console.log(quantityCount.value)
+    shoppingCart.item_count += quantityCount.value;
 };
 
 </script>
