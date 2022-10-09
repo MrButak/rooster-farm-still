@@ -1,6 +1,6 @@
 <template>
 
-<div class="products-at-a-glance-wrapper">
+<div v-show="productsLoaded" class="products-at-a-glance-wrapper">
     
     <div class="product-wrapper" v-for="product in productsData">
         <h3 class="product-title-text">
@@ -11,87 +11,32 @@
         </span>
         <p>Price: {{ product.price }}</p>
         <p>{{ product.description }}</p>
+        <button @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">See More</button>
 
     </div>
-
-    <!-- <div class="product-wrapper">
-        <h3 class="product-title-text">6 Gal Still</h3>
-        <span class="product-image-wrapper">
-            <img :src="sixGalStill" class="product-image" />
-        </span>
-        <p>Price: 700$</p>
-        <p>Our 6 gallon copper still is handcrafted from 20 gauge copper.</p>
-        <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
-            See More
-        </button>
-    </div>
-    <div class="product-wrapper">
-        <h3 class="product-title-text">12 Gal Still</h3>
-        <span class="product-image-wrapper">
-            <img :src="twelveGalStill" class="product-image" />
-        </span>
-        <p>Price: 1,100$</p>
-        <p>Our 12 gallon copper still is handcrafted from 20 gauge copper.</p>
-        <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
-            See More
-        </button>
-    </div>
-
-    <div class="product-wrapper">
-        <h3 class="product-title-text">6 Gal Still - Complete</h3>
-        <span class="product-image-wrapper">
-            <img :src="sixGalStill" class="product-image" />
-        </span>
-        <p>Price: 1,100$</p>
-        <p>Our 6 gallon copper still is handcrafted from 20 gauge copper.</p>
-        <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
-            See More
-        </button>
-    </div>
-    <div class="product-wrapper">
-        <h3 class="product-title-text">12 Gal Still - Complete</h3>
-        <span class="product-image-wrapper">
-            <img :src="twelveGalStill" class="product-image" />
-        </span>
-        <p>Price: 1,400$</p>
-        <p>Our 12 gallon copper still is handcrafted from 20 gauge copper.</p>
-        <button @click="routeToSeeMore(routeToSeeMore($event))" class="see-more-button">
-            See More
-        </button>
-    </div> -->
     
 </div>
-
 
 </template>
 
 
-
 <script setup>
 
-import { reactive, ref } from 'vue';
-// import sixGalStill from '../../assests/5-gal.png'
-// import twelveGalStill from '../../assests';
-import { productsData, dataFetched } from '../../services/stateStore';
+const router = useRouter();
 
-// let productsData = reactive( [] );
-// let showProducts = ref(null);
+let productsLoaded = ref(false);
+let productsData = reactive([]);
 
 onMounted(() => {
-
     (async() => {
-        
         let productsDbData = await $fetch('/api/get-products');
-        productsData.length = 0;
         productsDbData.forEach((product) => productsData.push(product));
-        dataFetched.value = true;
+        productsLoaded.value = true;
     })();
-
-})
+});
 
 
 </script>
-
 
 
 <style lang="scss" scoped>

@@ -35,4 +35,16 @@ async function dbCall() {
     };
 };
 
-export { dbCall }
+async function selectProductData(productName) {
+    let dbStmt = `SELECT * FROM products WHERE name ilike ($1)`;
+    let dbValues = [productName];
+    try {
+        let res = await pool.query(dbStmt, dbValues);
+	    return res.rows[0];
+    }
+    catch(err) {
+        console.log(err);
+    };
+};
+
+export { dbCall, selectProductData }

@@ -33,7 +33,7 @@ INSERT INTO products
     INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
-    ('6 Gallon Still - Complete', 
+    ('6 Gallon Still Complete', 
     'This is a 6 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
     1000, 
     3,
@@ -44,9 +44,9 @@ INSERT INTO products
         INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
-    ('12 Gallon Still - Complete', 
+    ('12 Gallon Still Complete', 
     'This is a 12 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
-    1000, 
+    1400, 
     3,
     '/img/product-images/10-gal.png', 
     'stills');
