@@ -70,8 +70,8 @@
 <script setup>
 
 import { reactive, ref } from 'vue';
-import sixGalStill from '../../assests/img/product-images/5-gal.png';
-import twelveGalStill from '../../assests/img/product-images/10-gal.png';
+// import sixGalStill from '../../assests/5-gal.png'
+// import twelveGalStill from '../../assests';
 import { productsData, dataFetched } from '../../services/stateStore';
 
 // let productsData = reactive( [] );

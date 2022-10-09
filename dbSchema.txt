@@ -15,7 +15,7 @@ INSERT INTO products
     'Our 6 gallon stills are made of 20 gauge copper and will last you a life time. This is just the boiler, no coil or thumper.' ,
     700, 
     3,
-    '../../assests/img/product-images/5-gal.png', 
+    '/img/product-images/5-gal.png', 
     'stills');
 
 INSERT INTO products
@@ -25,7 +25,7 @@ INSERT INTO products
     'Our 12 gallon stills are made of 20 gauge copper and will last you a life time. This is just the boiler, no coil or thumper.' ,
     1000, 
     3,
-    '../../assests/img/product-images/10-gal.png', 
+    '/img/product-images/10-gal.png', 
     'stills');
 
 
@@ -37,7 +37,7 @@ INSERT INTO products
     'This is a 6 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
     1000, 
     3,
-    '../../assests/img/product-images/5-gal.png', 
+    '/img/product-images/5-gal.png', 
     'stills');
 
 
@@ -48,5 +48,5 @@ INSERT INTO products
     'This is a 12 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
     1000, 
     3,
-    '../../assests/img/product-images/10-gal.png', 
+    '/img/product-images/10-gal.png', 
     'stills');

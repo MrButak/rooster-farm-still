@@ -53,9 +53,9 @@
 <script setup>
 
 import { ref } from 'vue';
-import titleText from  '../../assests/img/title.svg';
-import testLogo from  '../../assests/img/started-logo-1.svg';
-import shoppingCartIcon from  '../../assests/img/shopping-cart.svg';
+import titleText from  '/img/title.svg';
+import testLogo from  '/img/started-logo-1.svg';
+import shoppingCartIcon from  '/img/shopping-cart.svg';
 import { showFlame } from '../../services/stateStore';
 
 let dropdown = ref(null);
