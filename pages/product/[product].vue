@@ -1,8 +1,16 @@
 <template>
 
 <div v-show="productLoaded">
-<p>{{ productData.description }}</p>
-<button>Purchase</button>
+
+    <p>{{ productData.description }}</p>
+    <button>Purchase</button>
+
+    <div class="quantity-counter-wrapper">
+        <button class="quantity-button" @click="decrementCount">-</button>
+        <div class="quantity-number">{{ quantityCount }}</div>
+        <button class="quantity-button" @click="incrementCount(quantityInStock)">+</button>
+    </div>
+
 </div>
 
 </template>
@@ -10,6 +18,11 @@
 <script setup>
 
 const route = useRoute();
+
+
+let quantityCount = ref(1);
+let quantityInStock = ref(0);
+
 
 let productData = reactive({});
 let productLoaded = ref(false);
@@ -22,15 +35,53 @@ onMounted(() => {
         });
 
         Object.assign(productData, productDbData); // reassign reactive object
+
+        quantityInStock.value = productDbData.quantity;
         productLoaded.value = true;
     })();
 
     
 });
 
+function decrementCount() {
+    
+    if(quantityCount.value > 1) {
+        quantityCount.value--;
+    };
+};
 
-// let itemIndex = 
-//     productsData.findIndex(product => product.name == 
-//     route.params.product.replaceAll('-', ' '));
+
+function incrementCount(quantityInStock) {
+
+    if(quantityCount.value < quantityInStock) {
+        quantityCount.value++;
+    };
+};
 
 </script>
+    
+    
+    
+<style lang="scss" scoped>
+
+.quantity-counter-wrapper {
+    display: flex;
+    .quantity-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2rem;
+        height: 2rem;
+    }
+    .quantity-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid black;
+    }
+}
+
+</style>
+    

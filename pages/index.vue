@@ -4,7 +4,6 @@
     <Header />
     <Hero />
     <ProductsAtAGlance />
-    
     <Footer />
 </div>
     
