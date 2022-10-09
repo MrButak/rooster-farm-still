@@ -56,7 +56,6 @@ onMounted(() => {
         align-items: center;
         flex: 0.8 1 46%;
         min-height: 100%;
-        height: 20rem;
         border-bottom: 0.1rem solid black;
         padding: 0.8rem 2rem;
         justify-content: flex-end;
