@@ -56,17 +56,17 @@ import { ref } from 'vue';
 import titleText from  '/img/title.svg';
 import testLogo from  '/img/started-logo-1.svg';
 import shoppingCartIcon from  '/img/shopping-cart.svg';
-import { showFlame } from '../../services/stateStore';
+import { showFire } from '../../services/stateStore';
 
 let dropdown = ref(null);
 
 function handleShowFlame(event) {
     
     if(dropdown.value) {
-        showFlame.value = true;
+        showFire.value = true;
     }
     else {
-        showFlame.value = false;
+        showFire.value = false;
     }
 }
 </script>

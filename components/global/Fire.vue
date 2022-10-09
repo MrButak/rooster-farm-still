@@ -1,6 +1,6 @@
 <template>
 
-<div class="mo-fire">
+<div v-if="showFire" class="mo-fire">
   <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="125px" height="189.864px" viewBox="0 0 125 189.864" enable-background="new 0 0 125 189.864" xml:space="preserve">
 <path class="flame-main" fill="#F36E21" d="M76.553,186.09c0,0-10.178-2.976-15.325-8.226s-9.278-16.82-9.278-16.82s-0.241-6.647-4.136-18.465
@@ -28,7 +28,7 @@
 
 <script setup>
 
-
+import { showFire } from '../../services/stateStore';
 
 </script>
 
@@ -36,6 +36,7 @@
 <style lang="scss" scoped>
 
 .mo-fire {
+    animation: fadeIn 1s;
     z-index: 2;
     width: 5rem;
     height: auto;
@@ -43,7 +44,10 @@
     left: calc(50% - 3.4rem);
     top: 8rem;
 }
-
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 .mo-fire svg {
   width: 100%;
   height: auto;

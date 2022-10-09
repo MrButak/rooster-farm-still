@@ -1,8 +1,8 @@
 import { ref } from 'vue';
-let showFlame = ref(false);
+let showFire = ref(false);
 
 let shoppingCart = reactive({
     item_count: 0
 });
 
-export { showFlame, shoppingCart }
+export { showFire, shoppingCart }

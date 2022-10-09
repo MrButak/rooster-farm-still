@@ -2,16 +2,19 @@
 
 <div class="home-page-wrapper">
     <Header />
-    <Hero />
-    <ProductsAtAGlance />
+    <Fire />
+    <Transition>
+        <ProductsAtAGlance />
+    </Transition>
     <Footer />
 </div>
     
 </template>
 
 <script setup>
-import Hero from '~~/components/home/Hero.vue';
 import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
+
+
 
 const config = useRuntimeConfig();
 
@@ -29,6 +32,15 @@ async function testDbCall() {
     // background: #ffd00038;
     
     background-color: #fce37325;
+
+}
+
+.v-enter-active, .v-leave-active {
+    transition: opacity 1.5s ease;
+}
+
+.v-enter-from, .v-leave-to {
+    opacity: 0;
 }
 
 </style>
