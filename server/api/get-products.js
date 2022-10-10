@@ -1,4 +1,4 @@
-import { dbCall } from '../../services/dbManager';
+import { dbCall } from '../../services/dbManager.js';
 
 export default defineEventHandler(async event => {
 

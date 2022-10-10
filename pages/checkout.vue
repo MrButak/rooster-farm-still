@@ -1,8 +1,8 @@
 <template>
-
+<Script src="https://js.stripe.com/v3/"></Script>
 <div>
 
-    <Script src="https://js.stripe.com/v3/"></Script>
+    <!-- <Script src="https://js.stripe.com/v3/"></Script> -->
     <button @click="createPaymentIntent">init payment</button>
     <button @click="testDbCall">test DB</button>
     
@@ -20,7 +20,7 @@
 
 <script setup>
 
-import { shoppingCart } from '../services/stateStore';
+import { shoppingCart } from '../services/stateStore.js';
 const config = useRuntimeConfig();
 
 

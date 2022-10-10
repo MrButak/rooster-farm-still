@@ -6,7 +6,7 @@
 
     <span @click="handleRoute" class="shopping-cart-wrapper">
         <img class="shopping-cart-icon" :src="shoppingCartIcon" />
-        <p v-if="shoppingCart.item_count" class="shopping-cart-count">{{ shoppingCart.item_count }}</p>
+        <p v-if="shoppingCartCount" class="shopping-cart-count">{{ shoppingCartCount }}</p>
     </span>
 
     <img class="heading-text" :src="titleText" />
@@ -61,7 +61,7 @@ import { ref } from 'vue';
 import titleText from  '/img/title.svg';
 import testLogo from  '/img/started-logo-1.svg';
 import shoppingCartIcon from  '/img/shopping-cart.svg';
-import { showFire, shoppingCart } from '../../services/stateStore';
+import { showFire, shoppingCart, shoppingCartCount } from '../../services/stateStore.js';
 
 const router = useRouter();
 let dropdown = ref(null);

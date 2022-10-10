@@ -25,21 +25,21 @@
 
 <script setup>
 
-import { shoppingCart } from '../../services/stateStore';
+import { addItemToShoppingCart, getTotalItemsInShoppingCart } from '../../services/shoppingCartManager.js';
+import { isLocalStorageAvailable } from '../../services/lsManager.js';
+import { shoppingCart, shallowProducts, shoppingCartCount } from '../../services/stateStore.js';
 
 const route = useRoute();
 
 let quantityCount = ref(0);
 let quantityInStock = ref(0);
 
-
 let productData = reactive({});
 let productLoaded = ref(false);
 
 onMounted(() => {
-
     (async() => {
-        let productDbData = await $fetch(`/api/get-product`, { 
+        let productDbData = await $fetch('/api/get-product', { 
             query: { name: route.params.product.replaceAll('-', ' ') }
         });
 
@@ -51,14 +51,12 @@ onMounted(() => {
     })();
 });
 
-
 function decrementCount() {
     
     if(quantityCount.value > 1) {
         quantityCount.value--;
     };
 };
-
 
 function incrementCount(quantityInStock) {
 
@@ -67,15 +65,28 @@ function incrementCount(quantityInStock) {
     };
 };
 
-
 function handleAddToCart() {
-    console.log(quantityCount.value)
+
+    if(quantityInStock.value < 1) { return };
+
+    addItemToShoppingCart(productData, quantityCount);
+
     shoppingCart.item_count += quantityCount.value;
+    
+    productData.quantity =- quantityCount.value;
+    quantityInStock.value =- quantityCount.value;
+    quantityCount.value = 1;
+
+    shoppingCartCount.value = getTotalItemsInShoppingCart();
+    
+
+    if(!isLocalStorageAvailable()) { return };
+    
 };
 
 </script>
     
-    
+
     
 <style lang="scss" scoped>
 

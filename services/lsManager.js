@@ -12,13 +12,18 @@ function isLocalStorageAvailable() {
     };
 };
 
-function setItemInLs(itemsToSet) { // object {item1: item1data, item2: item2data}
+function setItemInLs(itemName, itemToSet) { // String, Array of Objects
 
-    let keys = Object.keys(itemsToSet);
-    keys.forEach((key) => {
-        localStorage.setItem(key, itemsToSet[`${key}`]);
-    });
+    localStorage.setItem(itemName, JSON.stringify(itemToSet));
+};
+
+function isItemInLs(itemName) {
 
 };
 
-export { isLocalStorageAvailable, setItemInLs }
+function getItemFromLs(itemName) {
+
+    return JSON.parse(localStorage.getItem(itemName));
+};
+
+export { isLocalStorageAvailable, setItemInLs, isItemInLs, getItemFromLs }

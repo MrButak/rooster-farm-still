@@ -1,9 +1,15 @@
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
 let showFire = ref(false);
 
-let shoppingCart = reactive({
-    item_count: 0
-});
+let shallowProducts = reactive([]);
 
-export { showFire, shoppingCart }
+let shoppingCartCount = ref(0);
+let shoppingCart = reactive([
+    // {
+    //     quantity: 0,
+    //     item: {}
+    // }
+]);
+
+export { showFire, shoppingCart, shoppingCartCount, shallowProducts }

@@ -2,7 +2,7 @@
 
 <div v-show="productsLoaded" class="products-at-a-glance-wrapper">
     
-    <div class="product-wrapper" v-for="product in productsData">
+    <div class="product-wrapper" v-for="product in shallowProducts">
         <h3 class="product-title-text">
             {{ product.name }}
         </h3>
@@ -22,20 +22,26 @@
 
 <script setup>
 
+import { shallowProducts } from '../../services/stateStore.js';
 const router = useRouter();
 
 let productsLoaded = ref(false);
-let productsData = reactive([]);
 
 onMounted(() => {
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
-        productsDbData.forEach((product) => productsData.push(product));
+        shallowProducts.length = 0;
+        productsDbData.forEach((product) => shallowProducts.push(product));
         productsLoaded.value = true;
+
+        // await handleLocalStorage(productsDbData);
     })();
 });
 
-
+// async function handleLocalStorage(productsDbData) {
+//     if(!isLocalStorageAvailable()) { return };
+//     setItemInLs(productsDbData);
+// };
 </script>
 
 

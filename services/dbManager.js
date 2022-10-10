@@ -2,7 +2,7 @@ import pgPackage from 'pg';
 const { Pool } = pgPackage;
 import dotenv from "dotenv";
 dotenv.config();
-const config = useRuntimeConfig();
+
 
 let pool = new Pool({});
 

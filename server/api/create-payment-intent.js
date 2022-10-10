@@ -1,4 +1,4 @@
-import { createStripePaymentIntent } from '../../services/stripeManager';
+import { createStripePaymentIntent } from '../../services/stripeManager.js';
 
 export default defineEventHandler (async event => {
     

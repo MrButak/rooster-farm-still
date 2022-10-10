@@ -1,4 +1,4 @@
-import { selectProductData } from '../../services/dbManager';
+import { selectProductData } from '../../services/dbManager.js';
 
 export default defineEventHandler(async event => {
 

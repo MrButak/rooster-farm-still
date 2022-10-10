@@ -26,7 +26,7 @@
 
 <script setup>
 
-import { showFire } from '../../services/stateStore';
+import { showFire } from '../../services/stateStore.js';
 
 </script>
 
