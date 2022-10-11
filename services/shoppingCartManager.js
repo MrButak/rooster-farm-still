@@ -4,15 +4,7 @@ function isItemAlreadyInShoppingCart(shoppingCart, itemId) {
 
     if(!isLocalStorageAvailable) { return }; // TODO: get from State
 
-    // TODO: could do a findIndex() here
     return shoppingCart.findIndex(product => product.id === itemId) !== -1;
-    
-    // shoppingCart.forEach((product) => {
-    //     if(product.id === itemId) {
-    //         return true;
-    //     };
-    // });
-    // return false;
 };
 
 function getTotalItemsInShoppingCart() {
@@ -20,17 +12,21 @@ function getTotalItemsInShoppingCart() {
     if(!isLocalStorageAvailable) { return }; // TODO: get from State
     let shoppingCart = getItemFromLs('RVSshoppingCart');
     let itemCount = 0;
-    console.log(shoppingCart)
+    
     shoppingCart.forEach((product) => itemCount += product.quantity);
     return itemCount;
 };
 
 function addItemToShoppingCart(item, quantity) {
-
+    
     if(!isLocalStorageAvailable) { return }; // TODO: get from State
+    
+    // Add user selected quantity to item
+    item.quantity = quantity;
 
     // Shopping cart not in local storage
     if(!isItemInLs('RVSshoppingCart')) {
+        console.log('helllll')
         setItemInLs('RVSshoppingCart', [item]);
         return;
     };
@@ -40,14 +36,17 @@ function addItemToShoppingCart(item, quantity) {
 
     // Item not in shopping cart
     if(!isItemAlreadyInShoppingCart(shoppingCart, item.id)) {
+        console.log('not already in LS')
         shoppingCart.push(item);
         setItemInLs('RVSshoppingCart', shoppingCart);
         return;
     };
 
+    console.log('already in LS', quantity)
     // Item is in shopping cart
-    shoppingCart.findIndex(product => product.id == item.id)
-
+    let productIndex = shoppingCart.findIndex(product => product.id == item.id)
+    shoppingCart[productIndex].quantity += quantity;
+    setItemInLs('RVSshoppingCart', shoppingCart);
 };
-// exports.pairSumTwo = pairSumTwo;
+
 export { isItemAlreadyInShoppingCart, addItemToShoppingCart, getTotalItemsInShoppingCart };
