@@ -18,6 +18,7 @@ function setItemInLs(itemName, itemToSet) { // String, Array of Objects
 };
 
 function isItemInLs(itemName) {
+    
     return localStorage.getItem(itemName);
 };
 

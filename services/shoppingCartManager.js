@@ -26,7 +26,7 @@ function addItemToShoppingCart(item, quantity) {
 
     // Shopping cart not in local storage
     if(!isItemInLs('RVSshoppingCart')) {
-        console.log('helllll')
+
         setItemInLs('RVSshoppingCart', [item]);
         return;
     };
@@ -36,13 +36,12 @@ function addItemToShoppingCart(item, quantity) {
 
     // Item not in shopping cart
     if(!isItemAlreadyInShoppingCart(shoppingCart, item.id)) {
-        console.log('not already in LS')
+        
         shoppingCart.push(item);
         setItemInLs('RVSshoppingCart', shoppingCart);
         return;
     };
 
-    console.log('already in LS', quantity)
     // Item is in shopping cart
     let productIndex = shoppingCart.findIndex(product => product.id == item.id)
     shoppingCart[productIndex].quantity += quantity;
