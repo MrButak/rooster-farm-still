@@ -77,7 +77,7 @@ function handleShowFlame(event) {
 }
 
 function handleRoute() {
-    router.push({path: '/checkout'})
+    router.push({path: '/shopping-cart'})
 }
 </script>
 

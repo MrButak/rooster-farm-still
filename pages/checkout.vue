@@ -2,7 +2,6 @@
 <Script src="https://js.stripe.com/v3/"></Script>
 <div>
 
-    <!-- <Script src="https://js.stripe.com/v3/"></Script> -->
     <button @click="createPaymentIntent">init payment</button>
     <button @click="testDbCall">test DB</button>
     

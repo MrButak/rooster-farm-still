@@ -31,10 +31,9 @@ import { shoppingCart, shallowProducts, shoppingCartCount } from '../../services
 
 const route = useRoute();
 
-let quantityCount = ref(0);
-let quantityInStock = ref(0);
-
-let productData = reactive({});
+let quantityCount = ref(0); // user selected quantity
+let quantityInStock = ref(0); // product quantity from DB
+let productData = reactive({}); // product from DB
 let productLoaded = ref(false);
 
 onMounted(() => {
@@ -69,19 +68,14 @@ function handleAddToCart() {
 
     if(quantityInStock.value < 1) { return };
 
-    addItemToShoppingCart(productData, quantityCount);
-
     shoppingCart.item_count += quantityCount.value;
-    
     productData.quantity =- quantityCount.value;
     quantityInStock.value =- quantityCount.value;
-    quantityCount.value = 1;
 
+    addItemToShoppingCart(productData, quantityCount.value);
     shoppingCartCount.value = getTotalItemsInShoppingCart();
     
-
-    if(!isLocalStorageAvailable()) { return };
-    
+    quantityCount.value = 1; // reset user selected quantity
 };
 
 </script>
