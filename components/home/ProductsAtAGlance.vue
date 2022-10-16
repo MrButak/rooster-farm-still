@@ -1,8 +1,8 @@
 <template>
 
-<div v-show="productsLoaded" class="products-at-a-glance-wrapper">
+<div v-if="productsLoaded" class="products-at-a-glance-wrapper">
     
-    <div class="product-wrapper" v-for="product in shallowProducts">
+    <div class="product-wrapper" v-for="product in allProducts">
         <h3 class="product-title-text">
             {{ product.name }}
         </h3>
@@ -22,26 +22,18 @@
 
 <script setup>
 
-import { shallowProducts } from '../../services/stateStore.js';
 const router = useRouter();
-
+let allProducts = reactive([]);
 let productsLoaded = ref(false);
 
 onMounted(() => {
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
-        shallowProducts.length = 0;
-        productsDbData.forEach((product) => shallowProducts.push(product));
+        productsDbData.forEach((product) => allProducts.push(product));
         productsLoaded.value = true;
-
-        // await handleLocalStorage(productsDbData);
     })();
 });
 
-// async function handleLocalStorage(productsDbData) {
-//     if(!isLocalStorageAvailable()) { return };
-//     setItemInLs(productsDbData);
-// };
 </script>
 
 

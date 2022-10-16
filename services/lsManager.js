@@ -1,4 +1,4 @@
-function isLocalStorageAvailable() {
+function localStorageAvailable() {
 
     let test = 'test';
     try {
@@ -12,19 +12,16 @@ function isLocalStorageAvailable() {
     };
 };
 
-function setItemInLs(itemName, itemToSet) { // String, Array of Objects
 
-    localStorage.setItem(itemName, JSON.stringify(itemToSet));
-};
-
-function isItemInLs(itemName) {
-    
-    return localStorage.getItem(itemName);
-};
 
 function getItemFromLs(itemName) {
 
-    return JSON.parse(localStorage.getItem(itemName));
+    try {
+        return JSON.parse(localStorage.getItem(itemName));
+    }
+    catch {
+        return false;
+    };
 };
 
-export { isLocalStorageAvailable, setItemInLs, isItemInLs, getItemFromLs }
+export { localStorageAvailable, getItemFromLs }

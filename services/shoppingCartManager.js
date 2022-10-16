@@ -1,51 +1,41 @@
-import { isLocalStorageAvailable, isItemInLs, setItemInLs, getItemFromLs } from './lsManager.js';
+import { localStorageAvailable, getItemFromLs } from './lsManager';
 
-function isItemAlreadyInShoppingCart(shoppingCart, itemId) {
 
-    if(!isLocalStorageAvailable) { return }; // TODO: get from State
 
-    return shoppingCart.findIndex(product => product.id === itemId) !== -1;
-};
+function addItemToShoppingCart(itemToPutInCart, quantitySelected) {
 
-function getTotalItemsInShoppingCart() {
+    if(!localStorageAvailable()) { return };
 
-    if(!isLocalStorageAvailable) { return }; // TODO: get from State
-    let shoppingCart = getItemFromLs('RVSshoppingCart');
-    let itemCount = 0;
+    // Reduce item quantity
+    itemToPutInCart.quantity -= quantitySelected;
+
+    // Assign a new object for the product (so the original values will not be changed)
+    let product = {}
+    Object.assign(product, itemToPutInCart);
+
+    let shoppingCart = getItemFromLs('RSVshoppingCart');
     
-    shoppingCart.forEach((product) => itemCount += product.quantity);
-    return itemCount;
-};
-
-function addItemToShoppingCart(item, quantity) {
-    
-    if(!isLocalStorageAvailable) { return }; // TODO: get from State
-    
-    // Add user selected quantity to item
-    item.quantity = quantity;
-
-    // Shopping cart not in local storage
-    if(!isItemInLs('RVSshoppingCart')) {
-
-        setItemInLs('RVSshoppingCart', [item]);
+    // No shopping cart yet
+    if(!shoppingCart) {
+        product.quantity = quantitySelected;
+        localStorage.setItem('RSVshoppingCart', JSON.stringify([product]));
         return;
     };
 
-    // Shopping cart is in local storage
-    let shoppingCart = getItemFromLs('RVSshoppingCart');
+    // Shopping cart exists
 
-    // Item not in shopping cart
-    if(!isItemAlreadyInShoppingCart(shoppingCart, item.id)) {
-        
-        shoppingCart.push(item);
-        setItemInLs('RVSshoppingCart', shoppingCart);
+    // Check to see if item already exists in shopping cart
+    let itemIndex = shoppingCart.findIndex(item => item.id == itemToPutInCart.id);
+
+    // Item not yet in cart
+    if(itemIndex == -1) {
+        shoppingCart.push(product)
+        localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
         return;
     };
-
-    // Item is in shopping cart
-    let productIndex = shoppingCart.findIndex(product => product.id == item.id)
-    shoppingCart[productIndex].quantity += quantity;
-    setItemInLs('RVSshoppingCart', shoppingCart);
+    // Item already in cart
+    shoppingCart[itemIndex].quantity += quantitySelected;
+    localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
 };
 
-export { isItemAlreadyInShoppingCart, addItemToShoppingCart, getTotalItemsInShoppingCart };
+export { addItemToShoppingCart }

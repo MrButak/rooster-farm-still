@@ -1,4 +1,4 @@
-import { isItemAlreadyInShoppingCart } from './shoppingCartManager.js';
+import { isItemInShoppingCart } from './shoppingCartManager.js';
 
 
 // ********* shoppingCartManger.js Tests ********* //
@@ -9,7 +9,7 @@ function testShoppingCartManager() {
         { id: 1, name: '12 Gallon Still' },
         { id: -1, name: '6 Gallon Still Complete' }
     ];
-    console.assert(isItemAlreadyInShoppingCart(shoppingCart, 2));
+    console.assert(isItemInShoppingCart(shoppingCart, 2));
 };
 
 testShoppingCartManager();

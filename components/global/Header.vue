@@ -61,7 +61,7 @@ import { ref } from 'vue';
 import titleText from  '/img/title.svg';
 import testLogo from  '/img/started-logo-1.svg';
 import shoppingCartIcon from  '/img/shopping-cart.svg';
-import { showFire, shoppingCart, shoppingCartCount } from '../../services/stateStore.js';
+import { showFire, shoppingCartCount } from '../../services/stateStore.js';
 
 const router = useRouter();
 let dropdown = ref(null);

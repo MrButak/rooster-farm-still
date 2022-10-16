@@ -3,15 +3,15 @@
 <span>
     <Header />
 
-    <div v-show="productLoaded">
+    <div v-if="productLoaded" class="product-wrapper">
 
-        <p>{{ productData.description }}</p>
+        <p>{{ productData[0].description }}</p>
         <button @click="handleAddToCart">Add To Cart</button>
 
         <div class="quantity-counter-wrapper">
             <button class="quantity-button" @click="decrementCount">-</button>
-            <div class="quantity-number">{{ quantityCount }}</div>
-            <button class="quantity-button" @click="incrementCount(quantityInStock)">+</button>
+            <div class="quantity-number">{{ quantitySelect }}</div>
+            <button class="quantity-button" @click="incrementCount">+</button>
         </div>
 
     </div>
@@ -25,15 +25,12 @@
 
 <script setup>
 
-import { addItemToShoppingCart, getTotalItemsInShoppingCart } from '../../services/shoppingCartManager.js';
-import { isLocalStorageAvailable } from '../../services/lsManager.js';
-import { shoppingCart, shallowProducts, shoppingCartCount } from '../../services/stateStore.js';
-
+import { addItemToShoppingCart } from '../../services/shoppingCartManager';
+import { getItemFromLs } from '../../services/lsManager';
 const route = useRoute();
 
-let quantityCount = ref(0); // user selected quantity
-let quantityInStock = ref(0); // product quantity from DB
-let productData = reactive({}); // product from DB
+let quantitySelect = ref(0); // user selected quantity
+let productData = reactive([]); // product from DB
 let productLoaded = ref(false);
 
 onMounted(() => {
@@ -42,40 +39,46 @@ onMounted(() => {
             query: { name: route.params.product.replaceAll('-', ' ') }
         });
 
-        Object.assign(productData, productDbData); // reassign reactive object
 
-        quantityCount.value = 1;
-        quantityInStock.value = productDbData.quantity;
+        // Check to see if item already exists in shopping cart, and update quantity
+        let shoppingCart = getItemFromLs('RSVshoppingCart');
+        if(shoppingCart) {
+            
+            let itemIndex = shoppingCart.findIndex(item => item.id == productDbData.id);
+            if(itemIndex != -1) {
+                
+                productDbData.quantity -= shoppingCart[itemIndex].quantity;
+            }
+        };
+     
+        productData.push(productDbData);
+        quantitySelect.value = 1;
         productLoaded.value = true;
     })();
 });
 
 function decrementCount() {
     
-    if(quantityCount.value > 1) {
-        quantityCount.value--;
+    if(quantitySelect.value > 1) {
+        quantitySelect.value--;
     };
 };
 
 function incrementCount(quantityInStock) {
 
-    if(quantityCount.value < quantityInStock) {
-        quantityCount.value++;
+    if(quantitySelect.value < productData[0].quantity) {
+        quantitySelect.value++;
     };
 };
 
 function handleAddToCart() {
 
-    if(quantityInStock.value < 1) { return };
+    // If not enough products in stock, return
+    if(quantitySelect.value > productData[0].quantity) { return };
 
-    shoppingCart.item_count += quantityCount.value;
-    productData.quantity =- quantityCount.value;
-    quantityInStock.value =- quantityCount.value;
+    addItemToShoppingCart(productData[0], quantitySelect.value);
 
-    addItemToShoppingCart(productData, quantityCount.value);
-    shoppingCartCount.value = getTotalItemsInShoppingCart();
-    
-    quantityCount.value = 1; // reset user selected quantity
+    quantitySelect.value = 1;
 };
 
 </script>
@@ -84,6 +87,9 @@ function handleAddToCart() {
     
 <style lang="scss" scoped>
 
+.product-wrapper {
+    margin: 2rem 0 0 0;
+}
 .quantity-counter-wrapper {
     display: flex;
     .quantity-button {
