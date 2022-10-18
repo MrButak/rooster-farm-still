@@ -21,7 +21,7 @@ async function createStripePaymentIntent() {
                 country: 'usa',
                 line1: 'some data',
                 line2: 'some data',
-                postal_code: '38472',
+                postal_code: '38422',
                 state: 'tn'
             },
             name: 'billy',

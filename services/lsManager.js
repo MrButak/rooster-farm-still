@@ -12,8 +12,6 @@ function localStorageAvailable() {
     };
 };
 
-
-
 function getItemFromLs(itemName) {
 
     try {

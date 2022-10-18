@@ -25,7 +25,7 @@
 
 <script setup>
 
-import { addItemToShoppingCart } from '../../services/shoppingCartManager';
+import { addItemToShoppingCart, getTotalItemsInShoppingCart } from '../../services/shoppingCartManager';
 import { getItemFromLs } from '../../services/lsManager';
 const route = useRoute();
 
@@ -34,7 +34,9 @@ let productData = reactive([]); // product from DB
 let productLoaded = ref(false);
 
 onMounted(() => {
+    
     (async() => {
+        
         let productDbData = await $fetch('/api/get-product', { 
             query: { name: route.params.product.replaceAll('-', ' ') }
         });
@@ -43,14 +45,13 @@ onMounted(() => {
         // Check to see if item already exists in shopping cart, and update quantity
         let shoppingCart = getItemFromLs('RSVshoppingCart');
         if(shoppingCart) {
-            
             let itemIndex = shoppingCart.findIndex(item => item.id == productDbData.id);
             if(itemIndex != -1) {
-                
                 productDbData.quantity -= shoppingCart[itemIndex].quantity;
-            }
+            };
         };
-     
+    
+        productData.length = 0;
         productData.push(productDbData);
         quantitySelect.value = 1;
         productLoaded.value = true;
@@ -58,13 +59,13 @@ onMounted(() => {
 });
 
 function decrementCount() {
-    
+    console.log(getTotalItemsInShoppingCart())
     if(quantitySelect.value > 1) {
         quantitySelect.value--;
     };
 };
 
-function incrementCount(quantityInStock) {
+function incrementCount() {
 
     if(quantitySelect.value < productData[0].quantity) {
         quantitySelect.value++;
@@ -75,8 +76,10 @@ function handleAddToCart() {
 
     // If not enough products in stock, return
     if(quantitySelect.value > productData[0].quantity) { return };
-
     addItemToShoppingCart(productData[0], quantitySelect.value);
+
+    // Reduce the amount in stock
+    productData[0].quantity -= quantitySelect.value;
 
     quantitySelect.value = 1;
 };

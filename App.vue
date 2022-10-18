@@ -6,6 +6,15 @@
 
 </template>
 
+<script setup>
+
+import { getTotalItemsInShoppingCart } from './services/shoppingCartManager';
+
+// Update State
+onMounted(() => getTotalItemsInShoppingCart());
+
+</script>
+
 <style>
 
 * {

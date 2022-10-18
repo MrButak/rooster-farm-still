@@ -19,7 +19,6 @@
 
 <script setup>
 
-import { shoppingCart } from '../services/stateStore.js';
 const config = useRuntimeConfig();
 
 
