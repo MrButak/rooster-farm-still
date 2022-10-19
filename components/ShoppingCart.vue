@@ -1,6 +1,6 @@
 <template>
 
-<span @click="routeTo('/shopping-cart')" class="shopping-cart-wrapper">
+<span @click="router.push({path: '/shopping-cart'})" class="shopping-cart-wrapper">
     <img class="shopping-cart-icon" :src="shoppingCartIcon" />
     <p v-if="shoppingCartCount" class="shopping-cart-count">{{ shoppingCartCount }}</p>
 </span>
@@ -11,8 +11,8 @@
 <script setup>
 
 import shoppingCartIcon from  '/img/shopping-cart.svg';
-import { shoppingCartCount } from '../../services/stateStore.js';
-import { routeTo } from '../../services/routeManager';
+import { shoppingCartCount } from '../services/stateStore';
+const router = useRouter();
 
 </script>
 

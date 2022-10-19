@@ -1,7 +1,7 @@
 import { shoppingCartCount } from './stateStore';
 import { localStorageAvailable, getItemFromLs } from './lsManager';
 
-function getTotalItemsInShoppingCart() {
+function getTotalItemCountInShoppingCart() {
 
     if(!localStorageAvailable()) { return };
     let shoppingCart = getItemFromLs('RSVshoppingCart');
@@ -13,7 +13,7 @@ function getTotalItemsInShoppingCart() {
     shoppingCartCount.value = shoppingCart.reduce((accumulator, obj) => {
         return accumulator + obj.quantity
     }, 0)
-}
+};
 
 function addItemToShoppingCart(itemToPutInCart, quantitySelected) {
 
@@ -55,4 +55,41 @@ function addItemToShoppingCart(itemToPutInCart, quantitySelected) {
     localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
 };
 
-export { addItemToShoppingCart, getTotalItemsInShoppingCart }
+function reduceQuatityFromShoppingCart(productToReduceInCart) {
+
+    let shoppingCart = getItemFromLs('RSVshoppingCart');
+    if(!shoppingCart) { return };
+
+    // Locate item in shopping cart
+    let shoppingCartProductIndex = shoppingCart.findIndex(product => product.id == productToReduceInCart.id)
+    if(shoppingCartProductIndex == -1) { return };
+
+    // Set item's new quantity
+    shoppingCart[shoppingCartProductIndex].quantity = productToReduceInCart.quantity;
+
+    // // If 0, remove from cart
+    // if(productToReduceInCart.quantity < 1) {
+    //     shoppingCart.splice(shoppingCartProductIndex, 1);
+    // };
+
+    // Set back into LS
+    localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
+};
+
+function removeProductFromShoppingCart(productId) {
+
+    let shoppingCart = getItemFromLs('RSVshoppingCart');
+    if(!shoppingCart) { return };
+
+    // Locate item in shopping cart
+    let shoppingCartProductIndex = shoppingCart.findIndex(product => product.id == productId)
+    if(shoppingCartProductIndex == -1) { return };
+
+    // Remove item from shopping cart
+    shoppingCart.splice(shoppingCartProductIndex, 1);
+
+    // Set back into LS
+    localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
+};
+
+export { addItemToShoppingCart, getTotalItemCountInShoppingCart, reduceQuatityFromShoppingCart, removeProductFromShoppingCart }

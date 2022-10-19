@@ -4,4 +4,6 @@ let showFire = ref(false);
 let allProducts = reactive([]);
 let shoppingCartCount = ref(0);
 
-export { showFire, shoppingCartCount, allProducts }
+let showOkPopupModal = ref(false);
+
+export { showFire, shoppingCartCount, allProducts, showOkPopupModal }

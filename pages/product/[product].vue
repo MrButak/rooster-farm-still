@@ -1,7 +1,7 @@
 <template>
 
 <span>
-    <Header />
+    <!-- <Header /> -->
 
     <div v-if="productLoaded" class="product-wrapper">
 
@@ -16,7 +16,7 @@
 
     </div>
 
-    <Footer />
+    <!-- <Footer /> -->
 </span>
 
 </template>
@@ -25,7 +25,7 @@
 
 <script setup>
 
-import { addItemToShoppingCart, getTotalItemsInShoppingCart } from '../../services/shoppingCartManager';
+import { addItemToShoppingCart, getTotalItemCountInShoppingCart } from '../../services/shoppingCartManager';
 import { getItemFromLs } from '../../services/lsManager';
 const route = useRoute();
 
@@ -59,7 +59,6 @@ onMounted(() => {
 });
 
 function decrementCount() {
-    console.log(getTotalItemsInShoppingCart())
     if(quantitySelect.value > 1) {
         quantitySelect.value--;
     };
@@ -82,6 +81,7 @@ function handleAddToCart() {
     productData[0].quantity -= quantitySelect.value;
 
     quantitySelect.value = 1;
+    getTotalItemCountInShoppingCart();
 };
 
 </script>

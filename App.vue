@@ -1,17 +1,19 @@
 <template>
 
 <div>
+    <Header />
     <NuxtPage />
+    <Footer />
 </div>
 
 </template>
 
 <script setup>
 
-import { getTotalItemsInShoppingCart } from './services/shoppingCartManager';
+import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager';
 
 // Update State
-onMounted(() => getTotalItemsInShoppingCart());
+onMounted(() => getTotalItemCountInShoppingCart());
 
 </script>
 

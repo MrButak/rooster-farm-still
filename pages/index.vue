@@ -1,9 +1,10 @@
 <template>
 
 <div class="home-page-wrapper">
-    <Header />
+    <!-- <Header /> -->
+    <!-- <Hero /> -->
     <ProductsAtAGlance />
-    <Footer />
+    <!-- <Footer /> -->
 </div>
     
 </template>
@@ -13,6 +14,7 @@
 <script setup>
 
 import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
+import Hero from '~~/components/home/Hero.vue';
 
 </script>
 

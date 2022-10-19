@@ -10,7 +10,7 @@
     <input v-model="dropdown" @change="handleShowFlame($event)" type="checkbox" id="checkbox">
     <nav class="desktop">
         <ul class="ul-left">
-            <li><a href="#">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
         <ul class="ul-right">
@@ -144,7 +144,6 @@ nav {
     position: absolute;
     top: 10.9rem;
     left: 0;
-    // padding: 3rem 0 0 0;
     z-index: 1;
     background: rgb(0, 0, 0);
     background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(149, 57, 16) 74%, rgb(181, 69, 20) 100%);
@@ -257,14 +256,14 @@ nav .ul-right li a:hover, nav ul li a:focus {
     nav .ul-left {
         display: flex;
         max-height: 178px;
-        padding: 3.8rem 0 0 0;
+        padding: 5rem 0 0 0;
         justify-content: flex-start;
         width: 100%;
     }
     nav .ul-right {
         display: flex;
         max-height: 178px;
-        padding: 3.8rem 0 0 0;
+        padding: 5rem 0 0 0;
         justify-content: flex-end;
         width: 100%;
     }

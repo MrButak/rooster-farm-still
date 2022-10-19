@@ -19,7 +19,8 @@
 <style lang="scss" scoped>
 
 .footer-wrapper {
-    position: absolute;
+    position: static;
+    bottom: 0;
     display: flex;
     justify-content: center;
     width: 100%;
