@@ -67,11 +67,6 @@ function reduceQuatityFromShoppingCart(productToReduceInCart) {
     // Set item's new quantity
     shoppingCart[shoppingCartProductIndex].quantity = productToReduceInCart.quantity;
 
-    // // If 0, remove from cart
-    // if(productToReduceInCart.quantity < 1) {
-    //     shoppingCart.splice(shoppingCartProductIndex, 1);
-    // };
-
     // Set back into LS
     localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
 };
@@ -92,4 +87,18 @@ function removeProductFromShoppingCart(productId) {
     localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
 };
 
-export { addItemToShoppingCart, getTotalItemCountInShoppingCart, reduceQuatityFromShoppingCart, removeProductFromShoppingCart }
+function increaseProductQuantityInShoppingCart(product) {
+
+    if(!localStorageAvailable()) { return };
+
+    let shoppingCart = getItemFromLs('RSVshoppingCart');
+    if(!shoppingCart) { return };
+
+    let productIndexLs = shoppingCart.findIndex(productLs => productLs.id == product.id);
+    shoppingCart[productIndexLs].quantity++;
+
+    // Set back into LS
+    localStorage.setItem('RSVshoppingCart', JSON.stringify(shoppingCart));
+};
+
+export { addItemToShoppingCart, getTotalItemCountInShoppingCart, reduceQuatityFromShoppingCart, removeProductFromShoppingCart, increaseProductQuantityInShoppingCart }
