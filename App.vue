@@ -12,7 +12,7 @@
 
 import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager';
 
-// Update State
+// Update regionField
 onMounted(() => getTotalItemCountInShoppingCart());
 
 </script>

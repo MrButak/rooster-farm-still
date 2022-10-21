@@ -84,7 +84,7 @@ function loadItemsInShoppingCart() {
     let shoppingCart = getItemFromLs('RSVshoppingCart');
     if(!shoppingCart) { return };
 
-    // Add shopping cart items from LS to component State
+    // Add shopping cart items from LS to component regionField
     shoppingCart.forEach((product) => {
         shoppingCartItems.push(product);
     });
@@ -95,7 +95,7 @@ function incrementCount(productLs) {
     let productDbIndex = allProducts.findIndex(product => product.id == productLs.id);
     if(allProducts[productDbIndex].quantity < productLs.quantity + 1) { return };
 
-    // Update State
+    // Update regionField
     productLs.quantity++;
     
     // Update LS
@@ -127,7 +127,7 @@ function removeItemFromShoppingCart() {
     removeProductFromShoppingCart(selectedProductId);
     getTotalItemCountInShoppingCart();
 
-    // Remove product from State
+    // Remove product from regionField
     let productIndex = shoppingCartItems.findIndex(product => product.id == selectedProductId);
     shoppingCartItems.splice(productIndex, 1);
 

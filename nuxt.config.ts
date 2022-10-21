@@ -9,7 +9,7 @@ export default defineNuxtConfig({
         public: {
             STRIPE_PK: process.env.STRIPE_PK,
             BASE_URL: process.env.BASE_URL,
-            GOOGLE_MAPS_TOKEN: process.env.GOOGLE_MAPS_TOKEN
+            GOOGLE_MAPS_API: process.env.GOOGLE_MAPS_API,
         }
     }
     // meta: {

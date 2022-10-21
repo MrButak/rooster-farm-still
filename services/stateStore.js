@@ -1,4 +1,5 @@
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive } from 'vue';
+
 
 let showFire = ref(false);
 let allProducts = reactive([]);

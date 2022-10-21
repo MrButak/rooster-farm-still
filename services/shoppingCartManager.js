@@ -9,7 +9,7 @@ function getTotalItemCountInShoppingCart() {
     // If no cart return
     if(!shoppingCart) { return };
 
-    // Sum total items in cart and update State
+    // Sum total items in cart and update regionField
     shoppingCartCount.value = shoppingCart.reduce((accumulator, obj) => {
         return accumulator + obj.quantity
     }, 0)
