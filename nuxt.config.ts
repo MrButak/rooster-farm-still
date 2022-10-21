@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-// https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
 
     runtimeConfig: {
@@ -8,7 +7,9 @@ export default defineNuxtConfig({
         DATABASE_URL: process.env.DB_URL,
         DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
         public: {
-            STRIPE_PK: process.env.STRIPE_PK
+            STRIPE_PK: process.env.STRIPE_PK,
+            BASE_URL: process.env.BASE_URL,
+            GOOGLE_MAPS_TOKEN: process.env.GOOGLE_MAPS_TOKEN
         }
     }
     // meta: {

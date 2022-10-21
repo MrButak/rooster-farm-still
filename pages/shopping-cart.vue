@@ -11,7 +11,7 @@
     
         <div v-for="product in shoppingCartItems" class="shopping-cart-item">
 
-            {{ product.name }}
+            <h3>{{ product.name }}</h3>
             <span class="quantity-wrapper">
                 <p>order quantity: {{ product.quantity }}</p>
                 <div class="quantity-counter-wrapper">
@@ -28,7 +28,7 @@
             <p>Subtotal</p>
             <p>${{ calculateSubtotal() }}</p>
         </div>
-
+        <button @click="router.push('/checkout')">Checkout</button>
     </div>
 
 </div>
@@ -43,6 +43,7 @@ import { showOkPopupModal } from '../services/stateStore';
 import { reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, removeProductFromShoppingCart, increaseProductQuantityInShoppingCart } from '../services/shoppingCartManager';
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
 
+const router = useRouter();
 let shoppingCartItems = reactive([]); // LS
 let allProducts = reactive([]); // DB
 let selectedProductId = null;

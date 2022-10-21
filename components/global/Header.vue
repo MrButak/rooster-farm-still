@@ -10,7 +10,7 @@
     <input v-model="dropdown" @change="handleShowFlame($event)" type="checkbox" id="checkbox">
     <nav class="desktop">
         <ul class="ul-left">
-            <li><a href="/">Home</a></li>
+            <li><nuxt-link :to="config.public.BASE_URL">Home</nuxt-link></li>
             <li><a href="#">Contact</a></li>
         </ul>
         <ul class="ul-right">
@@ -21,7 +21,7 @@
     <nav class="mobil">
         
         <ul class="ul-left" style="text-align: left;">
-            <li><a href="#">Home</a></li>
+            <li><nuxt-link :to="config.public.BASE_URL">Home</nuxt-link></li>
             <li><a href="#">Contact</a></li>
         </ul>
 
@@ -58,18 +58,17 @@ import titleText from  '/img/title.svg';
 import testLogo from  '/img/started-logo-1.svg';
 import { showFire } from '../../services/stateStore.js';
 
+const config = useRuntimeConfig();
 const router = useRouter();
+
 let dropdown = ref(null);
 
 function handleShowFlame(event) {
     
-    if(dropdown.value) {
-        showFire.value = true;
-    }
-    else {
-        showFire.value = false;
-    }
-}
+    dropdown.value ?
+        showFire.value = true :
+        showFire.value = false; 
+};
 
 </script>
 

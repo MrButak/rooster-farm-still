@@ -5,7 +5,9 @@
 
     <div v-if="productLoaded" class="product-wrapper">
 
+        <p>{{ productData[0].name }}</p>
         <p>{{ productData[0].description }}</p>
+        <p>${{ productData[0].price * quantitySelect }}</p>
         <button @click="handleAddToCart">Add To Cart</button>
 
         <div class="quantity-counter-wrapper">

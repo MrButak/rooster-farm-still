@@ -1,9 +1,9 @@
 <template>
-<Script src="https://js.stripe.com/v3/"></Script>
-<div>
 
+<div>
+    <AddressForm />
+    <Script src="https://js.stripe.com/v3/"></Script>
     <button @click="createPaymentIntent">init payment</button>
-    <button @click="testDbCall">test DB</button>
     
     <!-- Strip injects a payment form here -->
     <form id="payment-form">
@@ -18,6 +18,7 @@
 
 
 <script setup>
+import AddressForm from '~~/components/checkout/AddressForm.vue';
 
 const config = useRuntimeConfig();
 
@@ -42,36 +43,31 @@ async function createPaymentIntent() {
     paymentElement.mount("#payment-element");
 };
 
-async function testDbCall() {
-    let testData = await $fetch('/api/test-db');
-    console.log(testData);
-};
-
 </script>
 
 
 
-<style scoped>
+<style lang="scss" scoped>
 
-#formMainWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-form {
-    width: 30vw;
-    min-width: 500px;
-    align-self: center;
-    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-    0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-    border-radius: 7px;
-    padding: 40px;
-}
+// #formMainWrapper {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 100%;
+// }
+// form {
+//     width: 30vw;
+//     min-width: 500px;
+//     align-self: center;
+//     box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+//     0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+//     border-radius: 7px;
+//     padding: 40px;
+// }
 
-#payment-element {
-    margin-bottom: 24px;
-}
+// #payment-element {
+//     margin-bottom: 24px;
+// }
 
 </style>
     
