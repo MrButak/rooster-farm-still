@@ -1,12 +1,13 @@
 <template>
 
 <div class="checkout-step-header-wrapper">
-    <div id="pointer-left">
-    </div>
-    <div id="pointer-middle">
-    </div>
-    <!-- <div id="pointer-middle">
-    </div> -->
+    <span style="width:100%;" v-for="step in checkoutSteps" class="looper">
+        <CheckoutStep
+            :checkout-step-number="step.number"
+            :checkout-step-text="step.text"
+            :step-color="step.stepColor"
+        />
+    </span>
 </div>
 
 </template>
@@ -15,7 +16,25 @@
 
 <script setup>
 
+import { currentCheckoutStep } from '../../services/stateStore';
 
+let checkoutSteps = reactive({
+    1: {
+        number: '1',
+        text: 'Shipping',
+        stepColor: currentCheckoutStep.value == 1 ? 'blue' : 'gray'
+    },
+    2: {
+        number: '2',
+        text: 'Order',
+        stepColor: currentCheckoutStep.value == 2 ? 'blue' : 'gray'
+    },
+    3: {
+        number: '3',
+        text: 'Payment',
+        stepColor: currentCheckoutStep.value == 3 ? 'blue' : 'gray'
+    },
+});
 
 </script>
 
@@ -25,66 +44,10 @@
 
 .checkout-step-header-wrapper {
     display: flex;
-    gap: 2rem;
     width: 100%
 }
 
-#pointer-left {
-  width: 3rem;
-  height: 40px;
-  position: relative;
-  background: red;
-}
-#pointer-left:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 0;
-//   border-left: 20px solid white;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-}
-#pointer-left:before {
-  content: "";
-  position: absolute;
-  right: -20px;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border-left: 20px solid red;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-}
 
 
-#pointer-middle {
-  width: 3rem;
-  height: 40px;
-  position: relative;
-  background: red;
-}
-#pointer-middle:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border-left: 20px solid white;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-}
-#pointer-middle:before {
-  content: "";
-  position: absolute;
-  right: -20px;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  border-left: 20px solid red;
-  border-top: 20px solid transparent;
-  border-bottom: 20px solid transparent;
-}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
 
 <span>
-    <!-- <Header /> -->
+    <Header />
 
     <div v-if="productLoaded" class="product-wrapper">
 
@@ -18,7 +18,7 @@
 
     </div>
 
-    <!-- <Footer /> -->
+    <Footer />
 </span>
 
 </template>

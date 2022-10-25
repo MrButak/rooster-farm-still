@@ -1,9 +1,7 @@
 <template>
 <Script src="https://js.stripe.com/v3/" async></Script>
 <div>
-    <Header />
     <NuxtPage />
-    <Footer />
 </div>
 
 </template>

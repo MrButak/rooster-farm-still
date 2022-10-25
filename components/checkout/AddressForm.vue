@@ -1,8 +1,7 @@
 <template>
     <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOIP84BkhD_JvqsFPGBosvmBOFCVg-ylw&libraries=places"></Script>
     <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
-        <p class="AddressFormTitle">Delivery Address</p>
-        <p class="note"><em>* = required field</em></p>
+        <p class="AddressFormTitle">Shipping Details</p>
         <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
         <label class="full-field">
             <span class="form-label">Name for order*</span>
@@ -41,7 +40,7 @@
             <input v-model="inputFields.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
         </label>
         <div class="submitBtnWrapper">
-            <button type="submit" class="my-button">Checkout</button>
+            <!-- <button type="submit" class="my-button">Checkout</button> -->
         </div>
         <p>{{ errorMessage }}</p>
         <!-- Reset button provided for development testing convenience.

@@ -1,16 +1,22 @@
 <template>
 
 <div class="checkout-wrapper-main">
-    <CheckoutStepHeader />
-    <AddressForm />
-    <button @click="createPaymentIntent">init payment</button>
-    
-    <!-- Strip injects a payment form here -->
-    <form id="payment-form">
-        <div id="payment-element">
-        </div>
-    </form>
 
+    
+    <CheckoutStepHeader />
+
+    <span v-if="currentCheckoutStep == 1">
+        <AddressForm />
+        <!-- <button @click="createPaymentIntent">init payment</button> -->
+        
+        <!-- Strip injects a payment form here -->
+        <form id="payment-form">
+            <div id="payment-element">
+            </div>
+        </form>
+    </span>
+
+    <CheckoutNavBtns />
 </div>
 
 </template>
@@ -18,11 +24,13 @@
 
 
 <script setup>
+
+import { currentCheckoutStep } from '../services/stateStore';
 import AddressForm from '~~/components/checkout/AddressForm.vue';
 
 const config = useRuntimeConfig();
 
-
+console.log(currentCheckoutStep.value)
 let stripe;
 let elements = {};
 

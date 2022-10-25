@@ -1,10 +1,10 @@
 <template>
 
 <div class="home-page-wrapper">
-    <!-- <Header /> -->
+    <Header />
     <!-- <Hero /> -->
     <ProductsAtAGlance />
-    <!-- <Footer /> -->
+    <Footer />
 </div>
     
 </template>

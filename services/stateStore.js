@@ -8,4 +8,6 @@ let shoppingCartCount = ref(0);
 
 let showOkPopupModal = ref(false);
 
-export { showFire, shoppingCartCount, allProducts, showOkPopupModal }
+let currentCheckoutStep = ref(1);
+
+export { showFire, shoppingCartCount, allProducts, showOkPopupModal, currentCheckoutStep }
