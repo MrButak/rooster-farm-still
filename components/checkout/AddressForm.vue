@@ -1,5 +1,4 @@
 <template>
-    <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOIP84BkhD_JvqsFPGBosvmBOFCVg-ylw&libraries=places"></Script>
     <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
         <p class="AddressFormTitle">Shipping Details</p>
         <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
