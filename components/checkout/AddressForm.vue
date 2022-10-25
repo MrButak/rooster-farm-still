@@ -51,7 +51,9 @@
 </template>
 
 <script setup>
-import { Loader } from '@googlemaps/js-api-loader';
+import pkg from '@googlemaps/js-api-loader';
+const { Loader } = pkg;
+
 
 const config = useRuntimeConfig();
 
