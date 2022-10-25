@@ -1,5 +1,5 @@
 <template>
-
+<Script src="https://js.stripe.com/v3/" async></Script>
 <div>
     <Header />
     <NuxtPage />
@@ -13,7 +13,9 @@
 import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager';
 
 // Update regionField
-onMounted(() => getTotalItemCountInShoppingCart());
+onMounted(() => {
+    getTotalItemCountInShoppingCart();
+});
 
 </script>
 

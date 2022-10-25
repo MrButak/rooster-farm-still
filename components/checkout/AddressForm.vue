@@ -1,5 +1,4 @@
 <template> 
-    <!-- <Script :src="googlePlacesUrl"></Script> -->
     <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
         <p class="AddressFormTitle">Delivery Address</p>
         <p class="note"><em>* = required field</em></p>
@@ -38,7 +37,7 @@
         </label>
         <label class="full-field">
             <span class="form-label">Additional notes</span>
-            <input v-model="deliveryNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
+            <input v-model="inputFields.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
         </label>
         <div class="submitBtnWrapper">
             <button type="submit" class="my-button">Checkout</button>
@@ -63,21 +62,19 @@ const googleMapLoader = new Loader({
 });
 
 let autocomplete = {};
+// Form field data
 let inputFields = reactive({
     addressField1: '',
     addressField2: '',
     cityField: '',
     regionField: '',
     postalField: '',
-    countryField: ''
+    countryField: '',
+    additionalNote: ''
 })
 
 let errorMessage = ref('');
-
 let addressField1 = ref('');
-
-
-let deliveryNote = ref('');
 
 onMounted(() => initAutocomplete())
     
@@ -110,10 +107,10 @@ function fillInAddress() {
     // place.address_components are google.maps.GeocoderAddressComponent objects
     // which are documented at http://goo.gle/3l5i5Mr
     for (const component of place.address_components) {
-        console.log(component)
         const componentType = component.types[0];
 
         switch (componentType) {
+
             case "street_number": {
                 address1 = `${component.long_name} ${address1}`;
                 break;
@@ -130,14 +127,14 @@ function fillInAddress() {
                 postcode = `${postcode}-${component.long_name}`;
                 break;
             }
-            case "cityField":
+            case "locality":
             inputFields.cityField = component.long_name;
                 break;
             case "administrative_area_level_1": {
                 inputFields.regionField = component.short_name;
                 break;
             }
-            case "countryField":
+            case "country":
                 inputFields.countryField = component.long_name;
                 break;
         }
