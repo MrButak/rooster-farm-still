@@ -1,4 +1,5 @@
-<template> 
+<template>
+    <Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOIP84BkhD_JvqsFPGBosvmBOFCVg-ylw&libraries=places"></Script>
     <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
         <p class="AddressFormTitle">Delivery Address</p>
         <p class="note"><em>* = required field</em></p>
@@ -51,15 +52,8 @@
 </template>
 
 <script setup>
-import { Loader } from '../../services/stateStore';
 
 const config = useRuntimeConfig();
-
-const googleMapLoader = new Loader({
-    apiKey: config.public.GOOGLE_MAPS_API,
-    version: 'weekly',
-    libraries: ['places']
-});
 
 let autocomplete = {};
 // Form field data
@@ -81,16 +75,14 @@ onMounted(() => initAutocomplete())
 function initAutocomplete() {
     
     // Create the autocomplete object
-    googleMapLoader
-    .load()
-    .then((google) => {
-        autocomplete = new google.maps.places.Autocomplete(addressField1.value, {
-            componentRestrictions: { country: ["us"] },
-            fields: ["address_components", "geometry"],
-            types: ["address"]
-        });
-        autocomplete.addListener("place_changed", fillInAddress);
+    
+    autocomplete = new google.maps.places.Autocomplete(addressField1.value, {
+        componentRestrictions: { country: ["us"] },
+        fields: ["address_components", "geometry"],
+        types: ["address"]
     });
+    autocomplete.addListener("place_changed", fillInAddress);
+    
 
     //this.addressField1.focus();
     // When the user selects an address from the drop-down, populate the address fields in the form.

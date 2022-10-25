@@ -1,5 +1,6 @@
 import { ref, reactive } from 'vue';
-import { Loader } from '@googlemaps/js-api-loader';
+// import pkg from '@googlemaps/js-api-loader';
+// const { Loader } = pkg;
 
 let showFire = ref(false);
 let allProducts = reactive([]);
@@ -7,4 +8,4 @@ let shoppingCartCount = ref(0);
 
 let showOkPopupModal = ref(false);
 
-export { showFire, shoppingCartCount, allProducts, showOkPopupModal, Loader }
+export { showFire, shoppingCartCount, allProducts, showOkPopupModal }
