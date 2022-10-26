@@ -109,7 +109,7 @@ function fillInAddress() {
                 break;
             }
             case "locality":
-            userShippingData.cityField = component.long_name;
+                userShippingData.cityField = component.long_name;
                 break;
             case "administrative_area_level_1": {
                 userShippingData.regionField = component.short_name;

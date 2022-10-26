@@ -5,7 +5,7 @@
         </div>
     </form>
 
-    <button @click="createPaymentIntent">init payment</button>
+    
 
 </template>
 
@@ -20,7 +20,8 @@ let stripe;
 let elements = {};
 
 onMounted(() => {
-    stripe = window.Stripe(config.public.STRIPE_PK, null)
+    stripe = window.Stripe(config.public.STRIPE_PK, null);
+    createPaymentIntent();
 });
 
 async function createPaymentIntent() {

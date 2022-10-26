@@ -1,7 +1,7 @@
 <template>
 
 <div class="checkout-nav-button-wrapper">
-    <button @click="determineCheckoutStep(router.push('/shopping-cart'))">Back to Cart</button>
+    <button @click="currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</button>
     <div class="prev-next-button-wrapper">
         <button v-if="currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</button>
         <button v-if="currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</button>

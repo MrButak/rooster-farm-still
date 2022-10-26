@@ -45,7 +45,7 @@ onMounted(() => {
 
 
         // Check to see if item already exists in shopping cart, and update quantity
-        let shoppingCart = getItemFromLs('RSVshoppingCart');
+        let shoppingCart = getItemFromLs('RVSshoppingCart');
         if(shoppingCart) {
             let itemIndex = shoppingCart.findIndex(item => item.id == productDbData.id);
             if(itemIndex != -1) {

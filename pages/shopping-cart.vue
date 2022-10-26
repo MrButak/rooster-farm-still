@@ -81,7 +81,7 @@ function loadItemsInShoppingCart() {
 
     if(!localStorageAvailable) { return };
 
-    let shoppingCart = getItemFromLs('RSVshoppingCart');
+    let shoppingCart = getItemFromLs('RVSshoppingCart');
     if(!shoppingCart) { return };
 
     // Add shopping cart items from LS to component regionField
