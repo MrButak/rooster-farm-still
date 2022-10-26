@@ -1,30 +1,42 @@
 import Stripe from "stripe";
 import dotenv from "dotenv"; dotenv.config();
 
-async function createStripePaymentIntent() {
+let stripe = new Stripe(process.env.STRIPE_SK, null);
+
+let webhookSecret;
+
+if(process.env.DEV_ENVIRONMENT == 'development') {
+    webhookSecret = 'whsec_37f7f1684ac20431a347f5e09e6200e5c430ae11fbb62165ee230a58794e6226';
+};
+if(process.env.DEV_ENVIRONMENT == 'production') {
+    webhookSecret = process.env.STRIPE_WH_SK;
+};
+
+
+async function createStripePaymentIntent(shipping, products, subtotal) {
     
-    var stripe = new Stripe(process.env.STRIPE_SK, null);
+    
 
     const paymentIntent = await stripe.paymentIntents.create({
 
-        amount: 100 * 100, // in cents
+        amount: subtotal * 100, // in cents
         currency: "usd",
-        receipt_email: 'mspence5555@gmail.com',
-        description: "Still order",
+        receipt_email: shipping.emailField,
+        description: "Rooster Valley",
         metadata: {
             
-            'purchasedItems': '50 gal still'
+            'purchasedItems': 'this is the metadata'
         },
         shipping: {
             address: {
-                city: 'xxxxxx',
-                country: 'usa',
-                line1: 'some data',
-                line2: 'some data',
-                postal_code: '38472',
-                state: 'tn'
+                city: shipping.cityField,
+                country: shipping.countryField,
+                line1: shipping.addressField1,
+                line2: shipping.addressField2,
+                postal_code: shipping.postalField,
+                state: shipping.regionField
             },
-            name: 'billy',
+            name: shipping.nameField,
             phone: null
         },
         automatic_payment_methods: {
@@ -32,8 +44,48 @@ async function createStripePaymentIntent() {
         },
     });
     
-    console.log(paymentIntent)
     return paymentIntent;
-}
+};
 
-export { createStripePaymentIntent }
+
+
+
+
+
+
+
+function stripeWebHooks(stripeSignature, body) {
+    
+    let event;
+    
+    try {
+        event = stripe.webhooks.constructEvent(body, stripeSignature, webhookSecret);
+    }
+    catch (err) {
+        console.log(`❌ Error message: ${err.message}`);
+        //return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+ 
+    // Successfully constructed event
+    console.log('✅ Success:', event.id);
+
+    switch (event.type) {
+
+        case 'payment_intent.succeeded':
+            const paymentIntent = event.data.object;
+
+            // dbManager.storePurchase(paymentIntent);
+            // dbManager.updateMenuItmQty(paymentIntent);
+            // emailManager.sendPaymentSuccessEmail(paymentIntent);
+            console.log({paymentIntent})
+            break;
+        // ... handle other event types
+        default:
+            console.log(`Unhandled event type ${event.type}`);
+    }
+
+    // Return a response to acknowledge receipt of the event
+    // res.json({received: true});
+};
+
+export { createStripePaymentIntent, stripeWebHooks }

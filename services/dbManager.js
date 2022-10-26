@@ -47,4 +47,12 @@ async function selectProductData(productName) {
     };
 };
 
+function storePurchase(paymentIntent) {
+
+};
+
+function updateMenuItmQty(paymentIntent) {
+
+};
+
 export { dbCall, selectProductData }

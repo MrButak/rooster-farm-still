@@ -26,10 +26,11 @@
 
     <div class="shipping-info-wrapper">
         <h3>Shipping Information</h3>
-        <p>{{ userShippingData.name }}</p>
+        <p>{{ userShippingData.nameField }}</p>
         <p>{{ userShippingData.addressField1 }}</p>
         <p v-if="userShippingData.addressField2"> {{ userShippingData.addressField2 }}</p>
         <p>{{ userShippingData.cityField }} {{ userShippingData.regionField }}, {{ userShippingData.postalField }}</p>
+        <p>{{ userShippingData.emailField }}</p>
     </div>
 
 </div>

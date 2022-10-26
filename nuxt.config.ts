@@ -4,6 +4,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         STRIPE_SK: process.env.STRIPE_SK,
+        STRIPE_WH_SK: process.env.STRIPE_WH_SK,
         DATABASE_URL: process.env.DB_URL,
         DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
         public: {
