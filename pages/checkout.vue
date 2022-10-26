@@ -34,7 +34,8 @@ import Payment from '~~/components/checkout/Payment.vue';
 <style lang="scss" scoped>
 
 .checkout-wrapper-main {
-    margin: 3rem 0 0 0;
+
+    margin-top: 3rem;
 };
 
 </style>

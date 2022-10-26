@@ -38,6 +38,8 @@ function determineCheckoutStep(direction) {
 <style lang="scss" scoped>
 
 .checkout-nav-button-wrapper {
+    position: absolute;
+    bottom: 0;
     display: flex;
     justify-content: space-between;
     width: 100%;

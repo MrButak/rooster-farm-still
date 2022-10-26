@@ -22,17 +22,17 @@ let checkoutSteps = reactive({
     1: {
         number: '1',
         text: 'Shipping',
-        stepColor: currentCheckoutStep.value == 1 ? 'blue' : 'gray'
+        stepColor: computed(() => currentCheckoutStep.value == 1 ? 'blue' : 'gray')
     },
     2: {
         number: '2',
         text: 'Order',
-        stepColor: currentCheckoutStep.value == 2 ? 'blue' : 'gray'
+        stepColor: computed(() => currentCheckoutStep.value == 2 ? 'blue' : 'gray')
     },
     3: {
         number: '3',
         text: 'Payment',
-        stepColor: currentCheckoutStep.value == 3 ? 'blue' : 'gray'
+        stepColor: computed(() => currentCheckoutStep.value == 3 ? 'blue' : 'gray')
     },
 });
 

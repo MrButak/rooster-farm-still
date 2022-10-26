@@ -1,18 +1,18 @@
 <template>
-        
-        <!-- Strip injects a payment form here -->
-        <form id="payment-form">
-            <div id="payment-element">
-            </div>
-        </form>
+    <!-- Stripe injects a payment form here -->
+    <form id="payment-form">
+        <div id="payment-element">
+        </div>
+    </form>
 
-        <button @click="createPaymentIntent">init payment</button>
+    <button @click="createPaymentIntent">init payment</button>
 
 </template>
 
 
 
 <script setup>
+
 
 const config = useRuntimeConfig();
 

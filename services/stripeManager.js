@@ -18,11 +18,11 @@ async function createStripePaymentIntent() {
         shipping: {
             address: {
                 city: 'xxxxxx',
-                countryField: 'usa',
+                country: 'usa',
                 line1: 'some data',
                 line2: 'some data',
-                postal_code: '38422',
-                regionField: 'tn'
+                postal_code: '38472',
+                state: 'tn'
             },
             name: 'billy',
             phone: null
@@ -32,7 +32,7 @@ async function createStripePaymentIntent() {
         },
     });
     
-    
+    console.log(paymentIntent)
     return paymentIntent;
 }
 
