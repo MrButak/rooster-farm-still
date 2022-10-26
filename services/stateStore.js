@@ -10,4 +10,14 @@ let showOkPopupModal = ref(false);
 
 let currentCheckoutStep = ref(1);
 
-export { showFire, shoppingCartCount, allProducts, showOkPopupModal, currentCheckoutStep }
+let userShippingData = reactive({
+    addressField1: '',
+    addressField2: '',
+    cityField: '',
+    regionField: '',
+    postalField: '',
+    countryField: '',
+    additionalNote: ''
+});
+
+export { showFire, shoppingCartCount, allProducts, showOkPopupModal, currentCheckoutStep, userShippingData }

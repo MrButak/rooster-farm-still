@@ -10,6 +10,10 @@
     </span>
 
     <span v-if="currentCheckoutStep == 2">
+        <OrderSummary />
+    </span>
+
+    <span v-if="currentCheckoutStep == 3">
         <Payment />
     </span>
 
@@ -25,6 +29,7 @@
 import { currentCheckoutStep } from '../services/stateStore';
 import AddressForm from '~~/components/checkout/AddressForm.vue';
 import Payment from '~~/components/checkout/Payment.vue';
+import OrderSummary from '~~/components/checkout/OrderSummary.vue';
 
 
 </script>

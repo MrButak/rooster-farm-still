@@ -3,40 +3,40 @@
         <p class="AddressFormTitle">Shipping Details</p>
         <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
         <label class="full-field">
-            <span class="form-label">Name for order*</span>
-            <input v-model="inputFields.nameField" id="name" required="true" autocomplete="on" placeholder="Name">
+            <span class="form-label">Name for order<span class="required-marker">*</span></span>
+            <input v-model="userShippingData.nameField" id="name" required="true" autocomplete="on" placeholder="Name">
         </label>
         <label class="full-field">
-            <span class="form-label">Email*</span><span class="note">required for receipt</span>
-            <input v-model="inputFields.emailField" type="email" id="email" required="" autocomplete="on" placeholder="Email">
+            <span class="form-label">Email<span class="required-marker">*</span></span><span class="note">required for receipt</span>
+            <input v-model="userShippingData.emailField" type="email" id="email" required="" autocomplete="on" placeholder="Email">
         </label>
         <label class="full-field">
-            <span class="form-label">Street address</span>
-            <input ref="addressField1" v-model="inputFields.addressField1" id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
+            <span class="form-label">Street Address<span class="required-marker">*</span></span>
+            <input ref="addressField1" v-model="userShippingData.addressField1" id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
         </label>
         <label class="full-field">
             <span class="form-label">Apartment, unit, suite, or floor #</span>
-            <input v-model="inputFields.addressField2" id="address2" name="address2">
+            <input v-model="userShippingData.addressField2" id="address2" name="address2">
         </label>
         <label class="full-field">
-            <span class="form-label">City*</span>
-            <input v-model="inputFields.cityField" id="cityField" name="cityField" required="">
+            <span class="form-label">City<span class="required-marker">*</span></span>
+            <input v-model="userShippingData.cityField" id="cityField" name="cityField" required="">
         </label>
         <label class="slim-field-left">
-            <span class="form-label">State/Province*</span>
-            <input v-model="inputFields.regionField" id="regionField" name="regionField" required="" >
+            <span class="form-label">State/Province<span>*</span></span>
+            <input v-model="userShippingData.regionField" id="regionField" name="regionField" required="" >
         </label>
         <label class="slim-field-right" for="postal_code">
-            <span class="form-label">Postal code*</span>
-            <input v-model="inputFields.postalField" id="postcode" name="postcode" required="">
+            <span class="form-label">Postal code<span class="required-marker">*</span></span>
+            <input v-model="userShippingData.postalField" id="postcode" name="postcode" required="">
         </label>
         <label class="full-field">
-            <span class="form-label">Country*</span>
-            <input v-model="inputFields.countryField" id="countryField" name="countryField" required="" >
+            <span class="form-label">Country<span class="required-marker">*</span></span>
+            <input v-model="userShippingData.countryField" id="countryField" name="countryField" required="" >
         </label>
         <label class="full-field">
             <span class="form-label">Additional notes</span>
-            <input v-model="inputFields.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
+            <input v-model="userShippingData.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
         </label>
         <div class="submitBtnWrapper">
             <!-- <button type="submit" class="my-button">Checkout</button> -->
@@ -51,19 +51,10 @@
 
 <script setup>
 
+import { userShippingData } from '../../services/stateStore';
 const config = useRuntimeConfig();
 
 let autocomplete = {};
-// Form field data
-let inputFields = reactive({
-    addressField1: '',
-    addressField2: '',
-    cityField: '',
-    regionField: '',
-    postalField: '',
-    countryField: '',
-    additionalNote: ''
-})
 
 let errorMessage = ref('');
 let addressField1 = ref('');
@@ -118,29 +109,36 @@ function fillInAddress() {
                 break;
             }
             case "locality":
-            inputFields.cityField = component.long_name;
+            userShippingData.cityField = component.long_name;
                 break;
             case "administrative_area_level_1": {
-                inputFields.regionField = component.short_name;
+                userShippingData.regionField = component.short_name;
                 break;
             }
             case "country":
-                inputFields.countryField = component.long_name;
+                userShippingData.countryField = component.long_name;
                 break;
-        }
-    }
-    inputFields.addressField1 = address1;
-    inputFields.postalField = postcode;
+        };
+    };
+    userShippingData.addressField1 = address1;
+    userShippingData.postalField = postcode;
+
+    console.log(userShippingData)
+    
     // After filling the form with address components from the Autocomplete
     // prediction, set cursor focus on the second address line to encourage
     // entry of subpremise information such as apartment, unit, or floor number.
     // addressField2.focus();
-}
+};
 
 
 </script>
 
 <style scoped>
+
+.required-marker {
+    color: red;
+}
 #address-form {
     display: flex;
     flex-wrap: wrap;

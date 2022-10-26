@@ -26,7 +26,7 @@ let checkoutSteps = reactive({
     },
     2: {
         number: '2',
-        text: 'Order',
+        text: 'Summary',
         stepColor: computed(() => currentCheckoutStep.value == 2 ? 'blue' : 'gray')
     },
     3: {
