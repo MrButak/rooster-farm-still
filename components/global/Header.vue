@@ -219,8 +219,8 @@ nav .ul-right li a:hover, nav ul li a:focus {
         }
 }
 .bottom-border {
-    position: absolute;
-    top: 10.9rem;
+    // position: absolute;
+    // top: 10.9rem;
     width: 100%;
     // padding: .7rem 0;
     padding: .5rem 0;

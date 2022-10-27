@@ -1,9 +1,12 @@
 <template>
+<Header />
 
-<h2>
-    Order Success !
-</h2>
-<p>e-mail receipt sent</p>
+
+    <h2>
+        Order Success !
+    </h2>
+    <p>e-mail receipt sent</p>
+
 
 </template>
 
@@ -52,8 +55,7 @@ async function checkStatus() {
 
 
 
-<style lang="scss">
-
+<style lang="scss" scoped>
 
 
 </style>

@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 dotenv.config();
 export default defineNuxtConfig({
 
+    // build: {
+    //     transpile: ['sib-api-v3-sdk']
+    // },
     runtimeConfig: {
         STRIPE_SK: process.env.STRIPE_SK,
         STRIPE_WH_SK: process.env.STRIPE_WH_SK,

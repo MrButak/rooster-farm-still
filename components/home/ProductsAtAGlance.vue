@@ -1,21 +1,20 @@
 <template>
 
-<div v-if="productsLoaded" class="products-at-a-glance-wrapper">
-    
-    <div class="product-wrapper" v-for="product in allProducts">
-        <h3 class="product-title-text">
-            {{ product.name }}
-        </h3>
-        <span class="product-image-wrapper">
-            <img class="product-image" :src="product.image_url" />
-        </span>
-        <p>Price: {{ product.price }}</p>
-        <p>{{ product.description }}</p>
-        <button @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">See More</button>
+    <div v-if="productsLoaded" class="products-at-a-glance-wrapper">
+        
+        <div class="product-wrapper" v-for="product in allProducts">
+            <h3 class="product-title-text">
+                {{ product.name }}
+            </h3>
+            <span class="product-image-wrapper">
+                <img class="product-image" :src="product.image_url" />
+            </span>
+            <p>Price: {{ product.price }}</p>
+            <p>{{ product.description }}</p>
+            <button @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">See More</button>
 
+        </div>
     </div>
-    
-</div>
 
 </template>
 
@@ -40,6 +39,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 
 .products-at-a-glance-wrapper {
+    
     display: flex;
     align-items: center;
     justify-content: center;

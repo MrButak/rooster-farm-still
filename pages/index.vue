@@ -4,7 +4,6 @@
     <Header />
     <!-- <Hero /> -->
     <ProductsAtAGlance />
-    <Footer />
 </div>
     
 </template>
@@ -21,6 +20,7 @@ import Hero from '~~/components/home/Hero.vue';
 
 
 <style lang="scss" scoped>
+
 
 .home-page-wrapper {
     

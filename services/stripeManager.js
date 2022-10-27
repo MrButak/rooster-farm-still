@@ -1,18 +1,10 @@
 import Stripe from "stripe";
 import dotenv from "dotenv"; dotenv.config();
 import { storePurchase, updateProductQuantity, storeStripeChargeId } from './dbManager';
-// import { sendPaymentSuccessEmail } from './emailManager';
+import { sendPaymentSuccessEmail } from './emailManager';
 
 let stripe = new Stripe(process.env.STRIPE_SK, null);
-
-let webhookSecret;
-
-if(process.env.DEV_ENVIRONMENT == 'development') {
-    webhookSecret = 'whsec_37f7f1684ac20431a347f5e09e6200e5c430ae11fbb62165ee230a58794e6226';
-};
-if(process.env.DEV_ENVIRONMENT == 'production') {
-    webhookSecret = process.env.STRIPE_WH_SK;
-};
+let webhookSecret = process.env.STRIPE_WH_SK;
 
 
 async function createStripePaymentIntent(shipping, products, subtotal) {
@@ -105,7 +97,7 @@ function stripeWebHooks(stripeSignature, body) {
             // Get the chargeSucceeded Object
             const chargeSucceeded = event.data.object;
             // Send a confirmation email to the user
-            //sendPaymentSuccessEmail(chargeSucceeded);
+            sendPaymentSuccessEmail(chargeSucceeded);
             // Store the charge id in the DB
             storeStripeChargeId([chargeSucceeded['id'], chargeSucceeded['payment_intent']]);
             break;

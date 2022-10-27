@@ -3,7 +3,6 @@ const { Pool } = pgPackage;
 import dotenv from "dotenv";
 dotenv.config();
 
-
 let pool = new Pool({});
 
 if(process.env.DEV_ENVIRONMENT == 'development') {

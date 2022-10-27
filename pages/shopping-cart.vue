@@ -1,6 +1,6 @@
 <template>
 
-<div>
+
     <Header />
     <OkPopupModal 
         popup-message="Do you want to remove this item from your shopping cart?"
@@ -30,8 +30,7 @@
         </div>
         <button @click="router.push('/checkout')">Checkout</button>
     </div>
-    <Footer />
-</div>
+
 
 </template>
 

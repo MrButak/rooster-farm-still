@@ -19,13 +19,11 @@
 <style lang="scss" scoped>
 
 .footer-wrapper {
-    position: static;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
+    position: absolute;
+    background: rgba(28, 32, 36, 1);
+    bottom:0;
     width: 100%;
-    background-color: black;
-    padding: .4rem 0;
+    text-align: center;
     .footer-text {
         color: white;
         font-size: 14px;
