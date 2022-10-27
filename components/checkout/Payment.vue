@@ -15,7 +15,7 @@
 </div> 
 
     
-<p>Successful payment</p>
+<!-- <p>Successful payment</p>
 <p>4242424242424242</p>
 <br />
 <p>Failed payment</p>
@@ -23,7 +23,7 @@
 <br />
 <p>Requires authentication</p>
 <p>4000002500003155</p>
-<br />
+<br /> -->
 </template>
 
 
@@ -38,8 +38,8 @@ let stripe;
 let elements = {};
 
 onMounted(() => {
-    stripe = window.Stripe(config.public.STRIPE_PK, null);
-    createPaymentIntent();
+    // stripe = window.Stripe(config.public.STRIPE_PK, null);
+    // createPaymentIntent();
 });
 
 async function createPaymentIntent() {
