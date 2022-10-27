@@ -1,5 +1,7 @@
 import Stripe from "stripe";
 import dotenv from "dotenv"; dotenv.config();
+import { storePurchase, updateProductQuantity, storeStripeChargeId } from './dbManager';
+import { sendPaymentSuccessEmail } from './emailManager';
 
 let stripe = new Stripe(process.env.STRIPE_SK, null);
 
@@ -15,8 +17,6 @@ if(process.env.DEV_ENVIRONMENT == 'production') {
 
 async function createStripePaymentIntent(shipping, products, subtotal) {
     
-    
-
     const paymentIntent = await stripe.paymentIntents.create({
 
         amount: subtotal * 100, // in cents
@@ -25,7 +25,7 @@ async function createStripePaymentIntent(shipping, products, subtotal) {
         description: "Rooster Valley",
         metadata: {
             
-            'purchasedItems': 'this is the metadata'
+            'itemsPurchased': JSON.stringify(products) // Must be under 500 character
         },
         shipping: {
             address: {
@@ -63,22 +63,53 @@ function stripeWebHooks(stripeSignature, body) {
     }
     catch (err) {
         console.log(`❌ Error message: ${err.message}`);
-        //return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
+    };
  
     // Successfully constructed event
     console.log('✅ Success:', event.id);
 
     switch (event.type) {
 
-        case 'payment_intent.succeeded':
-            const paymentIntent = event.data.object;
-
-            // dbManager.storePurchase(paymentIntent);
-            // dbManager.updateMenuItmQty(paymentIntent);
-            // emailManager.sendPaymentSuccessEmail(paymentIntent);
-            console.log({paymentIntent})
+        case 'payment_intent.created':
+            console.log('✅ Success:', event.type);
             break;
+
+        case 'payment_intent.succeeded':
+            console.log('✅ Success:', event.type);
+            // Get the payment intent Object
+            const paymentIntent = event.data.object;
+            // Get the items purchased from the payment intent Object
+            let purchasedItems = JSON.parse(paymentIntent['metadata']['itemsPurchased']);
+            // Loop through each item purchased and 
+            //      1. add purchase to Db 
+            //      2. update the products quantity in the DB
+            Object.keys(purchasedItems).forEach((key) => {
+                storePurchase(
+                    [
+                        key, 
+                        purchasedItems[key].quantity, 
+                        paymentIntent['receipt_email'], 
+                        new Date(Date.now()), 
+                        (purchasedItems[key].quantity * purchasedItems[key].price) * 100, // in cents 
+                        paymentIntent['currency'], 
+                        'stripe', 
+                        paymentIntent['id']
+                    ]
+                );
+                updateProductQuantity([key, purchasedItems[key].quantity]);
+            });
+            break;
+
+        case 'charge.succeeded':
+            console.log('✅ Success:', event.type);
+            // Get the chargeSucceeded Object
+            const chargeSucceeded = event.data.object;
+            // Send a confirmation email to the user
+            sendPaymentSuccessEmail(chargeSucceeded);
+            // Store the charge id in the DB
+            storeStripeChargeId([chargeSucceeded['id'], chargeSucceeded['payment_intent']]);
+            break;
+
         // ... handle other event types
         default:
             console.log(`Unhandled event type ${event.type}`);

@@ -1,6 +1,4 @@
 import { ref, reactive } from 'vue';
-// import pkg from '@googlemaps/js-api-loader';
-// const { Loader } = pkg;
 
 let showFire = ref(false);
 let allProducts = reactive([]); // check to see if this is used/imported anywhere

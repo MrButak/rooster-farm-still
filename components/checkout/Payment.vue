@@ -44,21 +44,31 @@ onMounted(() => {
 
 async function createPaymentIntent() {
 
-    // Get the Stripe client secret
+
+    // Create an Object to send as meta data to Stripe. After a successful payment, I use this to update the DB, and display/send an order conformation
+    let purchasedItemsObj = {};
+    userProductsToShip.forEach((product) => {
+        purchasedItemsObj[product.id] = {
+            'name': product.name,
+            'price': product.price,
+            'quantity': product.quantity
+        };
+    });
+
+    // Make a payment to Stripe and get the Stripe client secret
     let clientSecret = await $fetch('/api/create-payment-intent', {
         method: 'POST',
         body: JSON.stringify({
             shipping: userShippingData,
-            products: userProductsToShip,
+            products: purchasedItemsObj,
             subtotal: subTotal.value
         })
     });
 
-    // Render form
+    // Render the payment form using the client secret
     const appearance = {
         theme: 'stripe',
     };
-
     elements = stripe.elements({ appearance, clientSecret });
     const paymentElement = elements.create("payment");
     paymentElement.mount("#payment-element");

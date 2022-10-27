@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "pg": "^8.8.0",
+    "sib-api-v3-sdk": "^8.4.2",
     "stripe": "^10.12.0",
     "vue-gtag-next": "^1.14.0"
   }

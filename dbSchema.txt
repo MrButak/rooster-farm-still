@@ -8,6 +8,22 @@ CREATE TABLE products (
     category VARCHAR(255)
 );
 
+CREATE TABLE purchases (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER REFERENCES products(id) NOT NULL,
+    quantity INTEGER NOT NULL,
+    purchaser_email VARCHAR(255),
+    purchase_date TIMESTAMP NOT NULL,
+    subtotal_in_cents VARCHAR(255) NOT NULL,
+    currency VARCHAR(255) NOT NULL,
+    provider VARCHAR(255) NOT NULL,
+    stripe_payment_intent_id TEXT,
+    stripe_charge_id TEXT
+);
+
+INSERT INTO purchases (product_id, quantity, purchaser_email, purchase_date, subtotal_in_cents, currency, provider, stripe_cs)
+    VALUES (2, 1, 'mspence5555@gmail.com', '2022/02/03', '30000', 'usd', 'stripe', 'dsfdsfsdfsdfsdf');
+
 INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
@@ -30,7 +46,7 @@ INSERT INTO products
 
 
 
-    INSERT INTO products
+INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
     ('6 Gallon Still Complete', 
@@ -41,7 +57,7 @@ INSERT INTO products
     'stills');
 
 
-        INSERT INTO products
+INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
     ('12 Gallon Still Complete', 

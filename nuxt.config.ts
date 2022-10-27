@@ -7,6 +7,7 @@ export default defineNuxtConfig({
         STRIPE_WH_SK: process.env.STRIPE_WH_SK,
         DATABASE_URL: process.env.DB_URL,
         DEV_ENVIRONMENT: process.env.DEV_ENVIRONMENT,
+        SEND_IN_BLUE_API: process.env.SEND_IN_BLUE_API,
         public: {
             STRIPE_PK: process.env.STRIPE_PK,
             BASE_URL: process.env.BASE_URL,

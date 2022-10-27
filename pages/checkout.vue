@@ -2,7 +2,6 @@
 
 <div class="checkout-wrapper-main">
 
-    
     <CheckoutStepHeader />
 
     <span v-if="currentCheckoutStep == 1">
@@ -18,6 +17,7 @@
     </span>
 
     <CheckoutNavBtns />
+    
 </div>
 
 </template>

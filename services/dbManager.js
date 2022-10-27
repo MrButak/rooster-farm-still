@@ -47,12 +47,40 @@ async function selectProductData(productName) {
     };
 };
 
-function storePurchase(paymentIntent) {
+// Function stores the purchases after a successful payment intent
+async function storePurchase(dbValues) {
 
+    let dbStmt = 'INSERT INTO purchases (product_id, quantity, purchaser_email, purchase_date, subtotal_in_cents, currency, provider, stripe_payment_intent_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)'
+    
+    try {
+        await pool.query(dbStmt, dbValues);
+    }
+    catch(err) {
+        console.log(err);
+    };
 };
 
-function updateMenuItmQty(paymentIntent) {
-
+// Function stores the Stripe ch_ after a successful charge
+async function storeStripeChargeId(dbValues) {
+    
+    let dbStmt = 'UPDATE purchases SET stripe_charge_id = ($1) WHERE stripe_payment_intent_id = ($2)';
+    try {
+        await pool.query(dbStmt, dbValues);
+    }
+    catch(err) {
+        console.log(err);
+    };
 };
 
-export { dbCall, selectProductData }
+async function updateProductQuantity(dbValues) {
+
+    let dbStmt = 'UPDATE products SET quantity = quantity - ($1) WHERE id = ($2)';
+    try {
+        await pool.query(dbStmt, dbValues);
+    }
+    catch(err) {
+        console.log(err);
+    };
+};
+
+export { dbCall, selectProductData, storePurchase, updateProductQuantity, storeStripeChargeId }
