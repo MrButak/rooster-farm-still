@@ -2,9 +2,6 @@ import dotenv from "dotenv";
 dotenv.config();
 export default defineNuxtConfig({
 
-    // build: {
-    //     transpile: ['sib-api-v3-sdk']
-    // },
     runtimeConfig: {
         STRIPE_SK: process.env.STRIPE_SK,
         STRIPE_WH_SK: process.env.STRIPE_WH_SK,
@@ -19,14 +16,25 @@ export default defineNuxtConfig({
     },
     app: {
         pageTransition: false,
-        layoutTransition: false
+        layoutTransition: false,
+        head: {
+            title: 'Rooster Valley Stills',
+            meta: [
+                {
+                    "charset": "utf-8"
+                },
+                // {
+                //     link: [
+                //         {
+                //             rel: 'stylesheet',
+                //             href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css'
+                //         }
+                //     ],
+                // }
+                
+            ],
+            
+        }
     }
-    // meta: {
-    //     link: [
-    //         {
-    //             rel: 'stylesheet',
-    //             href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css'
-    //         }
-    //     ],
-    // },
+
 });

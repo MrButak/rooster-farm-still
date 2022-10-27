@@ -1,12 +1,11 @@
 <template>
-<!-- <Script src="https://js.stripe.com/v3/" async></Script>
-<Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOIP84BkhD_JvqsFPGBosvmBOFCVg-ylw&libraries=places" async></Script> -->
-<div>
-    <NuxtPage />
-    <Footer />
-</div>
+
+<NuxtPage />
+<Footer />
 
 </template>
+
+
 
 <script setup>
 

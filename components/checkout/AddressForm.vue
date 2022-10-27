@@ -1,6 +1,4 @@
 <template>
-<Script src="https://js.stripe.com/v3/" async></Script>
-<Script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOIP84BkhD_JvqsFPGBosvmBOFCVg-ylw&libraries=places" async></Script>
 <div class="address-form-wrapper">
     <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
         <p class="AddressFormTitle">Shipping Details</p>
@@ -41,12 +39,8 @@
             <span class="form-label">Additional notes</span>
             <input v-model="userShippingData.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
         </label>
-        <div class="submitBtnWrapper">
-            <!-- <button type="submit" class="my-button">Checkout</button> -->
-        </div>
         <p>{{ errorMessage }}</p>
-        <!-- Reset button provided for development testing convenience.
-    Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
+        
         <!--<input type="reset" value="Clear form">-->
     </form>
 </div> 
@@ -55,7 +49,7 @@
 <script setup>
 
 import { userShippingData } from '../../services/stateStore';
-const config = useRuntimeConfig();
+
 
 let autocomplete = {};
 
@@ -65,7 +59,6 @@ let addressField1 = ref('');
 onMounted(() => initAutocomplete())
     
 function initAutocomplete() {
-    
     // Create the autocomplete object
     
     autocomplete = new google.maps.places.Autocomplete(addressField1.value, {
@@ -126,8 +119,6 @@ function fillInAddress() {
     userShippingData.addressField1 = address1;
     userShippingData.postalField = postcode;
 
-    console.log(userShippingData)
-    
     // After filling the form with address components from the Autocomplete
     // prediction, set cursor focus on the second address line to encourage
     // entry of subpremise information such as apartment, unit, or floor number.
@@ -195,16 +186,7 @@ input {
     flex: 1 150px;
     margin: 15px 0px 15px 15px;
 }
-.submitBtnWrapper {
-    display: flex;
-}
-.my-button {
-    background-color: #1980b6;
-    border-radius: 6px;
-    color: #fff;
-    padding: 6px 24px;
-    text-decoration: none;
-}
+
 input[type="reset"] {
     width: auto;
     height: auto;

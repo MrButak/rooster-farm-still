@@ -50,8 +50,10 @@
 
 <script setup>
 
-import { showOkPopupModal } from '../services/stateStore';
-import { reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, removeProductFromShoppingCart, increaseProductQuantityInShoppingCart } from '../services/shoppingCartManager';
+import { showOkPopupModal, thirdPartyScriptsLoaded } from '../services/stateStore';
+import { reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, 
+    removeProductFromShoppingCart, increaseProductQuantityInShoppingCart
+} from '../services/shoppingCartManager';
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
 
 const router = useRouter();
@@ -60,14 +62,34 @@ let allProducts = reactive([]); // DB
 let selectedProductId = null;
 
 
+
 onMounted(() => {
 
-    // Get products from DB so we know how many is in stock
+    // Get products from DB so we know how many is in stock and the prices have not been tampered with in LS
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
         productsDbData.forEach((product) => allProducts.push(product));
     })();
     loadItemsInShoppingCart();
+
+    // I've having to set a Boolean to determine if these scripts have already been loaded and that they are only loaded once
+    if(!thirdPartyScriptsLoaded.value) {
+        useHead({
+            script: [
+                {
+                    src: 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBOIP84BkhD_JvqsFPGBosvmBOFCVg-ylw&libraries=places',
+                    defer: true,
+                    async: true
+                },
+                {
+                    src: 'https://js.stripe.com/v3/',
+                    defer: true,
+                    async: true
+                }
+            ]
+        });
+        thirdPartyScriptsLoaded.value = true;
+    };
 });
 
 // Function calculates the quantity available in stock
