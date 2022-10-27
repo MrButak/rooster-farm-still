@@ -39,13 +39,6 @@ async function createStripePaymentIntent(shipping, products, subtotal) {
     return paymentIntent;
 };
 
-
-
-
-
-
-
-
 function stripeWebHooks(stripeSignature, body) {
     
     let event;
@@ -93,6 +86,7 @@ function stripeWebHooks(stripeSignature, body) {
             break;
 
         case 'charge.succeeded':
+
             console.log('✅ Success:', event.type);
             // Get the chargeSucceeded Object
             const chargeSucceeded = event.data.object;

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 function sendPaymentSuccessEmail(paymentIntent) {
-    console.log('making it to send email?')
+    
     let itemsPurchased = [];
     let products = JSON.parse(paymentIntent.metadata.itemsPurchased);
     
@@ -55,8 +55,6 @@ function sendPaymentSuccessEmail(paymentIntent) {
     }, function(error) {
         console.error(error);
     });
-
-
-}
+};
 
 export { sendPaymentSuccessEmail };

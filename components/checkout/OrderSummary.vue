@@ -8,7 +8,7 @@
         <table id="customers">
             <tr v-for="product in userProductsToShip">
                 <td>
-                    {{ product.name }} x{{ product.quantity }}
+                    {{ product.name }} x {{ product.quantity }}
                 </td>
                 <td>
                     ${{ product.price * product.quantity }}
@@ -22,15 +22,16 @@
             
         </table>
 
-    </div>
+        
+        <h3 class="shipping-information-header">Shipping Information</h3>
+        <div class="shipping-information-wrapper">
+            <p>{{ userShippingData.nameField }}</p>
+            <p>{{ userShippingData.addressField1 }}</p>
+            <p v-if="userShippingData.addressField2"> {{ userShippingData.addressField2 }}</p>
+            <p>{{ userShippingData.cityField }} {{ userShippingData.regionField }}, {{ userShippingData.postalField }}</p>
+            <p>{{ userShippingData.emailField }}</p>
+        </div>
 
-    <div class="shipping-info-wrapper">
-        <h3>Shipping Information</h3>
-        <p>{{ userShippingData.nameField }}</p>
-        <p>{{ userShippingData.addressField1 }}</p>
-        <p v-if="userShippingData.addressField2"> {{ userShippingData.addressField2 }}</p>
-        <p>{{ userShippingData.cityField }} {{ userShippingData.regionField }}, {{ userShippingData.postalField }}</p>
-        <p>{{ userShippingData.emailField }}</p>
     </div>
 
 </div>
@@ -95,25 +96,39 @@ onMounted(() => {
 
 .order-summary-wrapper {
     display: flex;
+    align-items: center;
     flex-direction: column;
+    width: 100%;
 
     .summary-wrapper {
-
+        width: 100%;
+        max-width: 45rem;
+        padding: 10px 20px 20px 10px;
     }
-    .shipping-info-wrapper {
-
+    .shipping-information-header {
+        padding: 2rem 0 0 0;
+    }
+    .shipping-information-wrapper {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    h3 {
+        padding: 0 0 .4rem 0;
+    }
+    p {
+        padding: 2px;
     }
 }
 
 #customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 }
 
 #customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
+    border: 1px solid #ddd;
+    padding: 8px;
 }
 
 #customers tr:nth-child(even){background-color: #f2f2f2;}
@@ -121,10 +136,16 @@ onMounted(() => {
 #customers tr:hover {background-color: #ddd;}
 
 #customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
+@media (min-width: 1023px) {
+    .checkout-nav-button-wrapper {
+        padding: 10px 0 0 0;
+    }
 }
 </style>

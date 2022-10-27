@@ -44,7 +44,8 @@ let checkoutSteps = reactive({
 
 .checkout-step-header-wrapper {
     display: flex;
-    width: 100%
+    width: 100%;
+    padding: 0 0 3.4rem 0
 }
 
 

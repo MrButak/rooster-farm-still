@@ -1,6 +1,6 @@
 <template>
 
-
+<div>
     <Header />
     <OkPopupModal 
         popup-message="Do you want to remove this item from your shopping cart?"
@@ -25,12 +25,16 @@
         </div>
 
         <div class="subtotal-wrapper">
-            <p>Subtotal</p>
-            <p>${{ calculateSubtotal() }}</p>
+            <h3>Subtotal</h3>
+            <h3>${{ calculateSubtotal() }}</h3>
         </div>
-        <button @click="router.push('/checkout')">Checkout</button>
+        <div class="checkout-button-wrapper">
+            <button @click="router.push('/checkout')">Checkout</button>
+        </div>
+        
     </div>
 
+</div>
 
 </template>
 
@@ -148,7 +152,32 @@ function removeItemFromShoppingCart() {
     display: flex;
     flex-direction: column;
     padding: 2rem 0 0 0;
+    .checkout-button-wrapper {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 2rem 0 0 0;
+        button {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: .2rem;
+            background-color: black;
+            color: white;
+            padding: .5rem .8rem;
+            border: 1px solid #b54514;
+            letter-spacing: .1rem;
+            font-weight: 600;
+        }
+    }
+    button {
+        background-color: black;
+        border: 1px solid #b54514;
+        color: white;
+        font-weight: 600;
 
+    }
     .shopping-cart-item {
         padding: .6rem 1rem;
         border-bottom: 1px solid black;
@@ -171,7 +200,8 @@ function removeItemFromShoppingCart() {
                     align-items: center;
                     width: 2rem;
                     height: 2rem;
-                    border: 1px solid black;
+                    border-top: 1px solid #b54514;
+                    border-bottom: 1px solid #b54514;
                 }
             }
         }

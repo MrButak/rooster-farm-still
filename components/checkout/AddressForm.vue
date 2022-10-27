@@ -1,4 +1,5 @@
 <template>
+<div class="address-form-wrapper">
     <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
         <p class="AddressFormTitle">Shipping Details</p>
         <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
@@ -23,7 +24,7 @@
             <input v-model="userShippingData.cityField" id="cityField" name="cityField" required="">
         </label>
         <label class="slim-field-left">
-            <span class="form-label">State/Province<span>*</span></span>
+            <span class="form-label">State/Province<span class="required-marker">*</span></span>
             <input v-model="userShippingData.regionField" id="regionField" name="regionField" required="" >
         </label>
         <label class="slim-field-right" for="postal_code">
@@ -46,7 +47,7 @@
     Not recommended for user-facing forms due to risk of mis-click when aiming for Submit button. -->
         <!--<input type="reset" value="Clear form">-->
     </form>
-    
+</div> 
 </template>
 
 <script setup>
@@ -139,11 +140,17 @@ function fillInAddress() {
 .required-marker {
     color: red;
 }
+.address-form-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 #address-form {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    max-width: 400px;
+    width: 100%;
+    max-width: 45rem;
     padding: 10px 20px 20px 10px;
 }
 .AddressFormTitle {
@@ -211,11 +218,7 @@ input[type="reset"] {
 /*Desktop sizes*-----------------------------------------------------*/
 @media (min-width: 1023px) {
     #address-form {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    max-width: 45rem;
-    padding: 10px 0 0 0;
-}
+        padding: 10px 0 0 0;
+    }
 }
 </style>

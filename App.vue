@@ -12,6 +12,7 @@
 
 import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager';
 
+// Look at LS and total up the items. Function determines the number in the shooping cart
 onMounted(() => {
     getTotalItemCountInShoppingCart();
 });
@@ -19,6 +20,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+
 body {
     // Relavtive body + absolute footer with bottom: 0 == footer stays at the bottom
     position: relative;
@@ -27,7 +29,7 @@ body {
 }
 
 * {
-    
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
