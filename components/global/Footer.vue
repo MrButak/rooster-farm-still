@@ -20,10 +20,11 @@
 
 .footer-wrapper {
     position: absolute;
-    background: rgba(28, 32, 36, 1);
+    background: black;
     bottom:0;
     width: 100%;
     text-align: center;
+    padding: .3rem 0;
     .footer-text {
         color: white;
         font-size: 14px;

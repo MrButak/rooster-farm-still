@@ -1,11 +1,11 @@
 <template>
 
-<span>
-    <Header />
+<Header />
 
+<div class="product-wrapper-main">
     <div v-if="productLoaded" class="product-wrapper">
 
-        <p>{{ productData[0].name }}</p>
+        <h3>{{ productData[0].name }}</h3>
         <p>{{ productData[0].description }}</p>
         <p>${{ productData[0].price * quantitySelect }}</p>
         <button @click="handleAddToCart">Add To Cart</button>
@@ -18,7 +18,7 @@
 
     </div>
 
-</span>
+</div>
 
 </template>
 
@@ -90,10 +90,20 @@ function handleAddToCart() {
 
     
 <style lang="scss" scoped>
-
+.product-wrapper-main {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 .product-wrapper {
-    margin: 2rem 0 0 0;
-
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 45rem;
+    padding: 1.2rem;
+    p {
+        
+    }
     button {
         cursor: pointer;
         display: flex;

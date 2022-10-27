@@ -11,7 +11,9 @@
             </span>
             <p>Price: {{ product.price }}</p>
             <p>{{ product.description }}</p>
-            <button @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">See More</button>
+            <div class="see-more-button-wrapper">
+                <button @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })" class="see-more-button">See More</button>
+            </div>
 
         </div>
     </div>
@@ -44,7 +46,7 @@ onMounted(() => {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    padding: 1rem 1rem 0 1rem;
+    padding: 1.2rem 1.2rem;
     width: 100%;
     gap: 2rem;
     
@@ -57,7 +59,9 @@ onMounted(() => {
         border-bottom: 0.1rem solid black;
         padding: 0.8rem 2rem;
         justify-content: flex-end;
-
+        p {
+            font-size: large;
+        }
         .product-image-wrapper {
             display: flex;
             height: 9rem;
@@ -69,11 +73,23 @@ onMounted(() => {
             font-size: xx-large;
             text-align: center;
         }
-        .see-more-button {
-            padding: 0.3rem;
-            border-radius: 0.4rem;
-            background: none;
+        .see-more-button-wrapper {
+            padding: .8rem 0 0 0;
+            .see-more-button {
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: .2rem;
+                background-color: black;
+                color: white;
+                padding: .5rem .8rem;
+                border: 1px solid #b54514;
+                letter-spacing: .1rem;
+                font-weight: 600;
+            }
         }
+        
         
     }
 }
@@ -82,7 +98,7 @@ onMounted(() => {
 
     .products-at-a-glance-wrapper {
 
-        padding: 5rem 1rem 0 1rem;
+        
     }
 }
 

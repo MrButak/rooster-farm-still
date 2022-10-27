@@ -1,12 +1,11 @@
 <template>
 
-<div>
-    <Header />
-    <OkPopupModal 
-        popup-message="Do you want to remove this item from your shopping cart?"
-        :remove-item-from-shopping-cart="removeItemFromShoppingCart"
-    />
-    <div class="center-wrapper">
+<Header />
+<OkPopupModal 
+    popup-message="Do you want to remove this item from your shopping cart?"
+    :remove-item-from-shopping-cart="removeItemFromShoppingCart"
+/>
+<div class="center-wrapper">
     <div v-if="allProducts.length && shoppingCartItems.length" class="shopping-cart-items-wrapper">
     
         <div v-for="product in shoppingCartItems" class="shopping-cart-item">
@@ -33,8 +32,16 @@
         </div>
         
     </div>
+    <div class="no-items-wrapper" v-else>
+        <p>
+            There are currently no items in your shopping cart.
+            Check out our quality stills.
+        </p>
+        <div class="no-products-button-wrapper">
+            <button @click="router.push('/')">Products</button>
+        </div>
+        
     </div>
-
 </div>
 
 </template>
@@ -147,7 +154,34 @@ function removeItemFromShoppingCart() {
 
 .no-items-wrapper {
     display: flex;
-    padding: 2rem 0 0 0;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 45rem;
+    padding: 10rem 20px 20px 10px;
+    text-align: center;
+    p {
+        font-weight: 600;
+    }
+    .no-products-button-wrapper {
+        display: flex;
+        justify-content: center;
+        button {
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: .2rem;
+            background-color: black;
+            color: white;
+            padding: .5rem .8rem;
+            border: 1px solid #b54514;
+            letter-spacing: .1rem;
+            font-weight: 600;
+        }
+    }
+    
+    
 }
 .center-wrapper {
     display: flex;
@@ -157,8 +191,6 @@ function removeItemFromShoppingCart() {
 .shopping-cart-items-wrapper {
     display: flex;
     flex-direction: column;
-    // padding: 2rem 0 0 0;
-
     width: 100%;
     max-width: 45rem;
     padding: 10px 20px 20px 10px;

@@ -16,6 +16,10 @@ export default defineNuxtConfig({
             BASE_URL: process.env.BASE_URL,
             GOOGLE_MAPS_API: process.env.GOOGLE_MAPS_API,
         }
+    },
+    app: {
+        pageTransition: false,
+        layoutTransition: false
     }
     // meta: {
     //     link: [
