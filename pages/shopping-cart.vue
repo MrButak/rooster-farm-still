@@ -6,7 +6,7 @@
         popup-message="Do you want to remove this item from your shopping cart?"
         :remove-item-from-shopping-cart="removeItemFromShoppingCart"
     />
-    
+    <div class="center-wrapper">
     <div v-if="allProducts.length && shoppingCartItems.length" class="shopping-cart-items-wrapper">
     
         <div v-for="product in shoppingCartItems" class="shopping-cart-item">
@@ -32,6 +32,7 @@
             <button @click="router.push('/checkout')">Checkout</button>
         </div>
         
+    </div>
     </div>
 
 </div>
@@ -148,10 +149,19 @@ function removeItemFromShoppingCart() {
     display: flex;
     padding: 2rem 0 0 0;
 }
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
 .shopping-cart-items-wrapper {
     display: flex;
     flex-direction: column;
-    padding: 2rem 0 0 0;
+    // padding: 2rem 0 0 0;
+
+    width: 100%;
+    max-width: 45rem;
+    padding: 10px 20px 20px 10px;
     .checkout-button-wrapper {
         display: flex;
         justify-content: center;

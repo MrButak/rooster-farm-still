@@ -24,7 +24,7 @@ import Hero from '~~/components/home/Hero.vue';
 
 .home-page-wrapper {
     
-    background-color: #fce37325;
+    // background-color: #fce37325;
 }
 
 </style>

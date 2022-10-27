@@ -7,7 +7,7 @@
         <p>{{ popupMessage }}</p>
         <div class="ok-popup-modal-button-wrapper">
             <button @click="showOkPopupModal = false">Cancel</button>
-            <button @click="removeItemFromShoppingCart">Ok</button>
+            <button @click="removeItemFromShoppingCart">Remove</button>
         </div>
 
     </div>
@@ -45,13 +45,34 @@ defineProps({
     top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #35D0BA;
-    padding: 1rem;
-    width: 80%;
-    border: 1px solid #F8C43A;
+    background-color: #FDFDFD;
+    padding: 1.2rem;
+    max-width: 45rem;
+    border: 1px solid black;
     border-radius: .3rem;
+    p {
+        font-weight: 600;
+    }
 }
 .ok-popup-modal-button-wrapper {
     display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 2rem;
+    width: 100%;
+    padding: 1rem 0 0 0;
+    button {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: .2rem;
+        background-color: black;
+        color: white;
+        padding: .5rem .8rem;
+        border: 1px solid #b54514;
+        letter-spacing: .1rem;
+        font-weight: 600;
+    }
 }
 </style>

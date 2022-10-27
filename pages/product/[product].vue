@@ -93,6 +93,20 @@ function handleAddToCart() {
 
 .product-wrapper {
     margin: 2rem 0 0 0;
+
+    button {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: .2rem;
+        background-color: black;
+        color: white;
+        padding: .5rem .8rem;
+        border: 1px solid #b54514;
+        letter-spacing: .1rem;
+        font-weight: 600;
+    }
 }
 .quantity-counter-wrapper {
     display: flex;
@@ -102,6 +116,10 @@ function handleAddToCart() {
         align-items: center;
         width: 2rem;
         height: 2rem;
+        background-color: black;
+        border: 1px solid #b54514;
+        color: white;
+        font-weight: 600;
     }
     .quantity-number {
         display: flex;
@@ -109,7 +127,8 @@ function handleAddToCart() {
         align-items: center;
         width: 2rem;
         height: 2rem;
-        border: 1px solid black;
+        border-top: 1px solid #b54514;
+        border-bottom: 1px solid #b54514;
     }
 }
 

@@ -14,6 +14,7 @@ import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager'
 
 // Look at LS and total up the items. Function determines the number in the shooping cart
 onMounted(() => {
+    // Consider checking DB products price against LS and update LS if needed
     getTotalItemCountInShoppingCart();
 });
 
@@ -25,6 +26,7 @@ body {
     // Relavtive body + absolute footer with bottom: 0 == footer stays at the bottom
     position: relative;
     min-height: 100vh;
+    background-color: #FDFDFD;
     
 }
 
