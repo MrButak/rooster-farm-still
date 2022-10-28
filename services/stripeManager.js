@@ -6,7 +6,6 @@ import { sendPaymentSuccessEmail } from './emailManager';
 let stripe = new Stripe(process.env.STRIPE_SK, null);
 let webhookSecret = process.env.STRIPE_WH_SK;
 
-
 async function createStripePaymentIntent(shipping, products, subtotal) {
     
     const paymentIntent = await stripe.paymentIntents.create({
@@ -38,8 +37,7 @@ async function createStripePaymentIntent(shipping, products, subtotal) {
     
     return paymentIntent;
 };
-
-// Function creates a random 9 digit order id
+// Function creates a random 9 digit order id  
 function createOrderId() {
     const orderIdCharacters = ['A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z', '0', '1', '2', '3','4', '5', '6', '7', '8', '9'];
     
