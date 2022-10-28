@@ -14,7 +14,6 @@
     </form>
 </div> 
 
-    
 <!-- <p>Successful payment</p>
 <p>4242424242424242</p>
 <br />
@@ -24,6 +23,7 @@
 <p>Requires authentication</p>
 <p>4000002500003155</p>
 <br /> -->
+
 </template>
 
 
@@ -38,8 +38,9 @@ let stripe;
 let elements = {};
 
 onMounted(() => {
-    // stripe = window.Stripe(config.public.STRIPE_PK, null);
-    // createPaymentIntent();
+    stripe = window.Stripe(config.public.STRIPE_PK, null);
+    createPaymentIntent();
+    console.log('Payment mounted')
 });
 
 async function createPaymentIntent() {
@@ -77,7 +78,7 @@ async function createPaymentIntent() {
 
 
 async function handleSubmitPayment() {
-    console.log(elements)
+
     // turn loading spinner on
     setLoading(true);
     
@@ -85,10 +86,10 @@ async function handleSubmitPayment() {
         
         elements,
         confirmParams: {
+
             // shipping: 
             // redirect to payment completion page
-            
-            return_url: 'http://localhost:3000/order-success',
+            return_url: `${config.public.BASE_URL}order-success`//'http://localhost:3000/order-success',
         },
     });
     // This point will only be reached if there is an immediate error when

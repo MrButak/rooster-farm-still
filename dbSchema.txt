@@ -10,6 +10,7 @@ CREATE TABLE products (
 
 CREATE TABLE purchases (
     id SERIAL PRIMARY KEY,
+    order_id VARCHAR(255) NOT NULL,
     product_id INTEGER REFERENCES products(id) NOT NULL,
     quantity INTEGER NOT NULL,
     purchaser_email VARCHAR(255),
@@ -18,7 +19,8 @@ CREATE TABLE purchases (
     currency VARCHAR(255) NOT NULL,
     provider VARCHAR(255) NOT NULL,
     stripe_payment_intent_id TEXT,
-    stripe_charge_id TEXT
+    stripe_charge_id TEXT,
+    // payment_success BOOLEAN  (I should only set this to true after appropriate Stripe webhook)
 );
 
 INSERT INTO purchases (product_id, quantity, purchaser_email, purchase_date, subtotal_in_cents, currency, provider, stripe_cs)

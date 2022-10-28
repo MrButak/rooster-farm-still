@@ -48,19 +48,23 @@
 
 <script setup>
 
-import { userShippingData } from '../../services/stateStore';
+import { userShippingData, thirdPartyScriptsLoaded } from '../../services/stateStore';
 
+const router = useRouter();
 
 let autocomplete = {};
-
 let errorMessage = ref('');
 let addressField1 = ref('');
 
-onMounted(() => initAutocomplete())
+onMounted(() => {
+    // If user refreshes page
+    if(!thirdPartyScriptsLoaded.value) { router.push('/shopping-cart') }
+    else { initAutocomplete() };
+});
     
 function initAutocomplete() {
+
     // Create the autocomplete object
-    
     autocomplete = new google.maps.places.Autocomplete(addressField1.value, {
         componentRestrictions: { country: ["us"] },
         fields: ["address_components", "geometry"],
@@ -68,7 +72,6 @@ function initAutocomplete() {
     });
     autocomplete.addListener("place_changed", fillInAddress);
     
-
     //this.addressField1.focus();
     // When the user selects an address from the drop-down, populate the address fields in the form.
 };
