@@ -39,6 +39,24 @@ async function createStripePaymentIntent(shipping, products, subtotal) {
     return paymentIntent;
 };
 
+// Function creates a random 9 digit order id
+function createOrderId() {
+    const orderIdCharacters = ['A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z', '0', '1', '2', '3','4', '5', '6', '7', '8', '9'];
+    
+    // Generate a random number between a range of 0-61 which will represent the array index
+    function generateRandomIntegerInRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    let orderId = '';
+    // Create a 9 digit order id
+    for(let i = 0; i < 9; i++) {
+        orderId += orderIdCharacters[generateRandomIntegerInRange(0, 61)];
+    };
+    
+    return orderId;
+};
+
 function stripeWebHooks(stripeSignature, body) {
     
     let event;
@@ -68,9 +86,11 @@ function stripeWebHooks(stripeSignature, body) {
             // Loop through each item purchased and 
             //      1. add purchase to Db 
             //      2. update the products quantity in the DB
+            let orderId = createOrderId(); // random String 9 characters long
             Object.keys(purchasedItems).forEach((key) => {
                 storePurchase(
                     [
+                        orderId, // Currently not sent in email - so it's almost useless. This 
                         key, 
                         purchasedItems[key].quantity, 
                         paymentIntent['receipt_email'], 

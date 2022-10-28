@@ -49,7 +49,7 @@ async function selectProductData(productName) {
 // Function stores the purchases after a successful payment intent
 async function storePurchase(dbValues) {
 
-    let dbStmt = 'INSERT INTO purchases (product_id, quantity, purchaser_email, purchase_date, subtotal_in_cents, currency, provider, stripe_payment_intent_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)'
+    let dbStmt = 'INSERT INTO purchases (order_id, product_id, quantity, purchaser_email, purchase_date, subtotal_in_cents, currency, provider, stripe_payment_intent_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)'
     
     try {
         await pool.query(dbStmt, dbValues);
