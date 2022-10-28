@@ -38,9 +38,8 @@ let stripe;
 let elements = {};
 
 onMounted(() => {
-    stripe = window.Stripe(config.public.STRIPE_PK, null);
-    createPaymentIntent();
-    console.log('Payment mounted')
+    // stripe = window.Stripe(config.public.STRIPE_PK, null);
+    // createPaymentIntent();
 });
 
 async function createPaymentIntent() {
