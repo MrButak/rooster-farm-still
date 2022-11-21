@@ -14,6 +14,7 @@
     "sass-loader": "^10.3.1"
   },
   "dependencies": {
+    "@vuestic/nuxt": "^1.0.8",
     "pg": "^8.8.0",
     "sib-api-v3-sdk": "^8.4.2",
     "stripe": "^10.12.0",

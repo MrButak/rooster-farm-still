@@ -38,12 +38,12 @@ let stripe;
 let elements = {};
 
 onMounted(() => {
+    // Consider a try/catch here. That way if for some reason the Strip script is not loaded (user refreshed page) I could send them back to /shopping-cart
     // stripe = window.Stripe(config.public.STRIPE_PK, null);
     // createPaymentIntent();
 });
 
 async function createPaymentIntent() {
-
 
     // Create an Object to send as meta data to Stripe. After a successful payment, I use this to update the DB, and display/send an order conformation
     let purchasedItemsObj = {};

@@ -14,6 +14,17 @@ export default defineNuxtConfig({
             GOOGLE_MAPS_API: process.env.GOOGLE_MAPS_API,
         }
     },
+    modules: ['@vuestic/nuxt'],
+    vuestic: {
+        config: {
+            colors: {
+                variables: {
+                primary: '#B456C0',
+                custom: '#A35600',
+                }
+            },
+        }
+    },
     app: {
         pageTransition: false,
         layoutTransition: false,
