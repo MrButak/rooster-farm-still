@@ -42,6 +42,7 @@
 
 <script setup>
 
+import { onMounted } from 'vue';
 import { userShippingData, currentCheckoutStep,
         userProductsToShip, subTotal
 } from '../../services/stateStore';

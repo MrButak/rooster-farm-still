@@ -1,48 +1,83 @@
 <template>
 
 <Header />
-<OkPopupModal 
-    popup-message="Do you want to remove this item from your shopping cart?"
-    :remove-item-from-shopping-cart="removeItemFromShoppingCart"
+
+<!-- Remove item from cart modal -->
+<va-modal
+    v-model="showRemoveItemModal"
+    @ok="removeItemFromShoppingCart"
+    message="Remove item from cart?"
+    blur
 />
-<div class="center-wrapper">
-    <div v-if="allProducts.length && shoppingCartItems.length" class="shopping-cart-items-wrapper">
-    
-        <div v-for="product in shoppingCartItems" class="shopping-cart-item">
 
-            <h3>{{ product.name }}</h3>
-            <span class="quantity-wrapper">
+<div v-if="allProducts.length && shoppingCartItems.length" class="row row justify-center shopping-cart-products-wrapper">
+    <div class="flex md6 lg4">
+        <va-card>
+        <!-- Loop through each product -->
+        <span v-for="product in shoppingCartItems">
+            <va-card-content>
+                <h6 class="va-h6">{{ product.name }}</h6>
+            </va-card-content>
+            
+            <va-card-actions align="between">
                 <p>order quantity: {{ product.quantity }}</p>
-                <div class="quantity-counter-wrapper">
-                    <button class="quantity-button" @click="decrementCount(product)">-</button>
-                    <div class="quantity-number">{{ product.quantity }}</div>
-                    <button class="quantity-button" @click="incrementCount(product)">+</button>
-                </div>
-            </span>
-            <p>left in stock: {{ calculateProductQuantityInStock(product.id, product.quantity) }}</p>
-            <p>price: ${{ product.price * product.quantity }}</p>
-        </div>
+                <va-counter
+                    style="display: flex; flex-direction: row-reverse;"
+                    @click:decrease-button="decrementCount(product)"
+                    @click:increase-button="incrementCount(product)"
+                    v-model="product.quantity"
+                    :min="0"
+                    outline
+                    buttons
+                    :flat="false"
+                    margins="0"
+                    rounded
+                />
+            </va-card-actions>
 
-        <div class="subtotal-wrapper">
-            <h3>Subtotal</h3>
-            <h3>${{ calculateSubtotal() }}</h3>
-        </div>
-        <div class="checkout-button-wrapper">
-            <button @click="router.push('/checkout')">Checkout</button>
-        </div>
-        
-    </div>
-    <div class="no-items-wrapper" v-else>
-        <p>
-            There are currently no items in your shopping cart.
-            Check out our quality stills.
-        </p>
-        <div class="no-products-button-wrapper">
-            <button @click="router.push('/')">Products</button>
-        </div>
-        
+            <va-card-content>
+                <p>left in stock: {{ calculateProductQuantityInStock(product.id, product.quantity) }}</p>
+                <p>price: ${{ product.price * product.quantity }}</p>
+            </va-card-content>
+            
+            <div class="my-5">
+                <va-divider />
+            </div>
+        </span>
+
+        <va-card-actions align="between">
+            <h4 class="va-h4">Subtotal</h4>
+            <h4 class="va-h4">${{ calculateSubtotal() }}</h4>
+        </va-card-actions>
+
+        <va-card-actions align="between">
+            <p></p>
+            <va-button 
+                @click="router.push('/checkout')">
+                Checkout
+            </va-button>
+        </va-card-actions>
+
+
+        </va-card>
     </div>
 </div>
+
+<div class="flex column justify-center" v-else>
+    <p>
+        There are currently no items in your shopping cart.
+        Check out our quality stills.
+    </p>
+    <div class="no-products-button-wrapper">
+        <va-button 
+            @click="router.push('/')">
+            Products
+        </va-button>        
+    </div>
+    
+</div>
+
+
 
 </template>
 
@@ -50,6 +85,7 @@
 
 <script setup>
 
+import { onMounted } from 'vue';
 import { showOkPopupModal, thirdPartyScriptsLoaded } from '../services/stateStore';
 import { reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, 
     removeProductFromShoppingCart, increaseProductQuantityInShoppingCart
@@ -57,11 +93,15 @@ import { reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart,
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
 
 const router = useRouter();
+let showRemoveItemModal = ref(false);
 let shoppingCartItems = reactive([]); // LS
 let allProducts = reactive([]); // DB
 let selectedProductId = null;
 
-
+function testy(e) {
+    console.log(e)
+    console.log('firing')
+}
 
 onMounted(() => {
 
@@ -123,16 +163,17 @@ function loadItemsInShoppingCart() {
     });
 };
 
-function incrementCount(productLs) {
+function incrementCount(product) {
 
-    let productDbIndex = allProducts.findIndex(product => product.id == productLs.id);
-    if(allProducts[productDbIndex].quantity < productLs.quantity + 1) { return };
-
-    // Update regionField
-    productLs.quantity++;
+    let productDbIndex = allProducts.findIndex(product => product.id == product.id);
+    if(allProducts[productDbIndex].quantity < product.quantity) { 
+        // Count automatically increments/decrements when the counter buttons are clicked. So I must minus 1 here.
+        product.quantity--;
+        return 
+    };
     
     // Update LS
-    increaseProductQuantityInShoppingCart(productLs);
+    increaseProductQuantityInShoppingCart(product);
     getTotalItemCountInShoppingCart();
 };
 
@@ -143,17 +184,20 @@ function decrementCount(product) {
     // Keep track of product whos quantity was clicked
     selectedProductId = product.id;
 
-    if(product.quantity < 2) {
-        showOkPopupModal.value = true;
+    if(product.quantity < 1) {
+        showRemoveItemModal.value = !showRemoveItemModal.value
+        product.quantity++;
         return;
     };
-    product.quantity -= 1;
 
     reduceQuatityFromShoppingCart(product);
     getTotalItemCountInShoppingCart();
 };
 
-// props
+
+// *************************************************************
+// Function is called when the user clicks 'ok' to remove their item from the cart
+// *************************************************************
 function removeItemFromShoppingCart() {
 
     // Remove product from LS
@@ -171,118 +215,13 @@ function removeItemFromShoppingCart() {
 
 
 
-<style lang="scss" scoped>
+<style lang="scss">
 
-
-.no-items-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    max-width: 45rem;
-    padding: 10rem 20px 20px 10px;
-    text-align: center;
-    p {
-        font-weight: 600;
-    }
-    .no-products-button-wrapper {
-        display: flex;
-        justify-content: center;
-        button {
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: .2rem;
-            background-color: black;
-            color: white;
-            padding: .5rem .8rem;
-            border: 1px solid #b54514;
-            letter-spacing: .1rem;
-            font-weight: 600;
-        }
-    }
-    
-    
-}
-.center-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-.shopping-cart-items-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 45rem;
-    padding: 10px 20px 20px 10px;
-    .checkout-button-wrapper {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-        padding: 2rem 0 0 0;
-        button {
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: .2rem;
-            background-color: black;
-            color: white;
-            padding: .5rem .8rem;
-            border: 1px solid #b54514;
-            letter-spacing: .1rem;
-            font-weight: 600;
-        }
-    }
-    button {
-        background-color: black;
-        border: 1px solid #b54514;
-        color: white;
-        font-weight: 600;
-
-    }
-    .shopping-cart-item {
-        padding: .6rem 1rem;
-        border-bottom: 1px solid black;
-        .quantity-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .quantity-counter-wrapper {
-                display: flex;
-                .quantity-button {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 2rem;
-                    height: 2rem;
-                }
-                .quantity-number {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 2rem;
-                    height: 2rem;
-                    border-top: 1px solid #b54514;
-                    border-bottom: 1px solid #b54514;
-                }
-            }
-        }
-    }
-    .subtotal-wrapper {
-        display: flex;
-        justify-content: space-between;
-        padding: .6rem 1rem;
-    };
+.shopping-cart-products-wrapper {
+    margin: 2rem 0 0 0;
+    .va-input-wrapper__container {
+        width: 8rem;        
+    }  
 }
 
-
-@media (min-width: 900px) { 
-
-    .shopping-cart-items-wrapper {
-
-        padding: 5rem 0 0 0;
-    }
-}
 </style>

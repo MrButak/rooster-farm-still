@@ -9,7 +9,7 @@
 
 <script setup>
 
-import { ref, watchEffect, toRef } from 'vue';
+import { ref, watchEffect, toRef, onMounted } from 'vue';
 import { useColors } from 'vuestic-ui';
 import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager';
 
@@ -18,7 +18,7 @@ const { presets, applyPreset, colors } = useColors();
 let theme = ref(null);
 // When the window Object is available
 if(process.client) {
-    theme.value = window.localStorage.getItem('vuestic-docs-theme')?.toLowerCase() || 'light';    
+    theme.value = window.localStorage.getItem('vuestic-docs-theme')?.toLowerCase() || 'dark';    
 };
 watchEffect(() => {
     applyPreset(theme.value)
@@ -64,16 +64,16 @@ body {
     // Relavtive body + absolute footer with bottom: 0 == footer stays at the bottom
     position: relative;
     min-height: 100vh;
-    background-color: #FDFDFD;
+    // background-color: #FDFDFD;
     
     
 }
 
-* {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+// * {
+//     font-family: Arial, Helvetica, sans-serif;
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+// }
 
 </style>

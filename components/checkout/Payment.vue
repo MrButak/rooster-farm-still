@@ -30,6 +30,7 @@
 
 <script setup>
 
+import { onMounted } from 'vue';
 import { userShippingData, userProductsToShip, subTotal } from '../../services/stateStore';
 
 const config = useRuntimeConfig();

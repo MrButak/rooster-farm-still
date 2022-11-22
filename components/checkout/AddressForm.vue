@@ -50,6 +50,7 @@
 
 <script setup>
 
+import { onMounted } from 'vue';
 import { userShippingData, thirdPartyScriptsLoaded } from '../../services/stateStore';
 
 const router = useRouter();
