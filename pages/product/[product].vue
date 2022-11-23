@@ -4,20 +4,15 @@
         
 <div class="product-wrapper-main">
     <div v-if="productLoaded" class="product-wrapper va-spacing-y-4 va-spacing-x-4">
-
         <va-carousel :items="productSliderImages" :ratio="4/3" stateful indicators infinite swipable />
-
-        
             <div class="flex xl12">
             <va-card style="height:95.5%;">
                 <va-card-content>
                     <h4 class="va-h4">{{ productData[0].name }}</h4>
                     <text>{{ productData[0].description }}</text>
                     <text>Price: ${{ productData[0].price * quantitySelect }}</text>
-                
                 <div class="quantity-and-checkout-button-wrapper">
 
-                
                 <span v-if="productData[0].quantity > 0">
                     <va-counter 
                         class="quantity-counter mx-4 my-2"
@@ -40,14 +35,9 @@
                 </va-button>
                 </div>
                 </va-card-content>
-            
-
             </va-card>
             </div>
-        
-
     </div>
-
 </div>
 
 </template>

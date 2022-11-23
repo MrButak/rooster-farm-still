@@ -40,18 +40,21 @@ function determineCheckoutStep(direction) {
 
 <style lang="scss" scoped>
 
-// width: 100%;
-// padding: 0 1rem;
 .checkout-nav-buttons-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
+    margin: 2rem 0 0 0;
 };
 .checkout-nav-buttons-inner-wrapper {
     display: flex;
     justify-content: space-between;
     width: 100%;
     padding: 0 1rem;
+    .prev-next-button-wrapper {
+        display: flex;
+        gap: 1.2rem;
+    }
 };
 @media only screen and (min-width: 640px)  {
     .checkout-nav-buttons-inner-wrapper {

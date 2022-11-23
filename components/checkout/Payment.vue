@@ -13,7 +13,7 @@
         <div id="payment-message" class="hidden"></div>
     </form>
 </div> 
-
+<p style="text-align: center;">Site still in development</p>
 <!-- <p>Successful payment</p>
 <p>4242424242424242</p>
 <br />
@@ -30,7 +30,7 @@
 
 <script setup>
 
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { userShippingData, userProductsToShip, subTotal } from '../../services/stateStore';
 
 const config = useRuntimeConfig();
@@ -75,10 +75,9 @@ async function createPaymentIntent() {
     paymentElement.mount("#payment-element");
 };
 
-
-
 async function handleSubmitPayment() {
 
+    return;
     // turn loading spinner on
     setLoading(true);
     
@@ -105,9 +104,6 @@ async function handleSubmitPayment() {
     }
     setLoading(false);
 };
-
-
-
 
 // UI helper functions
 
@@ -137,12 +133,14 @@ function showMessage(messageText) {
     }, 8000);
 };
 
+
+let testCssVariable = computed(() => {
+    return 'green'
+})
 </script>
-
-
-
 <style lang="scss" scoped>
 
+// TODO: Add CSS variables for some of the form colors. In dark mode it is hard to see some elements. Make the color variable a computed property based on light/dark theme
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
@@ -158,10 +156,14 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding: 0 1rem;
 }
+
 form {
+
+    background-color: white;
     width: 100%;
-    max-width: 45rem;
+    // max-width: 45rem;
     padding: 10px 20px 20px 10px;
     align-self: center;
     box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
@@ -184,7 +186,7 @@ form {
 }
 /* Buttons and links */
 button {
-  background: #5469d4;
+  background: #ffd166; // vuestic colors.presets.light.primary
   font-family: Arial, sans-serif;
   color: #ffffff;
   border-radius: 4px;
@@ -273,11 +275,21 @@ button:disabled {
     transform: rotate(360deg);
   }
 }
-@media only screen and (max-width: 600px) {
-  form {
-    width: 80vw;
-    min-width: initial;
-  }
+// @media only screen and (max-width: 600px) {
+//   form {
+//     width: 80vw;
+//     min-width: initial;
+//   }
+// }
+@media only screen and (min-width: 640px)  {
+    #payment-form {
+        width: 80%;
+    }
 }
 
+@media only screen and (min-width: 1024px)  {
+    #payment-form {
+        width: 48rem;
+    }
+}
 </style>
