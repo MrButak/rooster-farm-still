@@ -1,44 +1,36 @@
 <template>
-
-<div class="order-summary-wrapper">
-   
-    <div v-if="productsLoaded" class="summary-wrapper">
-        <h3>Your Order</h3>
-
-        <table id="customers">
-            <tr v-for="product in userProductsToShip">
-                <td>
-                    {{ product.name }} x {{ product.quantity }}
-                </td>
-                <td>
-                    ${{ product.price * product.quantity }}
-                </td>
-            </tr>
-            
-            <tr>
-                <td><h4>Subtotal</h4></td>
-                <td><h4>${{ subTotal }}</h4></td>
-            </tr>
-            
+<div v-if="productsLoaded" class="va-table-responsive order-summary-wrapper">
+    <div class="order-summary-inner-wrapper">
+        <h4 class="va-h4">Your Order</h4>
+        <table class="va-table va-table--striped order-summary-table">
+            <tbody>
+                <tr v-for="product in userProductsToShip">
+                    <td>{{ product.name }} x {{ product.quantity }}</td>
+                    <td class="va-text-right">${{ product.price * product.quantity }}</td>
+                </tr>
+                <tr>
+                    <td><h6 class="va-h6">Subtotal</h6></td>
+                    <td class="va-text-right"><h6 class="va-h6">${{ subTotal }}</h6></td>
+                </tr>
+            </tbody>
         </table>
-
-        
-        <h3 class="shipping-information-header">Shipping Information</h3>
-        <div class="shipping-information-wrapper">
-            <p>{{ userShippingData.nameField }}</p>
-            <p>{{ userShippingData.addressField1 }}</p>
-            <p v-if="userShippingData.addressField2"> {{ userShippingData.addressField2 }}</p>
-            <p>{{ userShippingData.cityField }} {{ userShippingData.regionField }}, {{ userShippingData.postalField }}</p>
-            <p>{{ userShippingData.emailField }}</p>
+        <h4 class="va-h4">Shipping information</h4>
+        <div class="va-text-block shipping-information-wrapper">
+            <span>
+                {{ userShippingData.nameField }}<br />
+                {{ userShippingData.addressField1 }}<br />
+                <span v-if="userShippingData.addressField2"> 
+                    {{ userShippingData.addressField2 }}<br />
+                </span>
+                {{ userShippingData.cityField }} {{ userShippingData.regionField }}, {{ userShippingData.postalField }}<br />
+                {{ userShippingData.emailField }}<br />
+            </span>
         </div>
-
     </div>
-
 </div>
 
+
 </template>
-
-
 
 <script setup>
 
@@ -47,7 +39,6 @@ import { userShippingData, currentCheckoutStep,
         userProductsToShip, subTotal
 } from '../../services/stateStore';
 import { localStorageAvailable, getItemFromLs } from '../../services/lsManager';
-const router = useRouter();
 
 let productsLoaded = ref(false);
 
@@ -93,60 +84,38 @@ onMounted(() => {
 
 
 
-<style lang="scss" scoped>
-
+<style lang="scss">
 .order-summary-wrapper {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    width: 100%;
-
-    .summary-wrapper {
-        width: 100%;
-        max-width: 45rem;
-        padding: 10px 20px 20px 10px;
-    }
-    .shipping-information-header {
-        padding: 2rem 0 0 0;
-    }
-    .shipping-information-wrapper {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
-    h3 {
-        padding: 0 0 .4rem 0;
-    }
-    p {
-        padding: 2px;
-    }
-}
-
-#customers {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
+    align-items: center;
     width: 100%;
 }
-
-#customers td, #customers th {
-    border: 1px solid #ddd;
-    padding: 8px;
+.order-summary-inner-wrapper {
+    width: 100%;
+    padding: 0 1rem;
 }
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #04AA6D;
-    color: white;
-}
-
-@media (min-width: 1023px) {
-    .checkout-nav-button-wrapper {
-        padding: 10px 0 0 0;
+.order-summary-table {
+    width: 100%;
+    border: 1px solid;
+    tr {
+        border: 1px solid;
     }
 }
+.shipping-information-wrapper {
+    border: 1px solid;
+}
+
+@media only screen and (min-width: 640px)  {
+    .order-summary-inner-wrapper {
+        width: 80%;        
+    }
+}
+
+@media only screen and (min-width: 1024px)  {
+    .order-summary-inner-wrapper {
+        width: 50rem;        
+    }
+}
+
 </style>

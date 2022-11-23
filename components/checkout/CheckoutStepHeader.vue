@@ -6,6 +6,7 @@
             :checkout-step-number="step.number"
             :checkout-step-text="step.text"
             :step-color="step.stepColor"
+            :circle-background-color="step.circleBackgroundColor"
         />
     </span>
 </div>
@@ -16,23 +17,28 @@
 
 <script setup>
 
-import { currentCheckoutStep } from '../../services/stateStore';
-
+import { useColors } from 'vuestic-ui';
+import { currentCheckoutStep, colorTheme } from '../../services/stateStore';
+const { presets } = useColors();
+console.log(presets.value.light)
 let checkoutSteps = reactive({
     1: {
         number: '1',
         text: 'Shipping',
-        stepColor: computed(() => currentCheckoutStep.value == 1 ? 'blue' : 'gray')
+        stepColor: computed(() => currentCheckoutStep.value == 1 ? presets.value.light.primary : presets.value.light.secondary), // presets.value.light.secondary
+        circleBackgroundColor: computed(() => colorTheme.value == 'light' ? 'white' : 'black')
     },
     2: {
         number: '2',
         text: 'Summary',
-        stepColor: computed(() => currentCheckoutStep.value == 2 ? 'blue' : 'gray')
+        stepColor: computed(() => currentCheckoutStep.value == 2 ? presets.value.light.primary : presets.value.light.secondary),
+        circleBackgroundColor: computed(() => colorTheme.value == 'light' ? 'white' : 'black')
     },
     3: {
         number: '3',
         text: 'Payment',
-        stepColor: computed(() => currentCheckoutStep.value == 3 ? 'blue' : 'gray')
+        stepColor: computed(() => currentCheckoutStep.value == 3 ? presets.value.light.primary : presets.value.light.secondary),
+        circleBackgroundColor: computed(() => colorTheme.value == 'light' ? 'white' : 'black')
     },
 });
 

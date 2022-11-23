@@ -2,7 +2,7 @@
 
 <div class="checkout-step-wrapper">
     <div :style="{'border-color': stepColor}" class="checkout-step">
-        <div :style="{'border-color': stepColor}" class="checkout-step-circle">
+        <div :style="{'border-color': stepColor, 'background-color': circleBackgroundColor}" class="checkout-step-circle">
             <p :style="{'color': stepColor}">{{ checkoutStepNumber }}</p>
         </div>
     </div>
@@ -18,7 +18,8 @@
 defineProps({
     checkoutStepNumber: String,
     checkoutStepText: String,
-    stepColor: String
+    stepColor: String,
+    circleBackgroundColor: String
 });
 
 </script>
@@ -57,7 +58,6 @@ defineProps({
             border-radius: 50%;
             border-width: .2rem;
             border-style: solid;
-            background-color: white;
         }
     }
     p {

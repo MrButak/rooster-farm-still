@@ -20,7 +20,7 @@
             </va-card-content>
             
             <va-card-actions align="between">
-                <p>order quantity: {{ product.quantity }}</p>
+                <text>order quantity: {{ product.quantity }}</text>
                 <va-counter
                     style="display: flex; flex-direction: row-reverse;"
                     @click:decrease-button="decrementCount(product)"
@@ -36,8 +36,8 @@
             </va-card-actions>
 
             <va-card-content>
-                <p>left in stock: {{ calculateProductQuantityInStock(product.id, product.quantity) }}</p>
-                <p>price: ${{ product.price * product.quantity }}</p>
+                <text>left in stock: {{ calculateProductQuantityInStock(product.id, product.quantity) }}</text><br />
+                <text>price: ${{ product.price * product.quantity }}</text>
             </va-card-content>
             
             <div class="my-5">
@@ -46,8 +46,8 @@
         </span>
 
         <va-card-actions align="between">
-            <h4 class="va-h4">Subtotal</h4>
-            <h4 class="va-h4">${{ calculateSubtotal() }}</h4>
+            <h6 class="va-h6">Subtotal</h6>
+            <h6 class="va-h6">${{ calculateSubtotal() }}</h6>
         </va-card-actions>
 
         <va-card-actions align="between">
@@ -74,10 +74,7 @@
             Products
         </va-button>        
     </div>
-    
 </div>
-
-
 
 </template>
 
@@ -86,7 +83,7 @@
 <script setup>
 
 import { onMounted } from 'vue';
-import { showOkPopupModal, thirdPartyScriptsLoaded } from '../services/stateStore';
+import { thirdPartyScriptsLoaded } from '../services/stateStore';
 import { reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, 
     removeProductFromShoppingCart, increaseProductQuantityInShoppingCart
 } from '../services/shoppingCartManager';
@@ -97,11 +94,6 @@ let showRemoveItemModal = ref(false);
 let shoppingCartItems = reactive([]); // LS
 let allProducts = reactive([]); // DB
 let selectedProductId = null;
-
-function testy(e) {
-    console.log(e)
-    console.log('firing')
-}
 
 onMounted(() => {
 

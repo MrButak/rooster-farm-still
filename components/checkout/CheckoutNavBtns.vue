@@ -1,16 +1,15 @@
 <template>
 
-<div class="center-wrapper">
-    <div class="inner-wrapper">
-        <div class="checkout-nav-button-wrapper">
-            <button @click="currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</button>
-            <div class="prev-next-button-wrapper">
-                <button v-if="currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</button>
-                <button v-if="currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</button>
-            </div>
+<div class="checkout-nav-buttons-wrapper">
+    <div class="checkout-nav-buttons-inner-wrapper">
+        <va-button @click="currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</va-button>
+        <div class="prev-next-button-wrapper">
+            <va-button v-if="currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</va-button>
+            <va-button v-if="currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</va-button>
         </div>
     </div>
 </div>
+
 
 </template>
 
@@ -41,42 +40,28 @@ function determineCheckoutStep(direction) {
 
 <style lang="scss" scoped>
 
-.center-wrapper {
+// width: 100%;
+// padding: 0 1rem;
+.checkout-nav-buttons-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
-}
-.inner-wrapper {
-    width: 100%;
-    max-width: 45rem;
-    padding: 10px 20px 20px 10px;
-}
-.checkout-nav-button-wrapper {
+};
+.checkout-nav-buttons-inner-wrapper {
     display: flex;
     justify-content: space-between;
-    // padding: 10px 20px 20px 10px;
-
-    button {
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: .2rem;
-        background-color: #5469d4;
-        color: white;
-        padding: .5rem .8rem;
-        border: none;
-        letter-spacing: .1rem;
-        font-weight: 600;
-    }
-
-    .prev-next-button-wrapper {
-        display: flex;
-        gap: .6rem;
+    width: 100%;
+    padding: 0 1rem;
+};
+@media only screen and (min-width: 640px)  {
+    .checkout-nav-buttons-inner-wrapper {
+        width: 80%;        
     }
 }
 
-@media (min-width: 1023px) {
-
+@media only screen and (min-width: 1024px)  {
+    .checkout-nav-buttons-inner-wrapper {
+        width: 50rem;        
+    }
 }
 </style>

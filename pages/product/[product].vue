@@ -12,8 +12,8 @@
             <va-card style="height:95.5%;">
                 <va-card-content>
                     <h4 class="va-h4">{{ productData[0].name }}</h4>
-                    <p>{{ productData[0].description }}</p>
-                    <p>Price: ${{ productData[0].price * quantitySelect }}</p>
+                    <text>{{ productData[0].description }}</text>
+                    <text>Price: ${{ productData[0].price * quantitySelect }}</text>
                 
                 <div class="quantity-and-checkout-button-wrapper">
 
@@ -31,7 +31,7 @@
                         rounded
                     />
                 </span>
-                <p v-else>Sorry, we are sold out!</p>
+                <text v-else>Sorry, we are sold out!</text>
 
                 <va-button 
                     @click="handleAddToCart"
@@ -149,17 +149,17 @@ function handleAddToCart() {
     }  
 }
 
-// @media only screen and (min-width: 640px)  {
+@media only screen and (min-width: 640px)  {
     
         
-//         .product-wrapper {
-//             display: flex;
-//             width: 120rem;
+        .product-wrapper {
+            display: flex;
+            width: 120rem;
             
-//         }  
+        }  
  
 
-// }
+}
 
 </style>
     
