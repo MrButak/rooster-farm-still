@@ -1,8 +1,8 @@
 <template>
-    
+
 <NuxtPage />
 <Footer />
-<va-button-toggle v-model="theme" :options="themeOptions" class="ml-2" />
+<!-- <va-button-toggle v-model="theme" :options="themeOptions" class="ml-2" /> -->
 
 </template>
 
