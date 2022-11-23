@@ -18,10 +18,14 @@ export default defineNuxtConfig({
     vuestic: {
         config: {
             colors: {
-                variables: {
-                primary: '#B456C0',
-                custom: '#A35600',
-                }
+                primary: '#ffd166',
+                secondary: '#767C88',
+                success: '#66BE33',
+                info: '#3EAAF8',
+                danger: '#F3403',
+                warning: '#FFD952',
+                gray: '#babfc2',
+                dark: '#34495e',
             },
         }
     },

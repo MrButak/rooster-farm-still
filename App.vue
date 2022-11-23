@@ -1,7 +1,8 @@
 <template>
-
 <NuxtPage />
 <Footer />
+
+  
 <va-button-toggle v-model="theme" :options="themeOptions" class="ml-2" />
 </template>
 
@@ -11,49 +12,44 @@
 
 import { ref, watchEffect, toRef, onMounted } from 'vue';
 import { useColors } from 'vuestic-ui';
+import { getItemFromLs, localStorageAvailable, setItemInLs, isItemInLs } from './services/lsManager';
 import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager';
-
-// Vuestic color presets, light/dark mode, theme colors
 const { presets, applyPreset, colors } = useColors();
 let theme = ref(null);
+
+// Vuestic color presets, light/dark mode, theme colors
 // When the window Object is available
 if(process.client) {
-    theme.value = window.localStorage.getItem('vuestic-docs-theme')?.toLowerCase() || 'dark';    
+    // Default color theme is dark
+    theme.value = window.localStorage.getItem('vuestic-docs-theme')?.toLowerCase() || 'dark';
+    // If color theme is not yet in local storage, set it
+    if(localStorageAvailable && !isItemInLs('vuestic-docs-theme')) {
+        setItemInLs('vuestic-docs-theme', 'dark');
+    };
 };
+// When color theme is changed dark/light, update local storage
 watchEffect(() => {
+    if(localStorageAvailable) {
+        setItemInLs('vuestic-docs-theme', theme.value);
+    };
     applyPreset(theme.value)
 });
-const primaryColorVariants = ['#2c82e0', '#ef476f', '#ffd166', '#06d6a0', '#8338ec'];
-const primaryColor = toRef(colors, 'primary');
+
+
+
+// const primaryColorVariants = ['#2c82e0', '#ef476f', '#ffd166', '#06d6a0', '#8338ec'];
+// const primaryColor = toRef(colors, 'primary');
 let themeOptions = Object.keys(presets.value).map((themeName) => ({
     value: themeName,
     label: themeName
 }));
-
-
-// Look at LS and total up the items. Function determines the number in the shooping cart
+// presets.value.light.primary = '#ffd166'
+// Look at LS and total up the items. Function determines the number in the shopping cart
 onMounted(() => {
-    // initVuesticColorTheme();
     // Consider checking DB products price against LS and update LS if needed
     getTotalItemCountInShoppingCart();
 });
 
-
-
-
-
-    
-
-    // return {
-    //   theme,
-    //   themeOptions: Object.keys(presets.value).map((themeName) => ({
-    //     value: themeName,
-    //     label: themeName,
-    //   })),
-
-    //   primaryColor,
-    //   primaryColorVariants,
-    // }
 
 
 </script>
@@ -64,9 +60,6 @@ body {
     // Relavtive body + absolute footer with bottom: 0 == footer stays at the bottom
     position: relative;
     min-height: 100vh;
-    // background-color: #FDFDFD;
-    
-    
 }
 
 // * {

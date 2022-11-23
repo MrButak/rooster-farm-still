@@ -149,17 +149,17 @@ function handleAddToCart() {
     }  
 }
 
-@media only screen and (min-width: 640px)  {
+// @media only screen and (min-width: 640px)  {
     
         
-        .product-wrapper {
-            display: flex;
-            width: 120rem;
+//         .product-wrapper {
+//             display: flex;
+//             width: 120rem;
             
-        }  
+//         }  
  
 
-}
+// }
 
 </style>
     
