@@ -2,9 +2,11 @@ function localStorageAvailable() {
 
     let test = 'test';
     try {
-        localStorage.setItem(test, test);
-        localStorage.removeItem(test);
-        return true;
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(test, test);
+            localStorage.removeItem(test);
+            return true;
+        }
     } 
     catch(error) {
         console.log(error);
@@ -14,8 +16,13 @@ function localStorageAvailable() {
 
 function getItemFromLs(itemName) {
 
+    
     try {
-        return JSON.parse(localStorage.getItem(itemName));
+
+        if (typeof window !== 'undefined') {
+            return JSON.parse(localStorage.getItem(itemName));
+        }
+        
     }
     catch(error) {
         console.log(error);
@@ -26,8 +33,10 @@ function getItemFromLs(itemName) {
 function setItemInLs(itemName, item) {
 
     try {
-        localStorage.setItem(itemName, item);
-        return true;
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(itemName, item);
+            return true;
+        }
     }
     catch(error) {
         console.log(error);
@@ -38,7 +47,10 @@ function setItemInLs(itemName, item) {
 function isItemInLs(itemName) {
 
     try {
-        return localStorage.getItem(itemName);
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem(itemName);    
+        }
+        
     }
     catch(error) {
         return false;
