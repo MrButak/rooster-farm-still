@@ -57,8 +57,7 @@ import { ref } from 'vue';
 import titleText from  '/img/title.svg';
 import testLogo from  '/img/started-logo-1.svg';
 import { 
-    useUiStore,
-    // showFire 
+    useUiStore
 } from '../../services/stateStore.js';
 
 // Pinia store

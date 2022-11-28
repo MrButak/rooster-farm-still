@@ -47,8 +47,11 @@
 <script setup>
 
 import { onMounted, computed } from 'vue';
-import { addItemToShoppingCart, getTotalItemCountInShoppingCart } from '../../services/shoppingCartManager';
+import { useShoppingCartStore } from '~~/services/stateStore';
 import { getItemFromLs } from '../../services/lsManager';
+
+// Pinia store
+const shoppingCartStore = useShoppingCartStore();
 
 const productSliderImages = ['https://picsum.photos/1500',
   'https://picsum.photos/1501',
@@ -81,7 +84,6 @@ async function getProductFromDatabase() {
             query: { name: route.params.product.replaceAll('-', ' ') }
         });
 
-
     // Check to see if item already exists in shopping cart, and update quantity
     let shoppingCart = getItemFromLs('RVSshoppingCart');
     if(shoppingCart) {
@@ -106,13 +108,13 @@ function handleAddToCart() {
 
     // If not enough products in stock, return
     if(quantitySelect.value > productData[0].quantity) { return };
-    addItemToShoppingCart(productData[0], quantitySelect.value);
+    shoppingCartStore.addItemToShoppingCart(productData[0], quantitySelect.value);
 
     // Reduce the amount in stock on the Component variable
     productData[0].quantity -= quantitySelect.value;
 
     quantitySelect.value = 1;
-    getTotalItemCountInShoppingCart();
+    shoppingCartStore.getTotalItemCountInShoppingCart;
     // For the add to card button text
     isItemInCart.value = true;
 };

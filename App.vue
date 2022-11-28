@@ -13,20 +13,20 @@
 import { ref, watchEffect, toRef, onMounted } from 'vue';
 import { useColors } from 'vuestic-ui';
 import { localStorageAvailable, setItemInLs, isItemInLs } from './services/lsManager';
-import { getTotalItemCountInShoppingCart } from './services/shoppingCartManager';
 import { 
         // colorTheme,
-        useUiStore
+        useUiStore, useShoppingCartStore
 } from './services/stateStore';
 
 // Look at LS and total up the items. Function determines the number in the shopping cart
 onMounted(() => {
     // Consider checking DB products price against LS and update LS if needed
-    getTotalItemCountInShoppingCart();
+    shoppingCartStore.getTotalItemCountInShoppingCart;
 });
 
 // Pinia store
 const uiStore = useUiStore()
+const shoppingCartStore = useShoppingCartStore();
 
 // Vuestic color presets, light/dark mode, theme colors
 const { presets, applyPreset, colors } = useColors();

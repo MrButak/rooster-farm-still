@@ -2,7 +2,7 @@
 
 <Header />
 
-<!-- Remove item from cart modal -->
+<!-- Remove item from cart popup modal -->
 <va-modal
     v-model="showRemoveItemModal"
     @ok="removeItemFromShoppingCart"
@@ -85,24 +85,18 @@
 import { onMounted } from 'vue';
 
 import { 
-    // thirdPartyScriptsLoaded,
-    useUiStore
+    useUiStore, useShoppingCartStore
 } from '../services/stateStore';
-
-import { 
-    reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, 
-    removeProductFromShoppingCart, increaseProductQuantityInShoppingCart,
-
-} from '../services/shoppingCartManager';
 
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
 
 // Pinia store
 const uiStore = useUiStore();
+const shoppingCartStore = useShoppingCartStore();
 
 const router = useRouter();
 let showRemoveItemModal = ref(false);
-let shoppingCartItems = reactive([]); // Local Storage
+let shoppingCartItems = reactive([]); // products from Local Storage
 let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
@@ -116,7 +110,6 @@ onMounted(() => {
     loadItemsInShoppingCart();
 
     // I've having to set a Boolean to determine if these scripts have already been loaded and that they are only loaded once
-    // !thirdPartyScriptsLoaded.value
     if(!uiStore.thirdPartyScriptsLoaded) {
         useHead({
             script: [
@@ -154,7 +147,7 @@ function calculateSubtotal() {
     return subtotal;
 };
 
-// Function gets shopping cart from LS
+// Function gets shopping cart from LS and pushes them into a Component var
 function loadItemsInShoppingCart() {
 
     if(!localStorageAvailable) { return };
@@ -172,14 +165,15 @@ function incrementCount(product) {
 
     let productDbIndex = allProducts.findIndex(product => product.id == product.id);
     if(allProducts[productDbIndex].quantity < product.quantity) { 
+        // TODO: Vuestic Component has a @click:increase/decrease. Use that instead of this.
         // Count automatically increments/decrements when the counter buttons are clicked. So I must minus 1 here.
         product.quantity--;
         return 
     };
     
     // Update LS
-    increaseProductQuantityInShoppingCart(product);
-    getTotalItemCountInShoppingCart();
+    shoppingCartStore.increaseProductQuantityInShoppingCart(product);
+    shoppingCartStore.getTotalItemCountInShoppingCart;
 };
 
 function decrementCount(product) {
@@ -190,13 +184,14 @@ function decrementCount(product) {
     selectedProductId = product.id;
 
     if(product.quantity < 1) {
+        // If decreasing from 1, ask the user if they want to remove the item from their cart
         showRemoveItemModal.value = !showRemoveItemModal.value
         product.quantity++;
         return;
     };
 
-    reduceQuatityFromShoppingCart(product);
-    getTotalItemCountInShoppingCart();
+    shoppingCartStore.reduceQuatityFromShoppingCart(product);
+    shoppingCartStore.getTotalItemCountInShoppingCart;
 };
 
 
@@ -206,14 +201,16 @@ function decrementCount(product) {
 function removeItemFromShoppingCart() {
 
     // Remove product from LS
-    removeProductFromShoppingCart(selectedProductId);
-    getTotalItemCountInShoppingCart();
+    shoppingCartStore.removeProductFromShoppingCart(selectedProductId);
+    shoppingCartStore.getTotalItemCountInShoppingCart;
 
-    // Remove product from regionField
+    
+    // Load the updated shopping cart into the Component State
+    // loadItemsInShoppingCart();
+
     let productIndex = shoppingCartItems.findIndex(product => product.id == selectedProductId);
     shoppingCartItems.splice(productIndex, 1);
 
-    // showOkPopupModal.value = false;
 };
 
 </script>
