@@ -16,7 +16,6 @@ function localStorageAvailable() {
 
 function getItemFromLs(itemName) {
 
-    
     try {
 
         if (typeof window !== 'undefined') {

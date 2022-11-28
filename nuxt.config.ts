@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         STRIPE_SK: process.env.STRIPE_SK,
         STRIPE_WH_SK: process.env.STRIPE_WH_SK,
-        HEROKU_POSTGRESQL_GOLD_URL: process.env.DB_URL,
+        HEROKU_POSTGRESQL_GOLD_URL: process.env.HEROKU_POSTGRESQL_GOLD_URL,
         APP_ENVIRONMENT: process.env.APP_ENVIRONMENT,
         SEND_IN_BLUE_API: process.env.SEND_IN_BLUE_API,
         public: {
