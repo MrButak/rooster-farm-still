@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="productsLoaded" class="all-products-wrapper">
+    <div v-if="allProducts.length" class="all-products-wrapper">
 
         <div v-for="product in allProducts" class="flex md6 lg4">
             <va-card>
@@ -32,13 +32,11 @@
 import { onMounted } from 'vue';
 const router = useRouter();
 let allProducts = reactive([]);
-let productsLoaded = ref(false);
 
 onMounted(() => {
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
         productsDbData.forEach((product) => allProducts.push(product));
-        productsLoaded.value = true;
     })();
 });
 

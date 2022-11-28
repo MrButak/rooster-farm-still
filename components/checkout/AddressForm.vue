@@ -6,39 +6,39 @@
         <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
         <label class="full-field">
             <span class="form-label">Name for order<span class="required-marker"> *</span></span>
-            <input v-model="userShippingData.nameField" id="name" required="true" autocomplete="on" placeholder="Name">
+            <input v-model="orderStore.userShippingData.nameField" id="name" required="true" autocomplete="on" placeholder="Name">
         </label>
         <label class="full-field">
             <span class="form-label">Email<span class="required-marker"> *</span></span>
-            <input v-model="userShippingData.emailField" type="email" id="email" required="" autocomplete="on" placeholder="Email">
+            <input v-model="orderStore.userShippingData.emailField" type="email" id="email" required="" autocomplete="on" placeholder="Email">
         </label>
         <label class="full-field">
             <span class="form-label">Street Address<span class="required-marker"> *</span></span>
-            <input ref="addressField1" v-model="userShippingData.addressField1" id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
+            <input ref="addressField1" v-model="orderStore.userShippingData.addressField1" id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
         </label>
         <label class="full-field">
             <span class="form-label">Apartment, unit, suite, or floor #</span>
-            <input v-model="userShippingData.addressField2" id="address2" name="address2">
+            <input v-model="orderStore.userShippingData.addressField2" id="address2" name="address2">
         </label>
         <label class="full-field">
             <span class="form-label">City<span class="required-marker"> *</span></span>
-            <input v-model="userShippingData.cityField" id="cityField" name="cityField" required="">
+            <input v-model="orderStore.userShippingData.cityField" id="cityField" name="cityField" required="">
         </label>
         <label class="slim-field-left">
             <span class="form-label">State/Province<span class="required-marker"> *</span></span>
-            <input v-model="userShippingData.regionField" id="regionField" name="regionField" required="" >
+            <input v-model="orderStore.userShippingData.regionField" id="regionField" name="regionField" required="" >
         </label>
         <label class="slim-field-right" for="postal_code">
             <span class="form-label">Postal code<span class="required-marker"> *</span></span>
-            <input v-model="userShippingData.postalField" id="postcode" name="postcode" required="">
+            <input v-model="orderStore.userShippingData.postalField" id="postcode" name="postcode" required="">
         </label>
         <label class="full-field">
             <span class="form-label">Country<span class="required-marker"> *</span></span>
-            <input v-model="userShippingData.countryField" id="countryField" name="countryField" required="" >
+            <input v-model="orderStore.userShippingData.countryField" id="countryField" name="countryField" required="" >
         </label>
         <label class="full-field">
             <span class="form-label">Additional notes</span>
-            <input v-model="userShippingData.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
+            <input v-model="orderStore.userShippingData.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
         </label>
         <p>{{ errorMessage }}</p>
         
@@ -51,7 +51,14 @@
 <script setup>
 
 import { onMounted } from 'vue';
-import { userShippingData, thirdPartyScriptsLoaded } from '../../services/stateStore';
+import { 
+    useOrderStore, useUiStore,
+    // userShippingData, thirdPartyScriptsLoaded 
+} from '../../services/stateStore';
+
+// Pinia store
+const orderStore = useOrderStore();
+const uiStore = useUiStore();
 
 const router = useRouter();
 
@@ -61,7 +68,8 @@ let addressField1 = ref('');
 
 onMounted(() => {
     // If user refreshes page and Google places script is no longer in <head>
-    if(!thirdPartyScriptsLoaded.value) { router.push('/shopping-cart') }
+    // if(!thirdPartyScriptsLoaded.value) { router.push('/shopping-cart') }
+    if(!uiStore.thirdPartyScriptsLoaded) { router.push('/shopping-cart') }
     else { initAutocomplete() };
 });
     
@@ -111,19 +119,24 @@ function fillInAddress() {
                 break;
             }
             case 'locality':
-                userShippingData.cityField = component.long_name;
+                orderStore.userShippingData.cityField = component.long_name;
+                // userShippingData.cityField = component.long_name;
                 break;
             case 'administrative_area_level_1': {
-                userShippingData.regionField = component.short_name;
+                orderStore.userShippingData.regionField = component.short_name;
+                // userShippingData.regionField = component.short_name;
                 break;
             }
             case 'country':
-                userShippingData.countryField = component.long_name;
+                orderStore.userShippingData.countryField = component.long_name;
+                // userShippingData.countryField = component.long_name;
                 break;
         };
     };
-    userShippingData.addressField1 = address1;
-    userShippingData.postalField = postcode;
+    // userShippingData.addressField1 = address1;
+    // userShippingData.postalField = postcode;
+    orderStore.userShippingData.addressField1 = address1;
+    orderStore.userShippingData.postalField = postcode;
 
     // After filling the form with address components from the Autocomplete
     // prediction, set cursor focus on the second address line to encourage

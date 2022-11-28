@@ -33,9 +33,15 @@
 
 <script setup>
 
-import { thirdPartyScriptsLoaded } from '~~/services/stateStore';
+import { 
+    // thirdPartyScriptsLoaded,
+        useUiStore
+} from '~~/services/stateStore';
 const config = useRuntimeConfig();
 const router = useRouter();
+
+// Pinia store
+const uiStore = useUiStore();
 
 let paymentStatus = ref('');
 let statusMessage = ref('');
@@ -54,7 +60,8 @@ useHead({
 // Since I can not use window.onload to determine if the 3rd party script has already loaded
 // (because of the SSR) I can use process.client to determine if the page has fully loaded.
 if(process.client) {
-    thirdPartyScriptsLoaded.value = true;
+    // thirdPartyScriptsLoaded.value = true;
+    uiStore.thirdPartyScriptsLoaded = true;
     stripe = window.Stripe(config.public.STRIPE_PK, null);
     checkStatus();
 };

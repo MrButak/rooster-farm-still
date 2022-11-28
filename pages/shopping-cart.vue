@@ -83,16 +83,27 @@
 <script setup>
 
 import { onMounted } from 'vue';
-import { thirdPartyScriptsLoaded } from '../services/stateStore';
-import { reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, 
-    removeProductFromShoppingCart, increaseProductQuantityInShoppingCart
+
+import { 
+    // thirdPartyScriptsLoaded,
+    useUiStore
+} from '../services/stateStore';
+
+import { 
+    reduceQuatityFromShoppingCart, getTotalItemCountInShoppingCart, 
+    removeProductFromShoppingCart, increaseProductQuantityInShoppingCart,
+
 } from '../services/shoppingCartManager';
+
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
+
+// Pinia store
+const uiStore = useUiStore();
 
 const router = useRouter();
 let showRemoveItemModal = ref(false);
-let shoppingCartItems = reactive([]); // LS
-let allProducts = reactive([]); // DB
+let shoppingCartItems = reactive([]); // Local Storage
+let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
 onMounted(() => {
@@ -105,7 +116,8 @@ onMounted(() => {
     loadItemsInShoppingCart();
 
     // I've having to set a Boolean to determine if these scripts have already been loaded and that they are only loaded once
-    if(!thirdPartyScriptsLoaded.value) {
+    // !thirdPartyScriptsLoaded.value
+    if(!uiStore.thirdPartyScriptsLoaded) {
         useHead({
             script: [
                 {
@@ -120,7 +132,8 @@ onMounted(() => {
                 }
             ]
         });
-        thirdPartyScriptsLoaded.value = true;
+        // thirdPartyScriptsLoaded.value = true;
+        uiStore.thirdPartyScriptsLoaded = true;
     };
 });
 
@@ -200,7 +213,7 @@ function removeItemFromShoppingCart() {
     let productIndex = shoppingCartItems.findIndex(product => product.id == selectedProductId);
     shoppingCartItems.splice(productIndex, 1);
 
-    showOkPopupModal.value = false;
+    // showOkPopupModal.value = false;
 };
 
 </script>

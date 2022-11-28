@@ -12,7 +12,6 @@ function localStorageAvailable() {
     };
 };
 
-// Currently this function only handles getting JSON Objects from local storage, I should improve this function by allowing it to also get non JSON Objects (strings, numbers, booleans)
 function getItemFromLs(itemName) {
 
     try {

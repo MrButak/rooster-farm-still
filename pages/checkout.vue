@@ -4,15 +4,15 @@
 
     <CheckoutStepHeader />
 
-    <span v-if="currentCheckoutStep == 1">
+    <span v-if="orderStore.currentCheckoutStep == 1">
         <AddressForm />
     </span>
 
-    <span v-if="currentCheckoutStep == 2">
+    <span v-if="orderStore.currentCheckoutStep == 2">
         <OrderSummary />
     </span>
 
-    <span v-if="currentCheckoutStep == 3">
+    <span v-if="orderStore.currentCheckoutStep == 3">
         <Payment />
     </span>
 
@@ -26,10 +26,17 @@
 
 <script setup>
 
-import { currentCheckoutStep } from '../services/stateStore';
+import { 
+    useOrderStore,
+    // currentCheckoutStep
+ } from '../services/stateStore';
 import AddressForm from '~~/components/checkout/AddressForm.vue';
 import Payment from '~~/components/checkout/Payment.vue';
 import OrderSummary from '~~/components/checkout/OrderSummary.vue';
+
+
+// Pinia store
+const orderStore = useOrderStore();
 
 </script>
 

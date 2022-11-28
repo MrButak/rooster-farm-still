@@ -2,10 +2,10 @@
 
 <div class="checkout-nav-buttons-wrapper">
     <div class="checkout-nav-buttons-inner-wrapper">
-        <va-button @click="currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</va-button>
+        <va-button @click="orderStore.currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</va-button>
         <div class="prev-next-button-wrapper">
-            <va-button v-if="currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</va-button>
-            <va-button v-if="currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</va-button>
+            <va-button v-if="orderStore.currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</va-button>
+            <va-button v-if="orderStore.currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</va-button>
         </div>
     </div>
 </div>
@@ -16,21 +16,28 @@
 
 
 <script setup>
-import { currentCheckoutStep } from '../../services/stateStore';
+import { 
+    useOrderStore,
+    // currentCheckoutStep 
+} from '../../services/stateStore';
+
+// Pinia store
+const orderStore = useOrderStore();
+
 const router = useRouter();
 
 function determineCheckoutStep(direction) {
     
     switch(direction) {
         case 'prev':
-            currentCheckoutStep.value == 2 ?
-                currentCheckoutStep.value = 1 :
-                currentCheckoutStep.value = 2;
+                orderStore.currentCheckoutStep == 2 ?
+            orderStore.currentCheckoutStep = 1 :
+            orderStore.currentCheckoutStep = 2;
             return;
         default:
-            currentCheckoutStep.value == 1 ?
-                currentCheckoutStep.value = 2 :
-                currentCheckoutStep.value = 3;
+            orderStore.currentCheckoutStep == 1 ?
+                orderStore.currentCheckoutStep = 2 :
+                orderStore.currentCheckoutStep = 3;
     };
 };
 
