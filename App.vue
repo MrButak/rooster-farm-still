@@ -2,7 +2,7 @@
 
 <NuxtPage />
 <Footer />
-<!-- <va-button-toggle v-model="theme" :options="themeOptions" class="ml-2" /> -->
+<va-button-toggle v-model="theme" :options="themeOptions" class="ml-2" />
 
 </template>
 
@@ -21,7 +21,6 @@ let theme = ref(null);
 
 // Vuestic color presets, light/dark mode, theme colors
 // When the window Object is available
-
 if(process.client) {
 
     // Default color theme is dark. Assign State variable
