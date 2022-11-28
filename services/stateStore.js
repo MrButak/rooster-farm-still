@@ -1,6 +1,11 @@
 import { localStorageAvailable, getItemFromLs } from './lsManager';
 import { defineStore } from 'pinia';
 
+
+
+
+
+
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
     state: () => ({
