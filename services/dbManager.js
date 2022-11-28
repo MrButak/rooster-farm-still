@@ -5,13 +5,13 @@ dotenv.config();
 
 let pool = new Pool({});
 
-if(process.env.DEV_ENVIRONMENT == 'development') {
+if(process.env.APP_ENVIRONMENT == 'development') {
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: false
     });
 };
-if(process.env.DEV_ENVIRONMENT == 'production') {
+if(process.env.APP_ENVIRONMENT == 'production') {
 
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
