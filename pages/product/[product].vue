@@ -80,7 +80,7 @@ onMounted(() => {
 
 async function getProductFromDatabase() {
 
-    let productDbData = await $fetch(`${config.public.BASE_URL}api/get-product`, { 
+    let productDbData = await $fetch(`/api/get-product`, { 
             query: { name: route.params.product.replaceAll('-', ' ') }
         });
 
