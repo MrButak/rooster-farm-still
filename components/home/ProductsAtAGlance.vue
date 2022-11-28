@@ -32,10 +32,10 @@
 import { onMounted } from 'vue';
 const router = useRouter();
 let allProducts = reactive([]);
-
+const config = useRuntimeConfig();
 onMounted(() => {
     (async() => {
-        let productsDbData = await $fetch('/api/get-products');
+        let productsDbData = await $fetch(`${config.public.BASE_URL}/api/get-products`);
         productsDbData.forEach((product) => allProducts.push(product));
     })();
 });

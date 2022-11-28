@@ -63,7 +63,7 @@ async function createPaymentIntent() {
     });
 
     // Make a payment to Stripe and get the Stripe client secret
-    let clientSecret = await $fetch('/api/create-payment-intent', {
+    let clientSecret = await $fetch(`${config.public.BASE_URL}/api/create-payment-intent`, {
         method: 'POST',
         body: JSON.stringify({
             shipping: orderStore.userShippingData,

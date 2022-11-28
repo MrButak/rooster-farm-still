@@ -49,7 +49,7 @@
 import { onMounted, computed } from 'vue';
 import { useShoppingCartStore } from '~~/services/stateStore';
 import { getItemFromLs } from '../../services/lsManager';
-
+const config = useRuntimeConfig();
 // Pinia store
 const shoppingCartStore = useShoppingCartStore();
 
@@ -80,7 +80,7 @@ onMounted(() => {
 
 async function getProductFromDatabase() {
 
-    let productDbData = await $fetch('/api/get-product', { 
+    let productDbData = await $fetch(`${config.public.BASE_URL}/api/get-product`, { 
             query: { name: route.params.product.replaceAll('-', ' ') }
         });
 

@@ -28,7 +28,6 @@
 
 import { 
     useUiStore,    
-    // showFire 
 } from '../../services/stateStore.js';
 
 // Pinia store
