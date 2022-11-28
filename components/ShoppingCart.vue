@@ -2,7 +2,7 @@
 
 <span @click="router.push({path: '/shopping-cart'})" class="shopping-cart-wrapper">
     <img class="shopping-cart-icon" :src="shoppingCartIcon" />
-    <p v-if="shoppingCartStore.shoppingCartCount " class="shopping-cart-count">{{ shoppingCartStore.shoppingCartCount  }}</p>
+    <p v-if="shoppingCartStore.itemCountInShoppingCart" class="shopping-cart-count">{{ shoppingCartStore.itemCountInShoppingCart  }}</p>
 </span>
 
 </template>

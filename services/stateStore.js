@@ -4,15 +4,16 @@ import { defineStore } from 'pinia';
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
     state: () => ({
-
-        shoppingCartCountState: 0
+        itemCountInShoppingCart: 0
     }),
     actions: {
 
         addItemToShoppingCart(itemToPutInCart, quantitySelected) {
         
             if(!localStorageAvailable()) { return };
-        
+            
+            this.itemCountInShoppingCart += quantitySelected;
+
             let shoppingCart = getItemFromLs('RVSshoppingCart');
             
             // No shopping cart in LS, create one
@@ -45,6 +46,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
                 localStorage.setItem('RVSshoppingCart', JSON.stringify(shoppingCart));
                 return;
             };
+            
 
             // Item already in cart so increase quantity
             shoppingCart[itemIndex].quantity += quantitySelected;
@@ -55,6 +57,8 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
             if(!localStorageAvailable()) { return };
             let shoppingCart = getItemFromLs('RVSshoppingCart');
             if(!shoppingCart) { return };
+
+            this.itemCountInShoppingCart++;
             
             // Locate item in shopping cart and increase quantity
             let productIndexLs = shoppingCart.findIndex(productLs => productLs.id == product.id);
@@ -68,15 +72,17 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
             if(!localStorageAvailable()) { return };
             let shoppingCart = getItemFromLs('RVSshoppingCart');
             if(!shoppingCart) { return };
-        
+            
+            
             // Locate item in shopping cart
             let shoppingCartProductIndex = shoppingCart.findIndex(product => product.id == productToReduceInCart.id)
             if(shoppingCartProductIndex == -1) { return };
         
             // Set item's new quantity
             // TODO: Could I just decrement here?
-            shoppingCart[shoppingCartProductIndex].quantity = productToReduceInCart.quantity;
-        
+            shoppingCart[shoppingCartProductIndex].quantity = this.itemCountInShoppingCart =
+                productToReduceInCart.quantity;
+
             // Set back into LS
             localStorage.setItem('RVSshoppingCart', JSON.stringify(shoppingCart));
         },
@@ -91,32 +97,31 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
             if(shoppingCartProductIndex == -1) { return };
         
             // Remove item from shopping cart
+            this.itemCountInShoppingCart  -= shoppingCart[shoppingCartProductIndex].quantity;
             shoppingCart.splice(shoppingCartProductIndex, 1);
         
             // Set back into LS
             localStorage.setItem('RVSshoppingCart', JSON.stringify(shoppingCart));
         },
+        calculateTotalItemCountInShoppingCart() {
+
+            // If LS not available
+            if(!localStorageAvailable()) { return 0 };
+
+            let shoppingCart = getItemFromLs('RVSshoppingCart');
+            
+            // If no cart
+            if(!shoppingCart) { return 0 };
+        
+            // Sum total items in cart and update State
+            this.itemCountInShoppingCart  = shoppingCart.reduce((accumulator, obj) => {
+                return accumulator + obj.quantity
+            }, 0)
+        }
     },
     getters: {
 
-        getTotalItemCountInShoppingCart() {
-
-            // If LS not available
-            if(!localStorageAvailable()) { return };
-
-            let shoppingCart = getItemFromLs('RVSshoppingCart');
         
-            // If no cart
-            if(!shoppingCart) { return };
-        
-            // Sum total items in cart and update State
-            this.shoppingCartCountState = shoppingCart.reduce((accumulator, obj) => {
-                return accumulator + obj.quantity
-            }, 0)
-        },
-        shoppingCartCount() {
-            return this.shoppingCartCountState;
-        }
     }
 })
 

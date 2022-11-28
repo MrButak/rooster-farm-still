@@ -173,7 +173,7 @@ function incrementCount(product) {
     
     // Update LS
     shoppingCartStore.increaseProductQuantityInShoppingCart(product);
-    shoppingCartStore.getTotalItemCountInShoppingCart;
+    // shoppingCartStore.getTotalItemCountInShoppingCart;
 };
 
 function decrementCount(product) {
@@ -191,7 +191,7 @@ function decrementCount(product) {
     };
 
     shoppingCartStore.reduceQuatityFromShoppingCart(product);
-    shoppingCartStore.getTotalItemCountInShoppingCart;
+    // shoppingCartStore.getTotalItemCountInShoppingCart;
 };
 
 
@@ -202,7 +202,7 @@ function removeItemFromShoppingCart() {
 
     // Remove product from LS
     shoppingCartStore.removeProductFromShoppingCart(selectedProductId);
-    shoppingCartStore.getTotalItemCountInShoppingCart;
+    // shoppingCartStore.getTotalItemCountInShoppingCart;
 
     
     // Load the updated shopping cart into the Component State

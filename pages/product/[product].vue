@@ -114,7 +114,7 @@ function handleAddToCart() {
     productData[0].quantity -= quantitySelect.value;
 
     quantitySelect.value = 1;
-    shoppingCartStore.getTotalItemCountInShoppingCart;
+    // shoppingCartStore.getTotalItemCountInShoppingCart;
     // For the add to card button text
     isItemInCart.value = true;
 };
