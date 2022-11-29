@@ -104,27 +104,25 @@ function setRouteActive (route) {
 
 <style lang="scss">
 
-.child-item {
-    padding: 0 0 0 1rem;
-}
 .sidearea-wrapper {
-    // width: 20rem;
-    padding: 2rem;
+
     height: calc(100vh - 3.6rem);
     overflow: scroll;
+    background-color: white;
+    width: 16rem;
 }
 .sidebar-wrapper {
     height: 100%;
     border-radius: .6rem;
     overflow: scroll;
     border: 1px solid;
-    width: 14rem;
 }
 
 @media only screen and (max-width: 640px)  {
      
     .sidearea-wrapper {
         position: absolute;
+        background-color: none;
     }
 }
 </style>

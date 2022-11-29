@@ -7,6 +7,22 @@ CREATE TABLE products (
     image_url TEXT,
     category VARCHAR(255)
 );
+// in dev
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255), // Consider a Unique constraint here
+    short_description TEXT,
+    description TEXT,
+    price NUMERIC,
+    quantity INTEGER,
+    main_image_url TEXT,
+    image_urls TEXT ARRAY,
+    specifications JSON,
+    category VARCHAR(255)
+);
+
+
+
 CREATE TABLE purchases (
     id SERIAL PRIMARY KEY,
     order_id VARCHAR(255) NOT NULL,
@@ -25,11 +41,82 @@ CREATE TABLE purchases (
 INSERT INTO purchases (product_id, quantity, purchaser_email, purchase_date, subtotal_in_cents, currency, provider, stripe_cs)
     VALUES (2, 1, 'mspence5555@gmail.com', '2022/02/03', '30000', 'usd', 'stripe', 'dsfdsfsdfsdfsdf');
 
+
+
+INSERT INTO products
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    VALUES
+    ('6 Gallon Still',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    700, 
+    3,
+    'https://picsum.photos/1505',
+    ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
+    '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
+    'stills');
+
+INSERT INTO products
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    VALUES
+    ('6 Gallon Still',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    700, 
+    3,
+    'https://picsum.photos/1506',
+    ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
+    '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
+    'stills');
+
+INSERT INTO products
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    VALUES
+    ('6 Gallon Still Complete',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    700, 
+    3,
+    'https://picsum.photos/1507',
+    ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
+    '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
+    'stills');
+
+INSERT INTO products
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    VALUES
+    ('12 Gallon Still Complete',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    700, 
+    3,
+    'https://picsum.photos/1508',
+    ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
+    '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
+    'stills');
+
+INSERT INTO products
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    VALUES
+    ('Proofing Parrot',
+    'Lorem ipsum dolor sit amet, labore et dolore magna aliqua.',
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.',
+    700, 
+    3,
+    'https://picsum.photos/1509',
+    ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
+    '[{"material":"copper"},{"height":"12 inches"},{"connections":"1/2"}]',
+    'still accessories');
+
+
+
+
+
 INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
     ('6 Gallon Still', 
-    'Our 6 gallon stills are made of 20 gauge copper and will last you a life time. This is just the boiler, no coil or thumper.' ,
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     700, 
     3,
     '/img/product-images/5-gal.png', 
@@ -39,7 +126,7 @@ INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
     ('12 Gallon Still', 
-    'Our 12 gallon stills are made of 20 gauge copper and will last you a life time. This is just the boiler, no coil or thumper.' ,
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     1000, 
     3,
     '/img/product-images/10-gal.png', 
@@ -51,7 +138,7 @@ INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
     ('6 Gallon Still Complete', 
-    'This is a 6 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     1000, 
     3,
     '/img/product-images/5-gal.png', 
@@ -62,7 +149,7 @@ INSERT INTO products
     (name, description, price, quantity, image_url, category)
     VALUES
     ('12 Gallon Still Complete', 
-    'This is a 12 gallon still which comes complete with a coil holder and thumper. Everything you need to start distilling.' ,
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     1400, 
     3,
     '/img/product-images/10-gal.png', 

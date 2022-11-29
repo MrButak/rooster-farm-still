@@ -5,7 +5,7 @@
         <div v-for="product in allProducts" class="flex md6 lg4">
             <va-card>
                 <va-image
-                :src="product.image_url"
+                :src="product.main_image_url"
                 />
                 <va-card-content>
                     <h6>{{ product.name }}</h6>
