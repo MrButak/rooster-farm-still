@@ -15,7 +15,7 @@ import { useColors } from 'vuestic-ui';
 import { localStorageAvailable, setItemInLs, isItemInLs } from './services/lsManager';
 import { useUiStore, useShoppingCartStore } from './services/stateStore';
 
-Look at LS and total up the items. Function determines the number in the shopping cart
+// Look at LS and total up the items. Function determines the number in the shopping cart
 onMounted(() => {
     // Consider checking DB products price against LS and update LS if needed
     // Get the total items in user's shopping cart
