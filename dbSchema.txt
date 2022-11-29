@@ -9,7 +9,8 @@ CREATE TABLE products (
     image_urls TEXT ARRAY,
     specifications JSON,
     category VARCHAR(255),
-    // visible: Boolean
+    visible Boolean,
+    added_on_timestamp TIMESTAMP
 );
 CREATE TABLE purchases (
     id SERIAL PRIMARY KEY,
@@ -32,22 +33,24 @@ INSERT INTO purchases (product_id, quantity, purchaser_email, purchase_date, sub
 
 
 INSERT INTO products
-    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category, visible, added_on_timestamp)
     VALUES
     ('6 Gallon Still',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     700, 
-    3,
+    9,
     'https://picsum.photos/1505',
     ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
     '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
-    'stills');
+    'stills',
+    true,
+    '2022-11-28 08:00:00');
 
 INSERT INTO products
-    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category, visible, added_on_timestamp)
     VALUES
-    ('6 Gallon Still',
+    ('2 Gallon Still',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     700, 
@@ -55,10 +58,12 @@ INSERT INTO products
     'https://picsum.photos/1506',
     ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
     '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
-    'stills');
+    'stills',
+    true,
+    '2022-11-28 08:10:00');
 
 INSERT INTO products
-    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category, visible, added_on_timestamp)
     VALUES
     ('6 Gallon Still Complete',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
@@ -68,30 +73,36 @@ INSERT INTO products
     'https://picsum.photos/1507',
     ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
     '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
-    'stills');
+    'stills',
+    true,
+    '2022-11-27 13:50:10');
 
 INSERT INTO products
-    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category, visible, added_on_timestamp)
     VALUES
     ('12 Gallon Still Complete',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     700, 
-    3,
+    5,
     'https://picsum.photos/1508',
     ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
     '[{"size":"20 gallon"},{"body thicknes":"18oz"},{"burner thicknes":"20oz"}]',
-    'stills');
+    'stills',
+    true,
+    '2022-11-28 18:20:09');
 
 INSERT INTO products
-    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category)
+    (name, short_description, description, price, quantity, main_image_url, image_urls, specifications, category, visible, added_on_timestamp)
     VALUES
     ('Proofing Parrot',
     'Lorem ipsum dolor sit amet, labore et dolore magna aliqua.',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat.',
     700, 
-    3,
+    22,
     'https://picsum.photos/1509',
     ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
     '[{"material":"copper"},{"height":"12 inches"},{"connections":"1/2"}]',
-    'still accessories');
+    'still accessories',
+    true,
+    '2022-10-02 06:28:19');
