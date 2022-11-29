@@ -27,8 +27,7 @@
 <script setup>
 
 import { 
-    useOrderStore,
-    // currentCheckoutStep
+    useOrderStore
  } from '../services/stateStore';
 import AddressForm from '~~/components/checkout/AddressForm.vue';
 import Payment from '~~/components/checkout/Payment.vue';

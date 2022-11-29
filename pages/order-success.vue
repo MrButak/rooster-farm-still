@@ -34,7 +34,6 @@
 <script setup>
 
 import { 
-    // thirdPartyScriptsLoaded,
         useUiStore
 } from '~~/services/stateStore';
 const config = useRuntimeConfig();
