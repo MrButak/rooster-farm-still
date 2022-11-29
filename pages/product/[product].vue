@@ -72,11 +72,11 @@ let addToCartButtonText = computed(() => {
         'Add to cart'
 });
 
-// onMounted(() => {
+onMounted(() => {
     (async() => {
         await getProductFromDatabase();
     })();
-// });
+});
 
 async function getProductFromDatabase() {
 

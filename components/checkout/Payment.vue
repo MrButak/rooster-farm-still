@@ -44,11 +44,11 @@ const config = useRuntimeConfig();
 let stripe;
 let elements = {};
 
-// onMounted(() => {
+onMounted(() => {
     // Consider a try/catch here. That way if for some reason the Strip script is not loaded (user refreshed page) I could send them back to /shopping-cart
     // stripe = window.Stripe(config.public.STRIPE_PK, null);
     // createPaymentIntent();
-// });
+});
 
 async function createPaymentIntent() {
 
