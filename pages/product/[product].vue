@@ -147,10 +147,7 @@ function handleAddToCart() {
         .product-wrapper {
             display: flex;
             width: 120rem;
-            
-        }  
- 
-
+        }
 }
 
 </style>

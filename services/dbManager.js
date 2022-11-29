@@ -7,14 +7,14 @@ let pool = new Pool({});
 
 if(process.env.APP_ENVIRONMENT == 'development') {
     pool = new Pool({
-        connectionString: process.env.HEROKU_POSTGRESQL_GOLD_URL,
+        connectionString: process.env.DATABASE_URL,
         ssl: false
     });
 };
 if(process.env.APP_ENVIRONMENT == 'production') {
 
     pool = new Pool({
-        connectionString: process.env.HEROKU_POSTGRESQL_GOLD_URL,
+        connectionString: process.env.DATABASE_URL,
         ssl: {
                 required: true,
                 rejectUnauthorized: false
