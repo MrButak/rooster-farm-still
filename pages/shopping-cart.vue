@@ -84,9 +84,7 @@
 
 import { onMounted } from 'vue';
 
-import { 
-    useUiStore, useShoppingCartStore
-} from '../services/stateStore';
+import { useUiStore, useShoppingCartStore } from '../services/stateStore';
 
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
 
@@ -125,7 +123,6 @@ onMounted(() => {
                 }
             ]
         });
-        // thirdPartyScriptsLoaded.value = true;
         uiStore.thirdPartyScriptsLoaded = true;
     };
 });
@@ -173,7 +170,6 @@ function incrementCount(product) {
     
     // Update LS
     shoppingCartStore.increaseProductQuantityInShoppingCart(product);
-    // shoppingCartStore.getTotalItemCountInShoppingCart;
 };
 
 function decrementCount(product) {
@@ -191,7 +187,6 @@ function decrementCount(product) {
     };
 
     shoppingCartStore.reduceQuatityFromShoppingCart(product);
-    // shoppingCartStore.getTotalItemCountInShoppingCart;
 };
 
 
@@ -202,15 +197,8 @@ function removeItemFromShoppingCart() {
 
     // Remove product from LS
     shoppingCartStore.removeProductFromShoppingCart(selectedProductId);
-    // shoppingCartStore.getTotalItemCountInShoppingCart;
-
-    
-    // Load the updated shopping cart into the Component State
-    // loadItemsInShoppingCart();
-
     let productIndex = shoppingCartItems.findIndex(product => product.id == selectedProductId);
     shoppingCartItems.splice(productIndex, 1);
-
 };
 
 </script>

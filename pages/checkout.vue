@@ -26,13 +26,10 @@
 
 <script setup>
 
-import { 
-    useOrderStore
- } from '../services/stateStore';
+import { useOrderStore } from '../services/stateStore';
 import AddressForm from '~~/components/checkout/AddressForm.vue';
 import Payment from '~~/components/checkout/Payment.vue';
 import OrderSummary from '~~/components/checkout/OrderSummary.vue';
-
 
 // Pinia store
 const orderStore = useOrderStore();

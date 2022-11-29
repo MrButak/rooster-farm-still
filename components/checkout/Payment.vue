@@ -31,10 +31,7 @@
 <script setup>
 
 import { onMounted, computed } from 'vue';
-import { 
-        useOrderStore,
-        // userShippingData, userProductsToShip, subTotal 
-    } from '../../services/stateStore';
+import { useOrderStore } from '../../services/stateStore';
 
 // Pinia store
 const orderStore = useOrderStore();

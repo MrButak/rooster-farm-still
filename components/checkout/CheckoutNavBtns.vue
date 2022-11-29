@@ -16,10 +16,7 @@
 
 
 <script setup>
-import { 
-    useOrderStore,
-    // currentCheckoutStep 
-} from '../../services/stateStore';
+import { useOrderStore } from '../../services/stateStore';
 
 // Pinia store
 const orderStore = useOrderStore();

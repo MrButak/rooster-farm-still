@@ -1,6 +1,6 @@
 <template>
 
-<div class="home-page-wrapper">
+<div>
     <Header />
     <!-- <Hero /> -->
     <ProductsAtAGlance />
@@ -22,10 +22,6 @@ import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
 <style lang="scss" scoped>
 
 
-.home-page-wrapper {
-    
-    // background-color: #fce37325;
-}
 
 </style>
     

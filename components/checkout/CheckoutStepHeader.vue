@@ -18,10 +18,7 @@
 <script setup>
 
 import { useColors } from 'vuestic-ui';
-import { 
-    useOrderStore, useUiStore,
-    // currentCheckoutStep, colorTheme
- } from '../../services/stateStore';
+import { useOrderStore, useUiStore } from '../../services/stateStore';
 
 // Pinia store
 const orderStore = useOrderStore();

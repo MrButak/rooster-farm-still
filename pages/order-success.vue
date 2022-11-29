@@ -33,9 +33,7 @@
 
 <script setup>
 
-import { 
-        useUiStore
-} from '~~/services/stateStore';
+import { useUiStore } from '~~/services/stateStore';
 const config = useRuntimeConfig();
 const router = useRouter();
 

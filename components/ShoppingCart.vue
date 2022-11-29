@@ -11,9 +11,7 @@
 <script setup>
 
 import shoppingCartIcon from  '/img/shopping-cart.svg';
-import { 
-    useShoppingCartStore
-} from '../services/stateStore';
+import { useShoppingCartStore } from '../services/stateStore';
 
 // Pinia store
 const shoppingCartStore = useShoppingCartStore();

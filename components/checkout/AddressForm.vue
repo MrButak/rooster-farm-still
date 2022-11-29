@@ -66,12 +66,12 @@ let autocomplete = {};
 let errorMessage = ref('');
 let addressField1 = ref('');
 
-// onMounted(() => {
+onMounted(() => {
     // If user refreshes page and Google places script is no longer in <head>
     // if(!thirdPartyScriptsLoaded.value) { router.push('/shopping-cart') }
     if(!uiStore.thirdPartyScriptsLoaded) { router.push('/shopping-cart') }
     else { initAutocomplete() };
-// });
+});
     
 function initAutocomplete() {
 
@@ -120,21 +120,16 @@ function fillInAddress() {
             }
             case 'locality':
                 orderStore.userShippingData.cityField = component.long_name;
-                // userShippingData.cityField = component.long_name;
                 break;
             case 'administrative_area_level_1': {
                 orderStore.userShippingData.regionField = component.short_name;
-                // userShippingData.regionField = component.short_name;
                 break;
             }
             case 'country':
                 orderStore.userShippingData.countryField = component.long_name;
-                // userShippingData.countryField = component.long_name;
                 break;
         };
     };
-    // userShippingData.addressField1 = address1;
-    // userShippingData.postalField = postcode;
     orderStore.userShippingData.addressField1 = address1;
     orderStore.userShippingData.postalField = postcode;
 

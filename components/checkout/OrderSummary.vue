@@ -35,36 +35,13 @@
 <script setup>
 
 import { onMounted } from 'vue';
-import { 
-        useOrderStore,
-        // userShippingData, currentCheckoutStep,
-        // userProductsToShip, subTotal
-} from '../../services/stateStore';
+import { useOrderStore } from '../../services/stateStore';
 import { localStorageAvailable, getItemFromLs } from '../../services/lsManager';
 
 // Pinia store
 const orderStore = useOrderStore();
 
 let productsLoaded = ref(false);
-
-
-// If the user has made it this far, and no LS available send them to the home page
-let shoppingCart = getItemFromLs('RVSshoppingCart');
-if(!shoppingCart || !localStorageAvailable()) { 
-    orderStore.currentCheckoutStep = 1;
-};
-
-// If shipping information is not in State, send the user back to fill out that info. This would happen if they started the checkout process, but refreshed the page
-if(
-    !orderStore.userShippingData.nameField || !orderStore.userShippingData.emailField ||
-    !orderStore.userShippingData.addressField1 || !orderStore.userShippingData.cityField || 
-    !orderStore.userShippingData.regionField || !orderStore.userShippingData.postalField ||
-    !orderStore.userShippingData.countryField
-) 
-    { orderStore.currentCheckoutStep = 1 };
-    
-
-
 
     
 onMounted(() => {
@@ -85,9 +62,23 @@ onMounted(() => {
             };
         });
         productsLoaded.value = true;
-    })();
-    
+    })();    
 });
+
+// If the user has made it this far, and no LS available send them to the home page
+let shoppingCart = getItemFromLs('RVSshoppingCart');
+if(!shoppingCart || !localStorageAvailable()) { 
+    orderStore.currentCheckoutStep = 1;
+};
+
+// If shipping information is not in State, send the user back to fill out that info. This would happen if they started the checkout process, but refreshed the page
+if(
+    !orderStore.userShippingData.nameField || !orderStore.userShippingData.emailField ||
+    !orderStore.userShippingData.addressField1 || !orderStore.userShippingData.cityField || 
+    !orderStore.userShippingData.regionField || !orderStore.userShippingData.postalField ||
+    !orderStore.userShippingData.countryField
+) 
+    { orderStore.currentCheckoutStep = 1 };
 
 </script>
 
