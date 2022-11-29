@@ -31,7 +31,10 @@
 <script setup>
 
 import { onMounted, computed } from 'vue';
-import { userShippingData, userProductsToShip, subTotal } from '../../services/stateStore';
+import { useOrderStore } from '../../services/stateStore';
+
+// Pinia store
+const orderStore = useOrderStore();
 
 const config = useRuntimeConfig();
 
@@ -48,7 +51,7 @@ async function createPaymentIntent() {
 
     // Create an Object to send as meta data to Stripe. After a successful payment, I use this to update the DB, and display/send an order conformation
     let purchasedItemsObj = {};
-    userProductsToShip.forEach((product) => {
+    orderStore.userProductsToShip.forEach((product) => {
         purchasedItemsObj[product.id] = {
             'name': product.name,
             'price': product.price,
@@ -57,12 +60,12 @@ async function createPaymentIntent() {
     });
 
     // Make a payment to Stripe and get the Stripe client secret
-    let clientSecret = await $fetch('/api/create-payment-intent', {
+    let clientSecret = await $fetch(`/api/create-payment-intent`, {
         method: 'POST',
         body: JSON.stringify({
-            shipping: userShippingData,
+            shipping: orderStore.userShippingData,
             products: purchasedItemsObj,
-            subtotal: subTotal.value
+            subtotal: orderStore.subTotal
         })
     });
 
@@ -77,7 +80,7 @@ async function createPaymentIntent() {
 
 async function handleSubmitPayment() {
 
-    return;
+    return; // Toggle stripe payment
     // turn loading spinner on
     setLoading(true);
     

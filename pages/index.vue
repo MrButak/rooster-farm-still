@@ -1,6 +1,6 @@
 <template>
 
-<div class="home-page-wrapper">
+<div>
     <Header />
     <!-- <Hero /> -->
     <ProductsAtAGlance />
@@ -13,7 +13,7 @@
 <script setup>
 
 import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
-import Hero from '~~/components/home/Hero.vue';
+// import Hero from '~~/components/home/Hero.vue';
 
 </script>
 
@@ -22,10 +22,6 @@ import Hero from '~~/components/home/Hero.vue';
 <style lang="scss" scoped>
 
 
-.home-page-wrapper {
-    
-    // background-color: #fce37325;
-}
 
 </style>
     

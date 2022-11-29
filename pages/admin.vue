@@ -1,6 +1,5 @@
 <template>
 
-
 <AdminHeader />
 
 <span style="display: flex;">
@@ -22,7 +21,6 @@
     </span>
     
 </span>
-
 
 </template>
 

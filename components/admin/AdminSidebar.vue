@@ -1,6 +1,6 @@
 <template>
 
-<div v-if="sidebarShown" class="sidearea-wrapper">
+<div v-if="adminStore.sidebarShown" class="sidearea-wrapper">
 <va-accordion
     class="sidebar-wrapper"
     v-model="accordionValue" multiple
@@ -46,7 +46,12 @@
 
 <script setup>
 
-import { sidebarShown } from '../../services/stateStore';
+import { 
+    useAdminStore,
+    // sidebarShown 
+} from '../../services/stateStore';
+
+const adminStore = useAdminStore();
 
 let accordionValue = reactive([false, true]);
 let items = reactive([

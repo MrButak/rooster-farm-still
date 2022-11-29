@@ -7,7 +7,7 @@
 
     <img class="heading-text" :src="titleText" />
     
-    <input v-model="dropdown" @change="handleShowFlame($event)" type="checkbox" id="checkbox">
+    <input v-model="dropdown" @change="uiStore.showFire = !uiStore.showFire" type="checkbox" id="checkbox">
     <nav class="desktop">
         <ul class="ul-left">
             <li><nuxt-link :to="config.public.BASE_URL">Home</nuxt-link></li>
@@ -56,19 +56,15 @@
 import { ref } from 'vue';
 import titleText from  '/img/title.svg';
 import testLogo from  '/img/started-logo-1.svg';
-import { showFire } from '../../services/stateStore.js';
+import { useUiStore } from '../../services/stateStore.js';
+
+// Pinia store
+const uiStore = useUiStore();
 
 const config = useRuntimeConfig();
 const router = useRouter();
 
-let dropdown = ref(null);
-
-function handleShowFlame(event) {
-    
-    dropdown.value ?
-        showFire.value = true :
-        showFire.value = false; 
-};
+let dropdown = ref(false);
 
 </script>
 

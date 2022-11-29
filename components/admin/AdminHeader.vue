@@ -4,7 +4,7 @@
     <va-app-bar>
         <va-button 
             icon="menu" color="#fff" preset="plain" 
-            @click="sidebarShown = !sidebarShown"
+            @click="adminStore.sidebarShown = !adminStore.sidebarShown"
         />
         <va-spacer />
         <va-button color="#fff" preset="plain">Login</va-button>
@@ -15,6 +15,12 @@
 
 <script setup>
 
-import { sidebarShown } from '../../services/stateStore';
+import { 
+    useAdminStore
+    // sidebarShown 
+} from '../../services/stateStore';
+
+// Pinia store
+const adminStore = useAdminStore();
 
 </script>

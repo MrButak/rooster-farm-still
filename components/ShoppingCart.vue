@@ -2,7 +2,7 @@
 
 <span @click="router.push({path: '/shopping-cart'})" class="shopping-cart-wrapper">
     <img class="shopping-cart-icon" :src="shoppingCartIcon" />
-    <p v-if="shoppingCartCount" class="shopping-cart-count">{{ shoppingCartCount }}</p>
+    <p v-if="shoppingCartStore.itemCountInShoppingCart" class="shopping-cart-count">{{ shoppingCartStore.itemCountInShoppingCart  }}</p>
 </span>
 
 </template>
@@ -11,7 +11,11 @@
 <script setup>
 
 import shoppingCartIcon from  '/img/shopping-cart.svg';
-import { shoppingCartCount } from '../services/stateStore';
+import { useShoppingCartStore } from '../services/stateStore';
+
+// Pinia store
+const shoppingCartStore = useShoppingCartStore();
+
 const router = useRouter();
 
 </script>
