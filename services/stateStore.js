@@ -119,11 +119,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
             }, 0)
         }
     },
-    getters: {
-
-        
-    }
-})
+});
 
 export const useProductStore = defineStore('productStore', {
     state: () => ({
@@ -162,6 +158,45 @@ export const useUiStore = defineStore('uiStore', {
 export const useAdminStore = defineStore('adminStore', {
     state: () => ({
         // ui helpers
-        sidebarShown: false
-    })
+        sidebarShown: false,
+        activeRouteName: 'home',
+        sidebarItems: [
+            {
+                name: 'home',
+                displayName: 'Home',
+                icon: 'home'
+            },
+            {
+                name: 'sales',
+                displayName: 'Sales',
+                icon: 'paid'
+            },
+            {
+                name: 'products',
+                displayName: 'Products',
+                icon: 'inventory_2',
+                children: [
+                    {
+                        name: 'productsManage',
+                        displayName: 'Manage',
+                        icon: 'note_alt'
+                    },
+                    {
+                        name: 'productsAdd',
+                        displayName: 'Add',
+                        icon: 'add_circle'
+                    },
+                ],
+            }
+        ]
+    }),
+    actions: {
+        isRouteActive(route) {
+            return this.activeRouteName === route.name
+        },
+        setRouteActive(route) {
+            if (route.children) { return }
+            this.activeRouteName = route.name
+        }
+    }
 });

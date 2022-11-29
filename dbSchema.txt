@@ -1,16 +1,6 @@
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
-    description TEXT,
-    price NUMERIC,
-    quantity INTEGER,
-    image_url TEXT,
-    category VARCHAR(255)
-);
-// in dev
-CREATE TABLE products (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255), // Consider a Unique constraint here
+    name VARCHAR(255) UNIQUE,
     short_description TEXT,
     description TEXT,
     price NUMERIC,
@@ -18,11 +8,9 @@ CREATE TABLE products (
     main_image_url TEXT,
     image_urls TEXT ARRAY,
     specifications JSON,
-    category VARCHAR(255)
+    category VARCHAR(255),
+    // visible: Boolean
 );
-
-
-
 CREATE TABLE purchases (
     id SERIAL PRIMARY KEY,
     order_id VARCHAR(255) NOT NULL,
@@ -107,50 +95,3 @@ INSERT INTO products
     ARRAY ['https://picsum.photos/1501','https://picsum.photos/1502','https://picsum.photos/1503','https://picsum.photos/1504'],
     '[{"material":"copper"},{"height":"12 inches"},{"connections":"1/2"}]',
     'still accessories');
-
-
-
-
-
-INSERT INTO products
-    (name, description, price, quantity, image_url, category)
-    VALUES
-    ('6 Gallon Still', 
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    700, 
-    3,
-    '/img/product-images/5-gal.png', 
-    'stills');
-
-INSERT INTO products
-    (name, description, price, quantity, image_url, category)
-    VALUES
-    ('12 Gallon Still', 
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    1000, 
-    3,
-    '/img/product-images/10-gal.png', 
-    'stills');
-
-
-
-INSERT INTO products
-    (name, description, price, quantity, image_url, category)
-    VALUES
-    ('6 Gallon Still Complete', 
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    1000, 
-    3,
-    '/img/product-images/5-gal.png', 
-    'stills');
-
-
-INSERT INTO products
-    (name, description, price, quantity, image_url, category)
-    VALUES
-    ('12 Gallon Still Complete', 
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    1400, 
-    3,
-    '/img/product-images/10-gal.png', 
-    'stills');

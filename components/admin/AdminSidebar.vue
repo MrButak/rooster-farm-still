@@ -6,14 +6,14 @@
     v-model="accordionValue" multiple
     >
     <va-collapse
-        v-for="(route, idx) in items"
+        v-for="(route, idx) in adminStore.sidebarItems"
         :key="idx"
         :class="{ expanded: accordionValue[idx] && route.children }"
     >
     <template #header>
         <va-sidebar-item
-            :active="isRouteActive(route)"
-            @click="setRouteActive(route)"
+            :active="adminStore.isRouteActive(route)"
+            @click="adminStore.setRouteActive(route)"
         >
             <va-sidebar-item-content>
             <va-sidebar-item-title>
@@ -26,13 +26,15 @@
     </template>
     <va-sidebar-item
         v-for="(child, index) in route.children" :key="index"
-        :active="isRouteActive(child)"
-        @click="setRouteActive(child)"
+        :active="adminStore.isRouteActive(child)"
+        @click="adminStore.setRouteActive(child)"
     >
     <va-sidebar-item-content>
         <va-sidebar-item-title>
             <span class="child-item">
-                <va-icon :name="route.icon"></va-icon>
+                <va-icon 
+                :name="child.icon" >
+                </va-icon>
                 {{ child.displayName }}
             </span>
         </va-sidebar-item-title>
@@ -44,60 +46,16 @@
 
 </template>
 
+
+
 <script setup>
 
-import { 
-    useAdminStore,
-    // sidebarShown 
-} from '../../services/stateStore';
+import { useAdminStore } from '../../services/stateStore';
 
+// Pinia store
 const adminStore = useAdminStore();
 
 let accordionValue = reactive([false, true]);
-let items = reactive([
-    {
-        name: 'Home',
-        displayName: 'Home',
-        icon: 'home'
-    },
-    {
-        name: 'Docs',
-        displayName: 'Docs',
-        icon: 'home'
-    },
-    {
-        name: 'Components',
-        displayName: 'Components',
-        icon: 'home',
-        children: [
-            {
-                name: 'Button',
-                displayName: 'Button',
-                icon: 'home'
-            },
-            {
-                name: 'Input',
-                displayName: 'Input',
-                icon: 'home'
-            },
-        ],
-    }
-]);
-let activeRouteName = ref('Docs');
-function isRouteActive (route) {
-    return activeRouteName.value === route.name
-};
-function setRouteActive (route) {
-    if (route.children) { return }
-    activeRouteName.value = route.name
-};
-
-// let minimized = ref(false);
-// let enabled = ref(true);
-// let sidebarItems = [ 
-//         { title: 'Dashboard', icon: 'dashboard' },
-//         { title: 'Sidebar demo', icon: 'room', active: true },
-//         { title: 'Loop', icon: 'loop' }]
 
 </script>
 
@@ -108,7 +66,7 @@ function setRouteActive (route) {
 
     height: calc(100vh - 3.6rem);
     overflow: scroll;
-    background-color: white;
+    // background-color: white;
     width: 16rem;
 }
 .sidebar-wrapper {
@@ -122,7 +80,8 @@ function setRouteActive (route) {
      
     .sidearea-wrapper {
         position: absolute;
-        background-color: none;
+        // background-color: none;
     }
 }
+
 </style>

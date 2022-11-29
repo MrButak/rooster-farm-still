@@ -8,21 +8,34 @@
 
     <span class="admin-viewed-content-wrapper">
         <span class="admin-viewed-content-inner-wrapper">
-            <span class="admin-viewed-content-component-wrapper">
-                <AdminHelp />
+
+            <span v-if="adminStore.activeRouteName == 'home'" class="admin-viewed-content-component-wrapper">
+                <AdminHome />
             </span>
-            <span class="admin-viewed-content-component-wrapper">
-                <AdminHelp />
+            <span v-else-if="adminStore.activeRouteName == 'productsManage'" class="admin-viewed-content-component-wrapper">
+                <ProductsManage />
             </span>
-            <span class="admin-viewed-content-component-wrapper">
-                <AdminHelp />
-            </span>
+
         </span>
     </span>
     
 </span>
 
 </template>
+
+
+
+<script setup>
+
+import { useAdminStore } from '~~/services/stateStore';
+import ProductsManage from '~~/components/admin/products/productsManage/ProductsManage.vue';
+
+// Pinia store
+const adminStore = useAdminStore();
+
+</script>
+
+
 
 <style lang="scss" scoped>
 .admin-panel-wrapper {
@@ -41,6 +54,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.8rem;
+    width: 100%;
     height: 100%;
     border-radius: .6rem;
 }

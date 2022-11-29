@@ -1,0 +1,13 @@
+Admin Panel
+
+Products view
+
+admin should be able to view all products listed and filter by:
+1. visible
+2. quantity
+
+Should be able to :
+1. Edit
+2. Create
+
+
