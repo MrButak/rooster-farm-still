@@ -7,7 +7,6 @@ CREATE TABLE products (
     image_url TEXT,
     category VARCHAR(255)
 );
-
 CREATE TABLE purchases (
     id SERIAL PRIMARY KEY,
     order_id VARCHAR(255) NOT NULL,
