@@ -100,7 +100,7 @@ let shoppingCartItems = reactive([]); // products from Local Storage
 let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
-onMounted(() => {
+// onMounted(() => {
 
     // Get products from DB so we know how many is in stock and the prices have not been tampered with in LS
     (async() => {
@@ -128,7 +128,7 @@ onMounted(() => {
         // thirdPartyScriptsLoaded.value = true;
         uiStore.thirdPartyScriptsLoaded = true;
     };
-});
+// });
 
 // Function calculates the quantity available in stock
 function calculateProductQuantityInStock(productId, productQuantity) {

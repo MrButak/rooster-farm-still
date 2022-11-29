@@ -14,8 +14,8 @@ export default defineNuxtConfig({
             GOOGLE_MAPS_API: process.env.GOOGLE_MAPS_API,
         }
     },
-    // buildModules: ['@pinia/nuxt'],
-    modules: ['@vuestic/nuxt', '@pinia/nuxt'],
+    buildModules: ['@pinia/nuxt'],
+    modules: ['@vuestic/nuxt'],
     vuestic: {
         config: {
             colors: {

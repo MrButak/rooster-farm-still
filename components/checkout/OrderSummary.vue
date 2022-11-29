@@ -67,7 +67,7 @@ if(
 
 
     
-onMounted(() => {
+// onMounted(() => {
     
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
@@ -87,7 +87,7 @@ onMounted(() => {
         productsLoaded.value = true;
     })();
     
-});
+// });
 
 </script>
 

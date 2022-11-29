@@ -66,12 +66,12 @@ let autocomplete = {};
 let errorMessage = ref('');
 let addressField1 = ref('');
 
-onMounted(() => {
+// onMounted(() => {
     // If user refreshes page and Google places script is no longer in <head>
     // if(!thirdPartyScriptsLoaded.value) { router.push('/shopping-cart') }
     if(!uiStore.thirdPartyScriptsLoaded) { router.push('/shopping-cart') }
     else { initAutocomplete() };
-});
+// });
     
 function initAutocomplete() {
 

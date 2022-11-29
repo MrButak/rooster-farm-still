@@ -13,7 +13,7 @@
 <script setup>
 
 import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
-import Hero from '~~/components/home/Hero.vue';
+// import Hero from '~~/components/home/Hero.vue';
 
 </script>
 
