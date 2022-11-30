@@ -14,6 +14,7 @@
       icon="home"
       striped
     >
+
     <template #header(edit)="{ label }">
         <!-- <va-chip size="small">{{ label }}</va-chip> -->
     </template>
@@ -23,6 +24,21 @@
             size="small" 
             name="edit" 
             @click="initiateConfirmProductEdit(value)"
+            />
+    </template>
+
+    <template #header(images)="{ label }">
+        <!-- <va-chip size="small">{{ label }}</va-chip> -->
+        {{ label }}
+    </template>
+
+    <template #cell(images)="{ value }">
+        {{ totalImageCount(value) }}
+        <va-icon 
+            size="small" 
+            name="visibility" 
+            @click="handleShowProductImages(value)"
+            
             />
     </template>
 
@@ -37,7 +53,10 @@
     </va-alert> -->
 
     <!-- Confirm edit popup modal -->
-    <va-modal v-model="showConfirmEdit" :confirmEditModalMessage="confirmEditModalMessage" title="Edit?" />
+    <va-modal 
+        v-model="showConfirmEdit" :message="confirmEditModalMessage" title="Edit?" 
+        @ok="testy"    
+    />
 
 </template>
 
@@ -48,13 +67,31 @@
 const input = ref('');
 let allProducts = reactive([]);
 
-let showConfirmEdit = ref(false);
-let confirmEditModalMessage = ref('');
+function totalImageCount(productId) {
 
-function initiateConfirmProductEdit(dbId) {
-    showConfirmEdit.value = !showConfirmEdit.value;
-    let selectedProductIndex = allProducts.findIndex(product => product.id == dbId);
+    let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
     let selectedProduct = allProducts[selectedProductIndex];
+    return selectedProduct.image_urls.length + 1;
+
+};
+
+function handleShowProductImages(productId) {
+    console.log('show images here');;
+};
+
+function testy() {
+    console.log('Ok buddy row')
+}
+
+let showConfirmEdit = ref(false);
+let confirmEditModalMessage = ref('')
+
+function initiateConfirmProductEdit(productId) {
+    showConfirmEdit.value = !showConfirmEdit.value;
+    let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
+    let selectedProduct = allProducts[selectedProductIndex];
+    confirmEditModalMessage.value =
+        `Are you sure you want to edit ${selectedProduct.name} ?`
     console.log(selectedProduct);
 }
 
@@ -63,8 +100,9 @@ const columns = [
     { key: 'visible', sortable: true },
     { key: 'name', sortable: true },
     { key: 'quantity', sortable: true },
-    { key: 'added_on_timestamp', sortable: true },
     { key: 'price', sortable: true },
+    { key: 'id', name: 'images', label: 'images' }, // passing the DB id here. When @click
+    { key: 'added_on_timestamp', sortable: true },
     // { key: 'address.zipcode', label: 'Zipcode' },
 ]
 
