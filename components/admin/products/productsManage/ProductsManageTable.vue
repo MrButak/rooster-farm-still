@@ -1,69 +1,74 @@
 <template>
-
-<va-data-table
-    striped
-    :items="allProducts"
-    :columns="columns"
-    :hoverable="true"
-    
-
-    
-/>
-<!-- v-model:sort-by="sortBy" -->
-<!-- v-model:sorting-order="sortingOrder" -->
-<!-- @sorted="
-    sortedRowsEmitted = $event.items.map(row => row.id),
-    sortingOrderEmitted = $event.sortingOrder,
-    sortByEmitted = sortBy
-    " -->
-</template>
+    <div class="row">
+      <va-input
+        class="flex mb-2 md6 xs12"
+        placeholder="Filter..."
+        v-model="input"
+      />
+    </div>
+  
+    <va-data-table
+      :items="allProducts"
+      :columns="columns"
+      :filter="input"
+      icon="home"
+      striped
+    >
+    <template #header(edit)="{ label }">
+        <!-- <va-chip size="small">{{ label }}</va-chip> -->
+    </template>
+    <template #cell(edit)="{ value }">
+        <va-icon 
+            size="small" 
+            name="edit" 
+            @click="testy(value)"
+            />
+    </template>
+    </va-data-table>
+    <!-- @filtered="filteredCount = $event.allProducts.length"   -->
+    <!-- <va-alert class="mt-3" color="info" outline>
+      <span>
+        Number of filtered items:
+        <va-chip>{{ filteredCount }}</va-chip>
+      </span>
+    </va-alert> -->
+  </template>
 
 
 
 <script setup>
 
 
+function testy(dbId) {
+    console.log(dbId);
+}
+
+const columns = [
+    { key: 'id', name: 'edit', label: 'edit' }, // passing the DB id here. When @click
+    { key: 'visible', sortable: true },
+    { key: 'name', sortable: true },
+    { key: 'quantity', sortable: true },
+    { key: 'added_on_timestamp', sortable: true },
+    { key: 'price', sortable: true },
+    // { key: 'address.zipcode', label: 'Zipcode' },
+]
+
+const input = ref('');
 let allProducts = reactive([]);
 
 (async() => {
     let productsDbData = await $fetch(`/api/get-products`);
+    productsDbData.forEach((product) => {
+        product.added_on_timestamp = new Date(product.added_on_timestamp).toLocaleString()
+
+    });
+
+    // console.log(productsDbData)
     Object.assign(allProducts, productsDbData);
     
 })();
 
 
-
-const columns = reactive([
-    // { key: 'id', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'visible', sortable: true },
-    { key: 'name', name: 'name', sortable: true,  sortingOptions: ['desc', 'asc']},
-    { key: 'quantity', name: 'quantity', sortable: true, sortingOptions: ['desc', 'asc'] },
-    { key: 'price', sortable: true },
-    { key: 'added_on_timestamp', label: 'added on', sortable: true, sortingOptions: ['desc', 'asc'] },
-    // { key: 'address.city', name: 'city', label: 'Quantity', sortable: true },
-    // { key: 'phone' },
-]);
-
-    
-function sortByOptions () {
-    return columns
-    .map(({ name, key, sortable }) => sortable && (name || key))
-    .filter(Boolean)
-};
-
-
-{/* <va-alert class="mt-3" color="info" outline>
-    <span v-if="sortingOrder">
-    Sorted items order (showing id):
-    <va-chip v-show="!!sortedRowsEmitted.length">{{ sortedRowsEmitted.join(' --> ') }}</va-chip>
-    <va-chip v-show="!!sortingOrderEmitted">{{ sortingOrderEmitted }}</va-chip>
-    <va-chip v-show="!!sortByEmitted">{{ sortByEmitted }}</va-chip>
-    </span>
-    <span v-else>
-    Unsorted items order (showing id):
-    <va-chip v-show="!!sortedRowsEmitted.length">{{ sortedRowsEmitted.join(', ') }}</va-chip>
-    </span>
-</va-alert> */}
 
 </script>
 
