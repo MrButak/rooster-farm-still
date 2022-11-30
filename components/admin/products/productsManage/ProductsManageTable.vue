@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+<div class="row">
       <va-input
         class="flex mb-2 md6 xs12"
         placeholder="Filter..."
@@ -7,7 +7,7 @@
       />
     </div>
   
-    <va-data-table
+    <va-data-table v-if="allProducts.length"
       :items="allProducts"
       :columns="columns"
       :filter="input"
@@ -17,14 +17,17 @@
     <template #header(edit)="{ label }">
         <!-- <va-chip size="small">{{ label }}</va-chip> -->
     </template>
+    <!-- DB id is value -->
     <template #cell(edit)="{ value }">
         <va-icon 
             size="small" 
             name="edit" 
-            @click="testy(value)"
+            @click="initiateConfirmProductEdit(value)"
             />
     </template>
+
     </va-data-table>
+
     <!-- @filtered="filteredCount = $event.allProducts.length"   -->
     <!-- <va-alert class="mt-3" color="info" outline>
       <span>
@@ -32,15 +35,27 @@
         <va-chip>{{ filteredCount }}</va-chip>
       </span>
     </va-alert> -->
-  </template>
+
+    <!-- Confirm edit popup modal -->
+    <va-modal v-model="showConfirmEdit" :confirmEditModalMessage="confirmEditModalMessage" title="Edit?" />
+
+</template>
 
 
 
 <script setup>
 
+const input = ref('');
+let allProducts = reactive([]);
 
-function testy(dbId) {
-    console.log(dbId);
+let showConfirmEdit = ref(false);
+let confirmEditModalMessage = ref('');
+
+function initiateConfirmProductEdit(dbId) {
+    showConfirmEdit.value = !showConfirmEdit.value;
+    let selectedProductIndex = allProducts.findIndex(product => product.id == dbId);
+    let selectedProduct = allProducts[selectedProductIndex];
+    console.log(selectedProduct);
 }
 
 const columns = [
@@ -53,20 +68,37 @@ const columns = [
     // { key: 'address.zipcode', label: 'Zipcode' },
 ]
 
-const input = ref('');
-let allProducts = reactive([]);
+onMounted(() => {
 
-(async() => {
+    (async() => {
+        await loadProductsIntoMemory();
+    })();
+
+});
+
+async function loadProductsIntoMemory() {
     let productsDbData = await $fetch(`/api/get-products`);
     productsDbData.forEach((product) => {
-        product.added_on_timestamp = new Date(product.added_on_timestamp).toLocaleString()
+        product.added_on_timestamp = new Date(product.added_on_timestamp).toLocaleString();
 
     });
 
     // console.log(productsDbData)
     Object.assign(allProducts, productsDbData);
+};
+
+// (async() => {
+//     let productsDbData = await $fetch(`/api/get-products`);
+//     productsDbData.forEach((product) => {
+//         console.log(product)
+//         product.added_on_timestamp = new Date(product.added_on_timestamp).toLocaleString();
+
+//     });
+
+//     // console.log(productsDbData)
+//     Object.assign(allProducts, productsDbData);
     
-})();
+// })();
 
 
 
