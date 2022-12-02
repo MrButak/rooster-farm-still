@@ -51,8 +51,8 @@ watchEffect(() => {
     applyPreset(theme.value)
 });
 
-// const primaryColorVariants = ['#2c82e0', '#ef476f', '#ffd166', '#06d6a0', '#8338ec'];
-// const primaryColor = toRef(colors, 'primary');
+const primaryColorVariants = ['#2c82e0', '#ef476f', '#ffd166', '#06d6a0', '#8338ec'];
+const primaryColor = toRef(colors, 'primary');
 let themeOptions = Object.keys(presets.value).map((themeName) => ({
     value: themeName,
     label: themeName
