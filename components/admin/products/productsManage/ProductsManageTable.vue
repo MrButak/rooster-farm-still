@@ -23,7 +23,7 @@
         <va-icon 
             size="small" 
             name="edit" 
-            @click="initiateConfirmProductEdit(value)"
+            @click="selectedProductId = value; adminStore.initiateConfirmProductEdit(value, allProducts)"
             />
     </template>
 
@@ -54,8 +54,8 @@
 
     <!-- Confirm edit popup modal -->
     <va-modal 
-        v-model="showConfirmEdit" :message="confirmEditModalMessage" title="Edit?" 
-        @ok="testy"    
+        v-model="adminStore.showConfirmEditModal" :message="adminStore.confirmEditModalMessage" title="Edit?" 
+        @ok="adminStore.handleGotoEditProductView(selectedProductId, allProducts)"    
     />
 
 </template>
@@ -64,36 +64,25 @@
 
 <script setup>
 
+import { useAdminStore } from '~~/services/stateStore';
+const adminStore = useAdminStore();
+
+// When a user clicks the edit product icon, this will store the id.
+let selectedProductId = ref(0);
+
 const input = ref('');
 let allProducts = reactive([]);
 
 function totalImageCount(productId) {
-
     let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
     let selectedProduct = allProducts[selectedProductIndex];
     return selectedProduct.image_urls.length + 1;
-
 };
 
 function handleShowProductImages(productId) {
     console.log('show images here');;
 };
 
-function testy() {
-    console.log('Ok buddy row')
-}
-
-let showConfirmEdit = ref(false);
-let confirmEditModalMessage = ref('')
-
-function initiateConfirmProductEdit(productId) {
-    showConfirmEdit.value = !showConfirmEdit.value;
-    let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
-    let selectedProduct = allProducts[selectedProductIndex];
-    confirmEditModalMessage.value =
-        `Are you sure you want to edit ${selectedProduct.name} ?`
-    console.log(selectedProduct);
-}
 
 const columns = [
     { key: 'id', name: 'edit', label: 'edit' }, // passing the DB id here. When @click
@@ -124,21 +113,6 @@ async function loadProductsIntoMemory() {
     // console.log(productsDbData)
     Object.assign(allProducts, productsDbData);
 };
-
-// (async() => {
-//     let productsDbData = await $fetch(`/api/get-products`);
-//     productsDbData.forEach((product) => {
-//         console.log(product)
-//         product.added_on_timestamp = new Date(product.added_on_timestamp).toLocaleString();
-
-//     });
-
-//     // console.log(productsDbData)
-//     Object.assign(allProducts, productsDbData);
-    
-// })();
-
-
 
 </script>
 

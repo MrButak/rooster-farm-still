@@ -79,6 +79,7 @@ let accordionValue = reactive([false, true]);
 @media only screen and (max-width: 640px)  {
      
     .sidearea-wrapper {
+        z-index: 2;
         position: absolute;
         // background-color: none;
     }
