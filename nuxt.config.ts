@@ -22,11 +22,10 @@ export default defineNuxtConfig({
                 presets: {
                     light: {
                         primary: '#ffd166',
-                        secondary: '#767C88',
+                        
                     },
                     dark: {
-                        primary: '#ffd166',
-                        secondary: '#767C88'
+                        
                     }
                 }
             },
