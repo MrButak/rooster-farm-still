@@ -36,7 +36,11 @@
 <ProductsEditSpecs />
 
 <div class="flex justify-between gap-28 w-full">
-    <va-button>Cancel</va-button>
+    <va-button
+        color="secondary"
+    >
+        Cancel
+    </va-button>
     <va-button>Save</va-button>
 </div>
 
