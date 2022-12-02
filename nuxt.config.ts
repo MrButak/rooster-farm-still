@@ -22,6 +22,22 @@ export default defineNuxtConfig({
                 presets: {
                     light: {
                         primary: '#ffd166',
+
+                        secondary: '#767C88',
+                        success: '#3D9209',
+                        info: '#158DE3',
+                        danger: '#E42222',
+                        warning: '#FFD43A',
+                        backgroundPrimary: '#FFFFFF',
+                        backgroundSecondary: '#FFFFFF',
+                        backgroundElement: '#EBF1F4',
+                        backgroundBorder: '#DEE5F2',
+                        textPrimary: '#262824',
+                        textInverted: '#FFFFFF',
+                        shadow: 'rgba(0, 0, 0, 0.12)',
+                        focus: '#FFFF00',
+                        backgroundLanding: '#f4f9fc',
+                        backgroundLandingBorder: 'rgba(155, 179, 206, 0.8)'
                         
                     },
                     dark: {
