@@ -29,12 +29,17 @@ const shoppingCartStore = useShoppingCartStore();
 // Vuestic color presets, light/dark mode, theme colors
 const { presets, applyPreset, colors, useTheme } = useColors();
 let theme = ref(null);
-applyPreset('dark')
-onMounted(() => {
-    applyPreset('light')
-    applyPreset('dark')
-})
+applyPreset('light')
+
 console.log(presets.value)
+// useHead({
+//     bodyAttrs: {
+//         style: {
+//             backgroundColor: 'red'
+//         }
+//     }
+// })
+
 // When the window Object is available
 if(process.client) {
     // applyPreset('dark')
@@ -62,7 +67,8 @@ if(process.client) {
 //     value: themeName,
 //     label: themeName
 // }));
-
+let red = 'red'
+let bla = red
 </script>
 
 <style lang="scss">
@@ -71,10 +77,13 @@ body {
     // Relavtive body + absolute footer with bottom: 0 == footer stays at the bottom
     position: relative;
     min-height: 100vh;
-
-
     
     
 }
-
+:root {
+    --va-background-primary: red;
+}
+html {
+    --va-background-primary: red;
+}
 </style>

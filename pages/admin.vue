@@ -39,9 +39,9 @@ import ProductsManage from '~~/components/admin/products/productsManage/Products
 
 import ProductsEdit from '~~/components/admin/products/productsManage/productsEdit/ProductsEdit.vue';
 
-import { useColors } from 'vuestic-ui';
-const { presets, applyPreset, colors, useTheme } = useColors();
-applyPreset('dark')
+// import { useColors } from 'vuestic-ui';
+// const { presets, applyPreset, colors, useTheme } = useColors();
+// applyPreset('dark')
 
 // Pinia store
 const adminStore = useAdminStore();
