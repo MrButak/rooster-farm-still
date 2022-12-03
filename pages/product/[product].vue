@@ -82,9 +82,13 @@ import { ref, onMounted, computed } from 'vue';
 import { useShoppingCartStore } from '~~/services/stateStore';
 import { getItemFromLs } from '../../services/lsManager';
 
+import { useColors } from 'vuestic-ui';
+const { presets, applyPreset, colors, useTheme } = useColors();
+applyPreset('dark')
+
+
+
 let productDetailsTabs = ref(0);
-
-
 // Pinia store
 const shoppingCartStore = useShoppingCartStore();
 
@@ -151,6 +155,10 @@ function handleAddToCart() {
 
     
 <style lang="scss">
+
+
+
+
 
 .product-wrapper-main {
     display: flex;
