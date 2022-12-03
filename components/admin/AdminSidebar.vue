@@ -50,7 +50,17 @@
 
 <script setup>
 
+
 import { useAdminStore } from '../../services/stateStore';
+import { getItemFromLs } from '../../services/lsManager';
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
+onMounted(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
 
 // Pinia store
 const adminStore = useAdminStore();
