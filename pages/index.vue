@@ -2,7 +2,6 @@
 
 <div>
     <Header />
-    <!-- <Hero /> -->
     <ProductsAtAGlance />
 </div>
     
@@ -13,7 +12,10 @@
 <script setup>
 
 import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
-// import Hero from '~~/components/home/Hero.vue';
+
+import { useColors } from 'vuestic-ui';
+const { presets, applyPreset, colors, useTheme } = useColors();
+applyPreset('dark')
 
 </script>
 
