@@ -38,6 +38,7 @@ import { onMounted } from 'vue';
 import { useAdminStore } from '~~/services/stateStore';
 import ProductsManage from '~~/components/admin/products/productsManage/ProductsManage.vue';
 import ProductsEdit from '~~/components/admin/products/productsManage/productsEdit/ProductsEdit.vue';
+import { getItemFromLs } from '~~/services/lsManager';
 
 import { useColors } from 'vuestic-ui';
 const { applyPreset } = useColors();
