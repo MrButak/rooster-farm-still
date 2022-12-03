@@ -5,10 +5,10 @@
         <div v-for="product in allProducts" class="flex md6 lg4">
             <va-card>
                 <!-- <nuxt-img format="webp" src="/nuxt-icon.png" /> -->
-                <va-image
+                <!-- <va-image
                 format="webp"
                 :src="product.main_image_url"
-                />
+                /> -->
                 <va-card-content>
                     <h6>{{ product.name }}</h6>
                 </va-card-content>
