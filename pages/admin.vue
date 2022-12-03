@@ -42,8 +42,11 @@ import ProductsEdit from '~~/components/admin/products/productsManage/productsEd
 import { useColors } from 'vuestic-ui';
 const { applyPreset } = useColors();
 nextTick(() => {
-    applyPreset(getItemFromLs('vuestic-docs-theme'))
-})
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
+onMounted(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
 
 // Pinia store
 const adminStore = useAdminStore();
