@@ -45,9 +45,6 @@ const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'));
 });
-onMounted(() => {
-    applyPreset(getItemFromLs('vuestic-docs-theme'));
-});
 
 // Pinia store
 const adminStore = useAdminStore();
