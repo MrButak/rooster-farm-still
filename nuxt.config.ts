@@ -89,4 +89,9 @@ export default defineNuxtConfig({
     nitro: {
         compressPublicAssets: true,
     },
+    optimization: {
+        splitChunks: {
+            maxSize: 300000
+        }
+    }
 });
