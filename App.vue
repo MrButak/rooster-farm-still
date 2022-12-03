@@ -12,7 +12,7 @@
     <div class="va-text-center">
         <va-icon
         size="24px"
-        :name="colorThemeValue ? 'dark_mode' : 'light_mode'"
+        :name="themeSwitchIcon"
         />
     </div>
     </template>
@@ -35,7 +35,7 @@ onMounted(() => {
     // Get the total items in user's shopping cart
     shoppingCartStore.calculateTotalItemCountInShoppingCart();
 });
-
+let themeSwitchIcon = computed(() => { return colorThemeValue ? 'dark_mode' : 'light_mode'})
 
 // Pinia store
 const uiStore = useUiStore()
