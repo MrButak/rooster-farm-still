@@ -34,14 +34,16 @@
 
 <script setup>
 
+import { onMounted } from 'vue';
 import { useAdminStore } from '~~/services/stateStore';
 import ProductsManage from '~~/components/admin/products/productsManage/ProductsManage.vue';
-
 import ProductsEdit from '~~/components/admin/products/productsManage/productsEdit/ProductsEdit.vue';
 
-// import { useColors } from 'vuestic-ui';
-// const { presets, applyPreset, colors, useTheme } = useColors();
-// applyPreset('dark')
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'))
+})
 
 // Pinia store
 const adminStore = useAdminStore();

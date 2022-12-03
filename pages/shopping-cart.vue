@@ -83,10 +83,14 @@
 <script setup>
 
 import { onMounted } from 'vue';
-
 import { useUiStore, useShoppingCartStore } from '../services/stateStore';
-
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
+
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
 
 // Pinia store
 const uiStore = useUiStore();
@@ -98,8 +102,9 @@ let shoppingCartItems = reactive([]); // products from Local Storage
 let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
-onMounted(() => {
 
+onMounted(() => {
+    
     // Get products from DB so we know how many is in stock and the prices have not been tampered with in LS
     (async() => {
         let productsDbData = await $fetch('/api/get-products');

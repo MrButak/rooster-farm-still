@@ -26,11 +26,8 @@
 
 import { ref, watchEffect, toRef, onMounted } from 'vue';
 import { useColors } from 'vuestic-ui';
-import { localStorageAvailable, setItemInLs, isItemInLs } from './services/lsManager';
+import { localStorageAvailable, setItemInLs, isItemInLs, getItemFromLs } from './services/lsManager';
 import { useUiStore, useShoppingCartStore } from './services/stateStore';
-
-let colorThemeValue = ref(false)
-
 
 // Look at LS and total up the items. Function determines the number in the shopping cart
 onMounted(() => {
@@ -39,55 +36,49 @@ onMounted(() => {
     shoppingCartStore.calculateTotalItemCountInShoppingCart();
 });
 
+
 // Pinia store
 const uiStore = useUiStore()
 const shoppingCartStore = useShoppingCartStore();
 
 // Vuestic color presets, light/dark mode, theme colors
-const { presets, applyPreset, colors, useTheme } = useColors();
-let theme = ref(null);
+const { applyPreset } = useColors();
+let theme = ref(getItemFromLs('vuestic-docs-theme'));
+let colorThemeValue = ref(theme.value == 'dark');
+let themeSet = false;
+
+// If color theme is not yet in local storage, set it
+if(localStorageAvailable && !isItemInLs('vuestic-docs-theme')) {
+    setItemInLs('vuestic-docs-theme', 'light');
+    uiStore.colorTheme = 'light';
+};
 
 watchEffect(() => {
     changeColorTheme(colorThemeValue.value)
 })
+
 function changeColorTheme() {
-    if(theme.value == 'light') {
-        theme.value = 'dark';
+    // themeSet is initially set to false. If not the theme will change/unchange on app load
+    if(themeSet) {
+
+        theme.value =
+            theme.value == 'light' ?
+                theme.value = 'dark' :
+                theme.value = 'light';
+        // if(theme.value == 'light') {
+        // theme.value = 'dark';
+        // }
+        // else {
+        //     theme.value = 'light'; 
+        // }
     }
-    else {
-        theme.value = 'light'; 
-    }
+    themeSet = true;
+    // If theme color is not in LS, the initial value will be null
+    if(!theme.value) { theme.value = 'light' }
+
+    setItemInLs('vuestic-docs-theme', theme.value);
     applyPreset(theme.value); 
 };
-
-// When the window Object is available
-if(process.client) {
-    // applyPreset('dark')
-    // Default color theme is dark
-    uiStore.colorTheme = theme.value = window.localStorage.getItem('vuestic-docs-theme')?.toLowerCase() || 'light';
-    
-    // If color theme is not yet in local storage, set it
-    if(localStorageAvailable && !isItemInLs('vuestic-docs-theme')) {
-        setItemInLs('vuestic-docs-theme', 'light');
-        uiStore.colorTheme = 'light';
-    };
-};
-// When color theme is changed dark/light, update local storage
-// watchEffect(() => {
-//     if(localStorageAvailable) {
-//         setItemInLs('vuestic-docs-theme', theme.value);
-//         uiStore.colorTheme = theme.value;
-//     };
-//     applyPreset(theme.value)
-// });
-
-
-// const primaryColorVariants = ['#2c82e0', '#ef476f', '#ffd166', '#06d6a0', '#8338ec'];
-// const primaryColor = toRef(colors, 'primary');
-let themeOptions = Object.keys(presets.value).map((themeName) => ({
-    value: themeName,
-    label: themeName
-}));
 
 </script>
 

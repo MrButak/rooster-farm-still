@@ -34,6 +34,13 @@
 <script setup>
 
 import { useUiStore } from '~~/services/stateStore';
+
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
+
 const config = useRuntimeConfig();
 const router = useRouter();
 
