@@ -47,7 +47,7 @@ export default defineNuxtConfig({
                         info: '#3EAAF8',
                         danger: '#F34030',
                         warning: '#FFD952',
-                        // backgroundPrimary: '#050A10',
+                        backgroundPrimary: '#050A10',
                         backgroundSecondary: '#1F262F',
                         backgroundElement: '#131A22',
                         backgroundBorder: '#3D4C58',

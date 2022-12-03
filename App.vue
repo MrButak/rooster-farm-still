@@ -2,7 +2,21 @@
 
 <NuxtPage />
 <Footer />
-<va-button-toggle v-model="theme" :options="themeOptions" class="ml-2" />
+<va-switch
+    v-model="colorThemeValue"
+    color="#5123a1"
+    off-color="#ffd300"
+    style="--va-switch-checker-background-color: #252723;"
+>
+    <template #innerLabel>
+    <div class="va-text-center">
+        <va-icon
+        size="24px"
+        :name="colorThemeValue ? 'dark_mode' : 'light_mode'"
+        />
+    </div>
+    </template>
+</va-switch>
 
 </template>
 
@@ -14,6 +28,9 @@ import { ref, watchEffect, toRef, onMounted } from 'vue';
 import { useColors } from 'vuestic-ui';
 import { localStorageAvailable, setItemInLs, isItemInLs } from './services/lsManager';
 import { useUiStore, useShoppingCartStore } from './services/stateStore';
+
+let colorThemeValue = ref(false)
+
 
 // Look at LS and total up the items. Function determines the number in the shopping cart
 onMounted(() => {
@@ -29,29 +46,41 @@ const shoppingCartStore = useShoppingCartStore();
 // Vuestic color presets, light/dark mode, theme colors
 const { presets, applyPreset, colors, useTheme } = useColors();
 let theme = ref(null);
-// applyPreset('light')
 
+watchEffect(() => {
+    changeColorTheme(colorThemeValue.value)
+})
+function changeColorTheme() {
+    if(theme.value == 'light') {
+        theme.value = 'dark';
+    }
+    else {
+        theme.value = 'light'; 
+    }
+    applyPreset(theme.value); 
+};
 
 // When the window Object is available
 if(process.client) {
     // applyPreset('dark')
     // Default color theme is dark
-    uiStore.colorTheme = theme.value = window.localStorage.getItem('vuestic-docs-theme')?.toLowerCase() || 'dark';
+    uiStore.colorTheme = theme.value = window.localStorage.getItem('vuestic-docs-theme')?.toLowerCase() || 'light';
     
     // If color theme is not yet in local storage, set it
     if(localStorageAvailable && !isItemInLs('vuestic-docs-theme')) {
-        setItemInLs('vuestic-docs-theme', 'dark');
-        uiStore.colorTheme = 'dark';
+        setItemInLs('vuestic-docs-theme', 'light');
+        uiStore.colorTheme = 'light';
     };
 };
 // When color theme is changed dark/light, update local storage
-watchEffect(() => {
-    if(localStorageAvailable) {
-        setItemInLs('vuestic-docs-theme', theme.value);
-        uiStore.colorTheme = theme.value;
-    };
-    applyPreset(theme.value)
-});
+// watchEffect(() => {
+//     if(localStorageAvailable) {
+//         setItemInLs('vuestic-docs-theme', theme.value);
+//         uiStore.colorTheme = theme.value;
+//     };
+//     applyPreset(theme.value)
+// });
+
 
 // const primaryColorVariants = ['#2c82e0', '#ef476f', '#ffd166', '#06d6a0', '#8338ec'];
 // const primaryColor = toRef(colors, 'primary');
@@ -59,8 +88,7 @@ let themeOptions = Object.keys(presets.value).map((themeName) => ({
     value: themeName,
     label: themeName
 }));
-let red = 'red'
-let bla = red
+
 </script>
 
 <style lang="scss">
@@ -69,13 +97,6 @@ body {
     // Relavtive body + absolute footer with bottom: 0 == footer stays at the bottom
     position: relative;
     min-height: 100vh;
-    
-    
 }
-:root {
-    --va-background-primary: red;
-}
-html {
-    --va-background-primary: red;
-}
+
 </style>
