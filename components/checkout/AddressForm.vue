@@ -115,7 +115,7 @@ const router = useRouter();
 
 let autocomplete = {};
 let errorMessage = ref('');
-let addressField1 = ref('');
+let addressField1 = ref(null);
 
 onMounted(() => {
     // If user refreshes page and Google places script is no longer in <head>
@@ -125,9 +125,8 @@ onMounted(() => {
 });
     
 function initAutocomplete() {
-
     // Create the autocomplete object
-    autocomplete = new google.maps.places.Autocomplete(addressField1.value, {
+    autocomplete = new google.maps.places.Autocomplete(addressField1.value.input, {
         componentRestrictions: { country: ['us', 'ca'] },
         fields: ['address_components', 'geometry'],
         types: ['address']

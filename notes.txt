@@ -1,13 +1,3 @@
-Admin Panel
-
-Products view
-
-admin should be able to view all products listed and filter by:
-1. visible
-2. quantity
-
-Should be able to :
-1. Edit
-2. Create
-
-
+Tailwind JIT 'just in time' mode does not work with nuxt 3 hot reloading.
+You have to restart the server 'npm run dev' for the new tailwind styles to take effect.
+Possible work-a-round: https://github.com/tailwindlabs/tailwindcss/issues/4962

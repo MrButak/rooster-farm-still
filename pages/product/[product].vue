@@ -29,7 +29,7 @@
             </template>
         </va-tabs>
 
-        <div class="overflow-y-scroll h-72 pt-6">
+        <div class="overflow-y-scroll h-64 pt-4">
             <!-- description and specification tabs -->
             <text v-if="(productDetailsTabs == 0)">{{ productData[0].description }}</text>
             <span v-else>
@@ -70,6 +70,8 @@
     </va-card>
     </div>
 </div>
+
+<va-button class="mr-2 mb-2" @click="$vaToast.init({ message: 'success color', color: 'success' })">success</va-button>
 
 </template>
 
