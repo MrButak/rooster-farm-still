@@ -2,80 +2,74 @@
 <!-- TODO: set this header Globally using conditions -->
 <Header />
         
-<!-- <div class="flex justify-center"> -->
-    <div v-if="productLoaded" class="flex flex-col md:flex-row">
-        <!-- tailwind md:w-3/6 (@media min-width: 768px { width: 50% }) not working -->
-        <va-carousel
-            class=""
-            :items="productData[0].image_urls" 
-            :ratio="4/3" 
-            stateful indicators infinite swipable 
-        />
-            <div class="flex">
-            <va-card class="md:w-[50vw]">
-                <va-card-content class="h-full">
+<div v-if="productLoaded" class="flex flex-col md:flex-row">
+    <va-carousel
+        class=""
+        :items="productData[0].image_urls" 
+        :ratio="4/3" 
+        stateful indicators infinite swipable 
+    />
+    <div class="flex">
+    <va-card class="md:w-[50vw]">
+        <va-card-content class="h-full">
 
-                    <div class="flex flex-col h-full">
+        <div class="flex flex-col h-full">
 
-                        
-                            <h4 class="va-h4">{{ productData[0].name }}</h4>
+            
+        <h4 class="va-h4">{{ productData[0].name }}</h4>
 
-                            <va-tabs v-model="productDetailsTabs">
-                                <template #tabs>
-                                <va-tab
-                                    v-for="tab in ['Description', 'Specs']"
-                                    :key="tab"
-                                    >
-                                    {{ tab }}
-                                    </va-tab>
-                                </template>
-                            </va-tabs>
+        <va-tabs v-model="productDetailsTabs">
+            <template #tabs>
+            <va-tab
+                v-for="tab in ['Description', 'Specs']"
+                :key="tab"
+                >
+                {{ tab }}
+                </va-tab>
+            </template>
+        </va-tabs>
 
-                            <div class="overflow-y-scroll h-72 pt-6">
-                                <!-- description and specification tabs -->
-                                <text v-if="(productDetailsTabs == 0)">{{ productData[0].description }}</text>
-                                <span v-else>
-                                    <p v-for="spec in productData[0].specifications">
-                                        {{ Object.keys(spec)[0] }}: {{ Object.values(spec)[0] }}
-                                    </p>
-                                </span>
-                            </div>
+        <div class="overflow-y-scroll h-72 pt-6">
+            <!-- description and specification tabs -->
+            <text v-if="(productDetailsTabs == 0)">{{ productData[0].description }}</text>
+            <span v-else>
+                <p v-for="spec in productData[0].specifications">
+                    {{ Object.keys(spec)[0] }}: {{ Object.values(spec)[0] }}
+                </p>
+            </span>
+        </div>
 
-                        
+        <text>Price: ${{ productData[0].price * quantitySelect }}</text>
+        <div class="flex align-end gap-6 pt-6">
 
-                        
-                            <text>Price: ${{ productData[0].price * quantitySelect }}</text>
-                            <div class="flex align-end gap-6 pt-6">
+            <span v-if="productData[0].quantity > 0">
+                <va-counter 
+                    class=""
+                    v-model="quantitySelect"
+                    :min="1" 
+                    :max="productData[0].quantity" 
+                    outline
+                    buttons
+                    :flat="false"
+                    margins="0"
+                    rounded
+                />
+            </span>
+            <text v-else>Sorry, we are sold out!</text>
 
-                                <span v-if="productData[0].quantity > 0">
-                                    <va-counter 
-                                        class=""
-                                        v-model="quantitySelect"
-                                        :min="1" 
-                                        :max="productData[0].quantity" 
-                                        outline
-                                        buttons
-                                        :flat="false"
-                                        margins="0"
-                                        rounded
-                                    />
-                                </span>
-                                <text v-else>Sorry, we are sold out!</text>
+            <va-button 
+                @click="handleAddToCart"
+                :disabled="isItemInCart">
+                {{ addToCartButtonText }}
+            </va-button>
+        </div>
+            
 
-                                <va-button 
-                                    @click="handleAddToCart"
-                                    :disabled="isItemInCart">
-                                    {{ addToCartButtonText }}
-                                </va-button>
-                            </div>
-                        
-
-                    </div>
-                </va-card-content>
-            </va-card>
-            </div>
+        </div>
+        </va-card-content>
+    </va-card>
     </div>
-<!-- </div> -->
+</div>
 
 </template>
 
