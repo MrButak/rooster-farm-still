@@ -84,14 +84,9 @@ export default defineNuxtConfig({
                     autoprefixer: {},
                 },
             },
-        },
+        }   
     },
     nitro: {
         compressPublicAssets: true,
-    },
-    optimization: {
-        splitChunks: {
-            maxSize: 10000
-        }
     }
 });

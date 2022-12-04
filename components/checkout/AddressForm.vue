@@ -1,9 +1,90 @@
 <template>
 
-<div class="address-form-wrapper">
-    <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
+<h6 class="va-h6">Shipping Details</h6>
+<form class="flex flex-col w-full" action="" method="" autocomplete="on">
+
+    <div class="flex w-full flex-wrap">
+        <div class="flex flex-col">
+            <p>Name for order <span class="va-text-danger">*</span></p>
+            <va-input
+                class="mb-4 w-full"
+                v-model="orderStore.userShippingData.nameField"
+                :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                placeholder="name"
+                bordered
+            />
+        </div>
+        <div class="flex flex-col">
+            <p>Email <span class="va-text-danger">*</span></p>
+            <va-input
+                class="mb-4 w-full"
+                v-model="orderStore.userShippingData.emailField"
+                :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                placeholder="email"
+                bordered
+            />
+        </div>
+    </div>
+    <p>Street address <span class="va-text-danger">*</span></p>
+    <va-input
+        class="pac-target-input mb-4"
+        ref="addressField1"
+        v-model="orderStore.userShippingData.addressField1"
+        placeholder="street address"
+        bordered
+    /> 
+    <p>Apartment, unit, suite, or floor #</p>
+    <va-input
+        class="mb-4"
+        v-model="orderStore.userShippingData.addressField2"
+        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+        bordered
+    />
+    <p>City <span class="va-text-danger">*</span></p>
+    <va-input
+        class="mb-4"
+        v-model="orderStore.userShippingData.cityField"
+        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+        placeholder="city"
+        bordered
+    />
+    <p>State/Province <span class="va-text-danger">*</span></p>
+    <va-input
+        class="mb-4"
+        v-model="orderStore.userShippingData.regionField"
+        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+        placeholder="state/province"
+        bordered
+    />
+    <p>Postal code <span class="va-text-danger">*</span></p>
+    <va-input
+        class="mb-4"
+        v-model="orderStore.userShippingData.postalField"
+        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+        placeholder="postal code"
+        bordered
+    />
+    <p>Country <span class="va-text-danger">*</span></p>
+    <va-input
+        class="mb-4"
+        v-model="orderStore.userShippingData.countryField"
+        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+        placeholder="postal code"
+        bordered
+    />
+    <p>Additional notes <span class="va-text-danger">*</span></p>
+    <va-input
+        class="mb-4"
+        v-model="orderStore.userShippingData.additionalNote"
+        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+        placeholder="additional notes"
+        bordered
+    />
+</form>
+
+<!-- <div class="flex flex-col w-full">
+    <form id="address-form" action="" method="" autocomplete="on">
         <p class="AddressFormTitle">Shipping Details</p>
-        <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
         <label class="full-field">
             <span class="form-label">Name for order<span class="required-marker"> *</span></span>
             <input v-model="orderStore.userShippingData.nameField" id="name" required="true" autocomplete="on" placeholder="Name">
@@ -16,6 +97,7 @@
             <span class="form-label">Street Address<span class="required-marker"> *</span></span>
             <input ref="addressField1" v-model="orderStore.userShippingData.addressField1" id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
         </label>
+
         <label class="full-field">
             <span class="form-label">Apartment, unit, suite, or floor #</span>
             <input v-model="orderStore.userShippingData.addressField2" id="address2" name="address2">
@@ -42,19 +124,16 @@
         </label>
         <p>{{ errorMessage }}</p>
         
-        <!--<input type="reset" value="Clear form">-->
+        
     </form>
-</div> 
+</div>  -->
 
 </template>
 
 <script setup>
 
 import { onMounted } from 'vue';
-import { 
-    useOrderStore, useUiStore,
-    // userShippingData, thirdPartyScriptsLoaded 
-} from '../../services/stateStore';
+import { useOrderStore, useUiStore } from '../../services/stateStore';
 
 // Pinia store
 const orderStore = useOrderStore();
