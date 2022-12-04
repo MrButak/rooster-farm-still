@@ -1,87 +1,104 @@
 <template>
 
-<h6 class="va-h6">Shipping Details</h6>
-<form class="flex flex-col w-full" action="" method="" autocomplete="on">
+<div class="flex flex-col w-full align-center">
+    <h6 class="va-h6">Shipping Details</h6>
+    <form class="flex flex-col w-full p-4 max-w-2xl" action="" method="" autocomplete="on">
 
-    <div class="flex w-full flex-wrap">
-        <div class="flex flex-col">
-            <p>Name for order <span class="va-text-danger">*</span></p>
-            <va-input
-                class="mb-4 w-full"
-                v-model="orderStore.userShippingData.nameField"
-                :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-                placeholder="name"
-                bordered
-            />
+        <div class="flex w-full flex-wrap gap-8">
+            <div class="flex flex-col">
+                <p>Name for order <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.nameField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="name"
+                    bordered
+                />
+            </div>
+            <div class="flex flex-col">
+                <p>Email <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.emailField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="email"
+                    bordered
+                />
+            </div>
         </div>
-        <div class="flex flex-col">
-            <p>Email <span class="va-text-danger">*</span></p>
-            <va-input
-                class="mb-4 w-full"
-                v-model="orderStore.userShippingData.emailField"
-                :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-                placeholder="email"
-                bordered
-            />
-        </div>
-    </div>
-    <p>Street address <span class="va-text-danger">*</span></p>
-    <va-input
-        class="pac-target-input mb-4"
-        ref="addressField1"
-        v-model="orderStore.userShippingData.addressField1"
-        placeholder="street address"
-        bordered
-    /> 
-    <p>Apartment, unit, suite, or floor #</p>
-    <va-input
-        class="mb-4"
-        v-model="orderStore.userShippingData.addressField2"
-        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-        bordered
-    />
-    <p>City <span class="va-text-danger">*</span></p>
-    <va-input
-        class="mb-4"
-        v-model="orderStore.userShippingData.cityField"
-        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-        placeholder="city"
-        bordered
-    />
-    <p>State/Province <span class="va-text-danger">*</span></p>
-    <va-input
-        class="mb-4"
-        v-model="orderStore.userShippingData.regionField"
-        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-        placeholder="state/province"
-        bordered
-    />
-    <p>Postal code <span class="va-text-danger">*</span></p>
-    <va-input
-        class="mb-4"
-        v-model="orderStore.userShippingData.postalField"
-        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-        placeholder="postal code"
-        bordered
-    />
-    <p>Country <span class="va-text-danger">*</span></p>
-    <va-input
-        class="mb-4"
-        v-model="orderStore.userShippingData.countryField"
-        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-        placeholder="postal code"
-        bordered
-    />
-    <p>Additional notes <span class="va-text-danger">*</span></p>
-    <va-input
-        class="mb-4"
-        v-model="orderStore.userShippingData.additionalNote"
-        :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
-        placeholder="additional notes"
-        bordered
-    />
-</form>
+        <p>Street address <span class="va-text-danger">*</span></p>
+        <va-input
+            class="pac-target-input mb-4"
+            ref="addressField1"
+            v-model="orderStore.userShippingData.addressField1"
+            placeholder="street address"
+            bordered
+        /> 
+        <p>Apartment, unit, suite, or floor #</p>
+        <va-input
+            class="mb-4"
+            v-model="orderStore.userShippingData.addressField2"
+            :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+            bordered
+        />
 
+        <div class="flex w-full flex-wrap gap-8">
+            <div class="flex flex-col">
+                <p>City <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.cityField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="city"
+                    bordered
+                />
+            </div>
+            <div class="flex flex-col">
+                <p>State/Province <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.regionField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="state/province"
+                    bordered
+                />
+            </div>
+        </div>
+
+        <div class="flex w-full flex-wrap gap-8">
+            <div class="flex flex-col">
+                <p>Postal code <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.postalField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="postal code"
+                    bordered
+                />
+            </div>
+            <div class="flex flex-col">
+                <p>Country <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.countryField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="postal code"
+                    bordered
+                />
+            </div>
+        </div>
+
+        <p>Additional notes <span class="va-text-danger">*</span></p>
+        <va-input
+            class="mb-4"
+            type="textarea"
+            v-model="orderStore.userShippingData.additionalNote"
+            :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+            placeholder="additional notes"
+            bordered
+        />
+    </form>
+</div>
 <!-- <div class="flex flex-col w-full">
     <form id="address-form" action="" method="" autocomplete="on">
         <p class="AddressFormTitle">Shipping Details</p>
@@ -221,7 +238,7 @@ function fillInAddress() {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .required-marker {
     color: red;
