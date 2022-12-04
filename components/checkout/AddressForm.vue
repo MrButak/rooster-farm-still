@@ -4,7 +4,7 @@
     <h6 class="va-h6">Shipping Details</h6>
     <form class="flex flex-col w-full p-4 max-w-2xl" action="" method="" autocomplete="on">
 
-        <div class="flex w-full flex-wrap gap-8">
+        <div class="flex w-full flex-wrap gap-6 custom-size-no-gap">
             <div class="flex flex-col">
                 <p>Name for order <span class="va-text-danger">*</span></p>
                 <va-input
@@ -42,7 +42,7 @@
             bordered
         />
 
-        <div class="flex w-full flex-wrap gap-8">
+        <div class="flex w-full flex-wrap gap-6 custom-size-no-gap">
             <div class="flex flex-col">
                 <p>City <span class="va-text-danger">*</span></p>
                 <va-input
@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="flex w-full flex-wrap gap-8">
+        <div class="flex w-full flex-wrap gap-6 custom-size-no-gap">
             <div class="flex flex-col">
                 <p>Postal code <span class="va-text-danger">*</span></p>
                 <va-input
@@ -88,7 +88,7 @@
             </div>
         </div>
 
-        <p>Additional notes <span class="va-text-danger">*</span></p>
+        <p>Additional notes</p>
         <va-input
             class="mb-4"
             type="textarea"
@@ -99,51 +99,6 @@
         />
     </form>
 </div>
-<!-- <div class="flex flex-col w-full">
-    <form id="address-form" action="" method="" autocomplete="on">
-        <p class="AddressFormTitle">Shipping Details</p>
-        <label class="full-field">
-            <span class="form-label">Name for order<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.nameField" id="name" required="true" autocomplete="on" placeholder="Name">
-        </label>
-        <label class="full-field">
-            <span class="form-label">Email<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.emailField" type="email" id="email" required="" autocomplete="on" placeholder="Email">
-        </label>
-        <label class="full-field">
-            <span class="form-label">Street Address<span class="required-marker"> *</span></span>
-            <input ref="addressField1" v-model="orderStore.userShippingData.addressField1" id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
-        </label>
-
-        <label class="full-field">
-            <span class="form-label">Apartment, unit, suite, or floor #</span>
-            <input v-model="orderStore.userShippingData.addressField2" id="address2" name="address2">
-        </label>
-        <label class="full-field">
-            <span class="form-label">City<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.cityField" id="cityField" name="cityField" required="">
-        </label>
-        <label class="slim-field-left">
-            <span class="form-label">State/Province<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.regionField" id="regionField" name="regionField" required="" >
-        </label>
-        <label class="slim-field-right" for="postal_code">
-            <span class="form-label">Postal code<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.postalField" id="postcode" name="postcode" required="">
-        </label>
-        <label class="full-field">
-            <span class="form-label">Country<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.countryField" id="countryField" name="countryField" required="" >
-        </label>
-        <label class="full-field">
-            <span class="form-label">Additional notes</span>
-            <input v-model="orderStore.userShippingData.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
-        </label>
-        <p>{{ errorMessage }}</p>
-        
-        
-    </form>
-</div>  -->
 
 </template>
 
@@ -184,14 +139,13 @@ function initAutocomplete() {
 };
 
 function fillInAddress() {
-    // Get the place details from the autocomplete object.
     
+    // Get the place details from the autocomplete object.
     const place = autocomplete.getPlace();
     let address1 = '';
     let postcode = '';
     // Get each component of the address from the place details,
     // and then fill-in the corresponding field on the form.
-    // place.address_components are google.maps.GeocoderAddressComponent objects
     // which are documented at http://goo.gle/3l5i5Mr
     for (const component of place.address_components) {
         const componentType = component.types[0];
@@ -305,14 +259,11 @@ input[type="reset"] {
     color: #686868;
    /* font-size: 14px; */
 }
-/*Tablet sizes*------------------------------------------------------*/
-@media (min-width: 723px) {
- 
-}
-/*Desktop sizes*-----------------------------------------------------*/
-@media (min-width: 1023px) {
-    #address-form {
-        padding: 10px 0 0 0;
+/*Custom break point for the form. Should not have gap:*------------------------------------------------------*/
+@media (max-width: 555px) {
+    .custom-size-no-gap {
+        gap: 0;    
     }
 }
+
 </style>

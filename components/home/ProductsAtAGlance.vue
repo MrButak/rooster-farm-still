@@ -4,16 +4,17 @@
 
         <div v-for="product in allProducts" class="flex md6 lg4">
             <va-card>
-                <!-- <nuxt-img format="webp" src="/nuxt-icon.png" /> -->
-                <!-- <va-image
-                format="webp"
+                <va-image
                 :src="product.main_image_url"
-                /> -->
+                />
                 <va-card-content>
-                    <h6>{{ product.name }}</h6>
+                    <h6 class="va-h6">{{ product.name }}</h6>
                 </va-card-content>
                 <va-card-content>
-                    {{ product.description }}
+                    <p>{{ product.description }}</p>
+                </va-card-content>
+                <va-card-content>
+                    <p><b>${{ product.price }}</b></p>
                 </va-card-content>
                 <va-card-content align="center">
                     <va-button 

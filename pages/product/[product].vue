@@ -2,17 +2,22 @@
 <!-- TODO: set this header Globally using conditions -->
 <Header />
         
-<div class="product-wrapper-main">
-    <div v-if="productLoaded" class="product-wrapper va-spacing-y-4 va-spacing-x-4">
-        
-        <va-carousel :items="productData[0].image_urls" :ratio="4/3" stateful indicators infinite swipable />
-            <div class="flex xl12">
-            <va-card style="height:95.5%;">
-                <va-card-content style="height:100%">
+<!-- <div class="flex justify-center"> -->
+    <div v-if="productLoaded" class="flex flex-col md:flex-row">
+        <!-- tailwind md:w-3/6 (@media min-width: 768px { width: 50% }) not working -->
+        <va-carousel
+            class=""
+            :items="productData[0].image_urls" 
+            :ratio="4/3" 
+            stateful indicators infinite swipable 
+        />
+            <div class="flex">
+            <va-card class="md:w-[50vw]">
+                <va-card-content class="h-full">
 
-                    <div style="height:100%;display:flex;flex-direction:column;justify-content:space-between;">
+                    <div class="flex flex-col h-full">
 
-                        <div>
+                        
                             <h4 class="va-h4">{{ productData[0].name }}</h4>
 
                             <va-tabs v-model="productDetailsTabs">
@@ -26,7 +31,7 @@
                                 </template>
                             </va-tabs>
 
-                            <div clas="tab-content-wrapper">
+                            <div class="overflow-y-scroll h-72 pt-6">
                                 <!-- description and specification tabs -->
                                 <text v-if="(productDetailsTabs == 0)">{{ productData[0].description }}</text>
                                 <span v-else>
@@ -36,15 +41,15 @@
                                 </span>
                             </div>
 
-                        </div>
+                        
 
-                        <div>
+                        
                             <text>Price: ${{ productData[0].price * quantitySelect }}</text>
-                            <div class="quantity-and-checkout-button-wrapper">
+                            <div class="flex align-end gap-6 pt-6">
 
                                 <span v-if="productData[0].quantity > 0">
                                     <va-counter 
-                                        class="quantity-counter mx-4 my-2"
+                                        class=""
                                         v-model="quantitySelect"
                                         :min="1" 
                                         :max="productData[0].quantity" 
@@ -63,14 +68,14 @@
                                     {{ addToCartButtonText }}
                                 </va-button>
                             </div>
-                        </div>
+                        
 
                     </div>
                 </va-card-content>
             </va-card>
             </div>
     </div>
-</div>
+<!-- </div> -->
 
 </template>
 
@@ -156,41 +161,45 @@ function handleAddToCart() {
     
 <style lang="scss">
 
+// .product-wrapper-main {
+//     display: flex;
+//     justify-content: center;
+//     padding: 2rem 1rem;
+//     .product-wrapper {
+//         width: 100%;
 
+//         .tab-content-wrapper {
+//             overflow-y: scroll;
+//         }
+//         .va-input-wrapper__container {
+//                 // width: 8rem;
+//             }
+//             .quantity-and-checkout-button-wrapper {
+//                 display: flex;
+//                 width: 100%;
+//             }
+//     }  
+// }
 
-
-
-.product-wrapper-main {
-    display: flex;
-    justify-content: center;
-    padding: 2rem 1rem;
-    .product-wrapper {
-        width: 100%;
-
-        .tab-content-wrapper {
-            overflow-y: scroll;
-        }
-        .va-input-wrapper__container {
-                // width: 8rem;
-            }
-            .quantity-and-checkout-button-wrapper {
-                display: flex;
-                width: 100%;
-            }
-    }  
-}
-
-@media only screen and (min-width: 640px)  {
+// @media only screen and (min-width: 640px)  {
     
         
-        .product-wrapper {
-            display: flex;
-            max-width: 120rem;
-            .tab-content-wrapper {
-                height: 100%;
-            }
-        }
-}
+//         .product-wrapper {
+//             display: flex;
+//             max-width: 120rem;
+//             .tab-content-wrapper {
+//                 height: 100%;
+//             }
+//         }
+// }
 
+// @media (max-width:768px) {
+//     .half {
+//         width: 100%;
+//     }
+//     .custom-col {
+//         flex-direction: column;
+//     }
+// }
 </style>
     
