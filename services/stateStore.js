@@ -195,6 +195,11 @@ export const useAdminStore = defineStore('adminStore', {
                         displayName: 'Add',
                         icon: 'add_circle'
                     },
+                    {
+                        name: 'images',
+                        displayName: 'Images',
+                        icon: 'image'
+                    },
                 ],
             }
         ]

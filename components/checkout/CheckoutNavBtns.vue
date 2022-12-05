@@ -1,11 +1,11 @@
 <template>
 
-<div class="checkout-nav-buttons-wrapper">
-    <div class="checkout-nav-buttons-inner-wrapper">
-        <va-button @click="orderStore.currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</va-button>
-        <div class="prev-next-button-wrapper">
-            <va-button v-if="orderStore.currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</va-button>
-            <va-button v-if="orderStore.currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</va-button>
+<div class="flex justify-center py-8">
+    <div class="flex justify-between gap-8 w-full max-w-2xl">
+        <va-button class="w-8" @click="orderStore.currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</va-button>
+        <div class="flex w-1/4">
+            <va-button class="w-8" v-if="orderStore.currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</va-button>
+            <va-button class="w-8" v-if="orderStore.currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</va-button>
         </div>
     </div>
 </div>

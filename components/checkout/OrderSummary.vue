@@ -1,6 +1,6 @@
 <template>
 <div v-if="productsLoaded" class="va-table-responsive flex flex-col w-full align-center">
-    <div class="order-summary-inner-wrapper">
+    <div class="w-full max-w-2xl">
         <h4 class="va-h4">Your Order</h4>
         <table class="va-table va-table--striped order-summary-table">
             <tbody>

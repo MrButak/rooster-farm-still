@@ -21,6 +21,10 @@
                     <ProductsEdit />
                 </span>
             </span>
+
+            <span v-else-if="adminStore.activeRouteName == 'images'" class="admin-viewed-content-component-wrapper">
+                <AdminImages />
+            </span>
             
 
         </span>
