@@ -144,16 +144,16 @@ let testCssVariable = computed(() => {
 <style lang="scss" scoped>
 
 // TODO: Add CSS variables for some of the form colors. In dark mode it is hard to see some elements. Make the color variable a computed property based on light/dark theme
-body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  height: 100vh;
-  width: 100vw;
-}
+// body {
+//   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+//   font-size: 16px;
+//   -webkit-font-smoothing: antialiased;
+//   display: flex;
+//   justify-content: center;
+//   align-content: center;
+//   height: 100vh;
+//   width: 100vw;
+// }
 #formMainWrapper {
     display: flex;
     align-items: center;

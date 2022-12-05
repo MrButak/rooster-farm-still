@@ -25,11 +25,19 @@
 
 
 <script setup>
-
+import { onMounted } from 'vue';
 import { useOrderStore } from '../services/stateStore';
+import { getItemFromLs } from '~~/services/lsManager';
+
 import AddressForm from '~~/components/checkout/AddressForm.vue';
 import Payment from '~~/components/checkout/Payment.vue';
 import OrderSummary from '~~/components/checkout/OrderSummary.vue';
+
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'))
+});
 
 // Pinia store
 const orderStore = useOrderStore();

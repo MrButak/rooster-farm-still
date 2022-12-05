@@ -2,75 +2,76 @@
 <!-- TODO: set this header Globally using conditions -->
 <Header />
         
-<div class="product-wrapper-main">
-    <div v-if="productLoaded" class="product-wrapper va-spacing-y-4 va-spacing-x-4">
-        
-        <va-carousel :items="productData[0].image_urls" :ratio="4/3" stateful indicators infinite swipable />
-            <div class="flex xl12">
-            <va-card style="height:95.5%;">
-                <va-card-content style="height:100%">
+<div v-if="productLoaded" class="flex flex-col md:flex-row">
+    <va-carousel
+        class=""
+        :items="productData[0].image_urls" 
+        :ratio="4/3" 
+        stateful indicators infinite swipable 
+    />
+    <div class="flex">
+    <va-card class="md:w-[50vw]">
+        <va-card-content class="h-full">
 
-                    <div style="height:100%;display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="flex flex-col h-full">
 
-                        <div>
-                            <h4 class="va-h4">{{ productData[0].name }}</h4>
+            
+        <h4 class="va-h4">{{ productData[0].name }}</h4>
 
-                            <va-tabs v-model="productDetailsTabs">
-                                <template #tabs>
-                                <va-tab
-                                    v-for="tab in ['Description', 'Specs']"
-                                    :key="tab"
-                                    >
-                                    {{ tab }}
-                                    </va-tab>
-                                </template>
-                            </va-tabs>
+        <va-tabs v-model="productDetailsTabs">
+            <template #tabs>
+            <va-tab
+                v-for="tab in ['Description', 'Specs']"
+                :key="tab"
+                >
+                {{ tab }}
+                </va-tab>
+            </template>
+        </va-tabs>
 
-                            <div clas="tab-content-wrapper">
-                                <!-- description and specification tabs -->
-                                <text v-if="(productDetailsTabs == 0)">{{ productData[0].description }}</text>
-                                <span v-else>
-                                    <p v-for="spec in productData[0].specifications">
-                                        {{ Object.keys(spec)[0] }}: {{ Object.values(spec)[0] }}
-                                    </p>
-                                </span>
-                            </div>
+        <div class="overflow-y-scroll h-64 pt-4">
+            <!-- description and specification tabs -->
+            <text v-if="(productDetailsTabs == 0)">{{ productData[0].description }}</text>
+            <span v-else>
+                <p v-for="spec in productData[0].specifications">
+                    {{ Object.keys(spec)[0] }}: {{ Object.values(spec)[0] }}
+                </p>
+            </span>
+        </div>
 
-                        </div>
+        <text>Price: ${{ productData[0].price * quantitySelect }}</text>
+        <div class="flex align-end gap-6 pt-6">
 
-                        <div>
-                            <text>Price: ${{ productData[0].price * quantitySelect }}</text>
-                            <div class="quantity-and-checkout-button-wrapper">
+            <span v-if="productData[0].quantity > 0">
+                <va-counter 
+                    class=""
+                    v-model="quantitySelect"
+                    :min="1" 
+                    :max="productData[0].quantity" 
+                    outline
+                    buttons
+                    :flat="false"
+                    margins="0"
+                    rounded
+                />
+            </span>
+            <text v-else>Sorry, we are sold out!</text>
 
-                                <span v-if="productData[0].quantity > 0">
-                                    <va-counter 
-                                        class="quantity-counter mx-4 my-2"
-                                        v-model="quantitySelect"
-                                        :min="1" 
-                                        :max="productData[0].quantity" 
-                                        outline
-                                        buttons
-                                        :flat="false"
-                                        margins="0"
-                                        rounded
-                                    />
-                                </span>
-                                <text v-else>Sorry, we are sold out!</text>
+            <va-button 
+                @click="handleAddToCart"
+                :disabled="isItemInCart">
+                {{ addToCartButtonText }}
+            </va-button>
+        </div>
+            
 
-                                <va-button 
-                                    @click="handleAddToCart"
-                                    :disabled="isItemInCart">
-                                    {{ addToCartButtonText }}
-                                </va-button>
-                            </div>
-                        </div>
-
-                    </div>
-                </va-card-content>
-            </va-card>
-            </div>
+        </div>
+        </va-card-content>
+    </va-card>
     </div>
 </div>
+
+<va-button class="mr-2 mb-2" @click="$vaToast.init({ message: 'success color', color: 'success' })">success</va-button>
 
 </template>
 
@@ -82,9 +83,13 @@ import { ref, onMounted, computed } from 'vue';
 import { useShoppingCartStore } from '~~/services/stateStore';
 import { getItemFromLs } from '../../services/lsManager';
 
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'))
+});
+
 let productDetailsTabs = ref(0);
-
-
 // Pinia store
 const shoppingCartStore = useShoppingCartStore();
 
@@ -152,37 +157,45 @@ function handleAddToCart() {
     
 <style lang="scss">
 
-.product-wrapper-main {
-    display: flex;
-    justify-content: center;
-    padding: 2rem 1rem;
-    .product-wrapper {
-        width: 100%;
+// .product-wrapper-main {
+//     display: flex;
+//     justify-content: center;
+//     padding: 2rem 1rem;
+//     .product-wrapper {
+//         width: 100%;
 
-        .tab-content-wrapper {
-            overflow-y: scroll;
-        }
-        .va-input-wrapper__container {
-                // width: 8rem;
-            }
-            .quantity-and-checkout-button-wrapper {
-                display: flex;
-                width: 100%;
-            }
-    }  
-}
+//         .tab-content-wrapper {
+//             overflow-y: scroll;
+//         }
+//         .va-input-wrapper__container {
+//                 // width: 8rem;
+//             }
+//             .quantity-and-checkout-button-wrapper {
+//                 display: flex;
+//                 width: 100%;
+//             }
+//     }  
+// }
 
-@media only screen and (min-width: 640px)  {
+// @media only screen and (min-width: 640px)  {
     
         
-        .product-wrapper {
-            display: flex;
-            max-width: 120rem;
-            .tab-content-wrapper {
-                height: 100%;
-            }
-        }
-}
+//         .product-wrapper {
+//             display: flex;
+//             max-width: 120rem;
+//             .tab-content-wrapper {
+//                 height: 100%;
+//             }
+//         }
+// }
 
+// @media (max-width:768px) {
+//     .half {
+//         width: 100%;
+//     }
+//     .custom-col {
+//         flex-direction: column;
+//     }
+// }
 </style>
     

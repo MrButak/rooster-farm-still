@@ -33,7 +33,7 @@ function setItemInLs(itemName, item) {
 
     try {
         if (typeof window !== 'undefined') {
-            localStorage.setItem(itemName, item);
+            localStorage.setItem(itemName, JSON.stringify(item));
             return true;
         }
     }

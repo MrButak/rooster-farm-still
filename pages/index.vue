@@ -2,7 +2,6 @@
 
 <div>
     <Header />
-    <!-- <Hero /> -->
     <ProductsAtAGlance />
 </div>
     
@@ -11,9 +10,15 @@
 
 
 <script setup>
-
+import { onMounted } from 'vue';
 import ProductsAtAGlance from '~~/components/home/ProductsAtAGlance.vue';
-// import Hero from '~~/components/home/Hero.vue';
+import { getItemFromLs } from '~~/services/lsManager';
+
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
 
 </script>
 

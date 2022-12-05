@@ -12,9 +12,20 @@
             <span v-if="adminStore.activeRouteName == 'home'" class="admin-viewed-content-component-wrapper">
                 <AdminHome />
             </span>
-            <span v-else-if="adminStore.activeRouteName == 'productsManage'" class="admin-viewed-content-component-wrapper">
-                <ProductsManage />
+
+            <span v-else-if="adminStore.activeRouteName == 'productsManage'" style="display:flex;flex-direction:column;gap: 1.8rem">
+                <span class="admin-viewed-content-component-wrapper">
+                    <ProductsManage />
+                </span>
+                <span v-if="adminStore.showEditProductComponent" class="admin-viewed-content-component-wrapper">
+                    <ProductsEdit />
+                </span>
             </span>
+
+            <span v-else-if="adminStore.activeRouteName == 'images'" class="admin-viewed-content-component-wrapper">
+                <AdminImages />
+            </span>
+            
 
         </span>
     </span>
@@ -29,6 +40,14 @@
 
 import { useAdminStore } from '~~/services/stateStore';
 import ProductsManage from '~~/components/admin/products/productsManage/ProductsManage.vue';
+import ProductsEdit from '~~/components/admin/products/productsManage/productsEdit/ProductsEdit.vue';
+import { getItemFromLs } from '~~/services/lsManager';
+
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
 
 // Pinia store
 const adminStore = useAdminStore();
@@ -59,6 +78,8 @@ const adminStore = useAdminStore();
     border-radius: .6rem;
 }
 .admin-viewed-content-component-wrapper {
+    display: flex;
+    flex-direction: column;
     border: 1px solid;
     border-radius: 0.6rem;
     padding: .4rem;

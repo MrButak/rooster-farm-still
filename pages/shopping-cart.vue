@@ -83,10 +83,14 @@
 <script setup>
 
 import { onMounted } from 'vue';
-
 import { useUiStore, useShoppingCartStore } from '../services/stateStore';
-
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
+
+import { useColors } from 'vuestic-ui';
+const { applyPreset } = useColors();
+nextTick(() => {
+    applyPreset(getItemFromLs('vuestic-docs-theme'));
+});
 
 // Pinia store
 const uiStore = useUiStore();
@@ -99,7 +103,7 @@ let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
 onMounted(() => {
-
+    
     // Get products from DB so we know how many is in stock and the prices have not been tampered with in LS
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
@@ -160,9 +164,8 @@ function loadItemsInShoppingCart() {
 
 function incrementCount(product) {
 
-    let productDbIndex = allProducts.findIndex(product => product.id == product.id);
-    if(allProducts[productDbIndex].quantity < product.quantity) { 
-        // TODO: Vuestic Component has a @click:increase/decrease. Use that instead of this.
+    let productDbIndex = allProducts.findIndex(dbProduct => dbProduct.id == product.id);
+    if(allProducts[productDbIndex].quantity < product.quantity) {
         // Count automatically increments/decrements when the counter buttons are clicked. So I must minus 1 here.
         product.quantity--;
         return 

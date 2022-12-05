@@ -9,9 +9,10 @@
 
 <script setup>
 
+import { useAdminStore } from '~~/services/stateStore';
 import ProductsManageTable from './ProductsManageTable.vue';
 
-
+const adminStore = useAdminStore();
 
 </script>
 

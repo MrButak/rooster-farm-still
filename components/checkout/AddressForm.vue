@@ -1,60 +1,111 @@
 <template>
 
-<div class="address-form-wrapper">
-    <form id="address-form" action="" method="" autocomplete="on"> <!-- may have to toggleback on -->
-        <p class="AddressFormTitle">Shipping Details</p>
-        <!-- Avoid the word "address" in id, name, or label text to avoid browser autofill from conflicting with Place Autocomplete. Star or comment bug https://crbug.com/587466 to request Chromium to honor autocomplete="off" attribute. -->
-        <label class="full-field">
-            <span class="form-label">Name for order<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.nameField" id="name" required="true" autocomplete="on" placeholder="Name">
-        </label>
-        <label class="full-field">
-            <span class="form-label">Email<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.emailField" type="email" id="email" required="" autocomplete="on" placeholder="Email">
-        </label>
-        <label class="full-field">
-            <span class="form-label">Street Address<span class="required-marker"> *</span></span>
-            <input ref="addressField1" v-model="orderStore.userShippingData.addressField1" id="ship-address" name="ship-address" required="" autocomplete="off" class="pac-target-input" placeholder="Enter a location">
-        </label>
-        <label class="full-field">
-            <span class="form-label">Apartment, unit, suite, or floor #</span>
-            <input v-model="orderStore.userShippingData.addressField2" id="address2" name="address2">
-        </label>
-        <label class="full-field">
-            <span class="form-label">City<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.cityField" id="cityField" name="cityField" required="">
-        </label>
-        <label class="slim-field-left">
-            <span class="form-label">State/Province<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.regionField" id="regionField" name="regionField" required="" >
-        </label>
-        <label class="slim-field-right" for="postal_code">
-            <span class="form-label">Postal code<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.postalField" id="postcode" name="postcode" required="">
-        </label>
-        <label class="full-field">
-            <span class="form-label">Country<span class="required-marker"> *</span></span>
-            <input v-model="orderStore.userShippingData.countryField" id="countryField" name="countryField" required="" >
-        </label>
-        <label class="full-field">
-            <span class="form-label">Additional notes</span>
-            <input v-model="orderStore.userShippingData.additionalNote" id="deliveryNote" autocomplete="off" placeholder="additional notes" >
-        </label>
-        <p>{{ errorMessage }}</p>
-        
-        <!--<input type="reset" value="Clear form">-->
+<div class="flex flex-col w-full align-center">
+    <h6 class="va-h6">Shipping Details</h6>
+    <form class="flex flex-col w-full p-4 max-w-2xl" action="" method="" autocomplete="on">
+
+        <div class="flex w-full flex-wrap gap-6 custom-size-no-gap">
+            <div class="flex flex-col">
+                <p>Name for order <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.nameField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="name"
+                    bordered
+                />
+            </div>
+            <div class="flex flex-col">
+                <p>Email <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.emailField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="email"
+                    bordered
+                />
+            </div>
+        </div>
+        <p>Street address <span class="va-text-danger">*</span></p>
+        <va-input
+            class="pac-target-input mb-4"
+            ref="addressField1"
+            v-model="orderStore.userShippingData.addressField1"
+            placeholder="street address"
+            bordered
+        /> 
+        <p>Apartment, unit, suite, or floor #</p>
+        <va-input
+            class="mb-4"
+            v-model="orderStore.userShippingData.addressField2"
+            :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+            bordered
+        />
+
+        <div class="flex w-full flex-wrap gap-6 custom-size-no-gap">
+            <div class="flex flex-col">
+                <p>City <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.cityField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="city"
+                    bordered
+                />
+            </div>
+            <div class="flex flex-col">
+                <p>State/Province <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.regionField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="state/province"
+                    bordered
+                />
+            </div>
+        </div>
+
+        <div class="flex w-full flex-wrap gap-6 custom-size-no-gap">
+            <div class="flex flex-col">
+                <p>Postal code <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.postalField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="postal code"
+                    bordered
+                />
+            </div>
+            <div class="flex flex-col">
+                <p>Country <span class="va-text-danger">*</span></p>
+                <va-input
+                    class="mb-4 w-full"
+                    v-model="orderStore.userShippingData.countryField"
+                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    placeholder="postal code"
+                    bordered
+                />
+            </div>
+        </div>
+
+        <p>Additional notes</p>
+        <va-input
+            class="mb-4"
+            type="textarea"
+            v-model="orderStore.userShippingData.additionalNote"
+            :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+            placeholder="additional notes"
+            bordered
+        />
     </form>
-</div> 
+</div>
 
 </template>
 
 <script setup>
 
 import { onMounted } from 'vue';
-import { 
-    useOrderStore, useUiStore,
-    // userShippingData, thirdPartyScriptsLoaded 
-} from '../../services/stateStore';
+import { useOrderStore, useUiStore } from '../../services/stateStore';
 
 // Pinia store
 const orderStore = useOrderStore();
@@ -64,7 +115,7 @@ const router = useRouter();
 
 let autocomplete = {};
 let errorMessage = ref('');
-let addressField1 = ref('');
+let addressField1 = ref(null);
 
 onMounted(() => {
     // If user refreshes page and Google places script is no longer in <head>
@@ -74,9 +125,8 @@ onMounted(() => {
 });
     
 function initAutocomplete() {
-
     // Create the autocomplete object
-    autocomplete = new google.maps.places.Autocomplete(addressField1.value, {
+    autocomplete = new google.maps.places.Autocomplete(addressField1.value.input, {
         componentRestrictions: { country: ['us', 'ca'] },
         fields: ['address_components', 'geometry'],
         types: ['address']
@@ -88,14 +138,13 @@ function initAutocomplete() {
 };
 
 function fillInAddress() {
-    // Get the place details from the autocomplete object.
     
+    // Get the place details from the autocomplete object.
     const place = autocomplete.getPlace();
     let address1 = '';
     let postcode = '';
     // Get each component of the address from the place details,
     // and then fill-in the corresponding field on the form.
-    // place.address_components are google.maps.GeocoderAddressComponent objects
     // which are documented at http://goo.gle/3l5i5Mr
     for (const component of place.address_components) {
         const componentType = component.types[0];
@@ -142,7 +191,7 @@ function fillInAddress() {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .required-marker {
     color: red;
@@ -209,14 +258,11 @@ input[type="reset"] {
     color: #686868;
    /* font-size: 14px; */
 }
-/*Tablet sizes*------------------------------------------------------*/
-@media (min-width: 723px) {
- 
-}
-/*Desktop sizes*-----------------------------------------------------*/
-@media (min-width: 1023px) {
-    #address-form {
-        padding: 10px 0 0 0;
+/*Custom break point for the form. Should not have gap:*------------------------------------------------------*/
+@media (max-width: 555px) {
+    .custom-size-no-gap {
+        gap: 0;    
     }
 }
+
 </style>

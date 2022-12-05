@@ -8,10 +8,13 @@
                 :src="product.main_image_url"
                 />
                 <va-card-content>
-                    <h6>{{ product.name }}</h6>
+                    <h6 class="va-h6">{{ product.name }}</h6>
                 </va-card-content>
                 <va-card-content>
-                    {{ product.description }}
+                    <p>{{ product.description }}</p>
+                </va-card-content>
+                <va-card-content>
+                    <p><b>${{ product.price }}</b></p>
                 </va-card-content>
                 <va-card-content align="center">
                     <va-button 

@@ -28,7 +28,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
                 ]));
                 return;
             };
-        
+            
             // Shopping cart already exists in LS
 
             // Check to see if item already exists in shopping cart
@@ -157,7 +157,16 @@ export const useUiStore = defineStore('uiStore', {
 
 export const useAdminStore = defineStore('adminStore', {
     state: () => ({
-        // ui helpers
+        
+        // Edit product
+        showConfirmEditModal: false,
+        confirmEditModalMessage: '',
+        // This will end up getting Object.assign(productToEdit, selectedProductToEdit)
+        productToEdit: {},
+        showEditProductComponent: false,
+        showCancelEditModal: false,
+
+        // Handles all 'views' and sidebar items
         sidebarShown: false,
         activeRouteName: 'home',
         sidebarItems: [
@@ -186,17 +195,46 @@ export const useAdminStore = defineStore('adminStore', {
                         displayName: 'Add',
                         icon: 'add_circle'
                     },
+                    {
+                        name: 'images',
+                        displayName: 'Images',
+                        icon: 'image'
+                    },
                 ],
             }
         ]
     }),
+    getters: {
+
+    },
     actions: {
+        // Sidebar actions
         isRouteActive(route) {
             return this.activeRouteName === route.name
         },
         setRouteActive(route) {
             if (route.children) { return }
             this.activeRouteName = route.name
+        },
+        // *************************
+        // Edit product
+        // *************************
+        // When the edit product icon is clicked. Show popup modal and display confirm edit message.
+        initiateConfirmProductEdit(productId, allProducts) {
+            this.showConfirmEditModal = !this.showConfirmEditModal;
+            let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
+            let selectedProduct = allProducts[selectedProductIndex];
+            this.confirmEditModalMessage =
+                `Are you sure you want to edit ${selectedProduct.name} ?`
+            console.log(selectedProduct);
+        },
+        // When the 'ok' is clicked to confirm the user wants to edit the product. Will assign the product the edit to a var and show the edit Component.
+        handleGotoEditProductView(productId, allProducts) {
+            let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
+            let selectedProduct = allProducts[selectedProductIndex];
+            // Object.assign is important here, so the original values are not changed during the editing process. Only replaced by this.productToEdit after the user saves.
+            Object.assign(this.productToEdit, selectedProduct);
+            this.showEditProductComponent = true;
         }
     }
 });
