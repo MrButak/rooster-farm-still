@@ -22,8 +22,13 @@
                 </span>
             </span>
 
-            <span v-else-if="adminStore.activeRouteName == 'images'" class="admin-viewed-content-component-wrapper">
-                <AdminImages />
+            <span v-else-if="adminStore.activeRouteName == 'images'" style="display:flex;flex-direction:column;gap: 1.8rem">
+                <span class="admin-viewed-content-component-wrapper">
+                    <AdminImagesUpload />
+                </span>
+                <span class="admin-viewed-content-component-wrapper">
+                    <AdminImages />
+                </span>
             </span>
             
 

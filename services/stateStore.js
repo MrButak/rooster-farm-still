@@ -165,7 +165,9 @@ export const useAdminStore = defineStore('adminStore', {
         productToEdit: {},
         showEditProductComponent: false,
         showCancelEditModal: false,
-
+        // Images
+        allImageBucketData: [],
+        uploadedImageArray: [],
         // Handles all 'views' and sidebar items
         sidebarShown: false,
         activeRouteName: 'home',

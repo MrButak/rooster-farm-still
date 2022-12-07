@@ -17,8 +17,17 @@ const listObjectsInBucket = async (bucketName) => {
     // };
     
     const objects = await s3
-        .listObjects({
-            Bucket: bucketName
+        .listObjectsV2({
+            Bucket: bucketName,
+            // ContinuationToken: 'STRING_VALUE',
+            // Delimiter: 'product-images',
+            // EncodingType: url,
+            // ExpectedBucketOwner: 'STRING_VALUE',
+            // FetchOwner: true || false,
+            // MaxKeys: 'NUMBER_VALUE',
+            // Prefix: 'STRING_VALUE',
+            // RequestPayer: requester,
+            // StartAfter: 'STRING_VALUE'
         })
         .promise();
     return objects;

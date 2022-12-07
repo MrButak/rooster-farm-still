@@ -1,31 +1,44 @@
 <template>
 
 <h3 class="va-h3">Images</h3>
-<div v-for="folder in allImageData" class="">
 
-    <p>{{ folder.Key }}</p>
-
+<div v-for="imageObj in adminStore.allImageBucketData" class="">
+    <div>
+        <va-image 
+            class="w-32"
+            :src="imageUrl(imageObj.Key)"
+        />
+        <p>{{ imageObj.Key }}</p>
+    </div>
+    
 </div>
-<va-button @click="testS3">Test s3</va-button>
+
 </template>
 
 
 
 <script setup>
 
-let allImageData = reactive([]);
+import { useAdminStore } from '~~/services/stateStore';
+const adminStore = useAdminStore();
 
-async function testS3() {
-    let response = await $fetch(`/api/test-s3`, {
-        method: 'POST',
-        // body: JSON.stringify({
-        //     shipping: orderStore.userShippingData,
-        //     products: purchasedItemsObj,
-        //     subtotal: orderStore.subTotal
-        // })
+const config = useRuntimeConfig();
+
+
+function imageUrl(imageKey) {
+    // console.log(imageKey)
+    return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;
+}
+
+onMounted(() => {
+    getAllImagesFromS3()
+})
+async function getAllImagesFromS3() {
+    let response = await $fetch(`/api/admin/image/get-all`, {
+
     });
-    Object.assign(allImageData, response.imageData);
-    console.log(response.imageData);
+    Object.assign(adminStore.allImageBucketData, response.imageData);
+    // console.log(response.imageData);
 };
 
 </script>

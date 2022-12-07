@@ -20,11 +20,11 @@
     "@pinia/nuxt": "^0.4.6",
     "@vuestic/nuxt": "^1.0.8",
     "aws-sdk": "^2.1267.0",
+    "multer": "^1.4.5-lts.1",
     "pg": "^8.8.0",
     "pinia": "^2.0.27",
     "sib-api-v3-sdk": "^8.4.2",
     "stripe": "^10.12.0",
     "vue-gtag-next": "^1.14.0"
   }
-
 }
