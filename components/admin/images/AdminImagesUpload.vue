@@ -65,21 +65,19 @@ async function handleImageUpload() {
                     resolve(file.target.result.split(',')[1]);
                 };
 
-                fileReader.onerror = (error) => reject(error);
-
-                [{name: image.name, data: fileReader.readAsDataURL(image)}];
+                fileReader.onerror = (error) => reject(error);                  
+                fileReader.readAsDataURL(image);
             })
         )
     )
     .then((base64Images) => {
-        // console.log(adminStore.uploadedImageArray[0].name)
+        
         
         let response = $fetch(`/api/admin/image/upload`, {
             method: 'POST',
             body: JSON.stringify({
-                // Create an Array of Object [{name: image_name, data: image file to base 64 string}]
-                imageData: base64Images[0],
-                imageName: adminStore.uploadedImageArray[0].name
+                imageData: base64Images, // Object whos values are the base 64 image data
+                imageNameArray: adminStore.uploadedImageArray.map((image) => image.name) // Array of names
             })
         })
         .then((response) => {

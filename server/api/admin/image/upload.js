@@ -12,48 +12,42 @@ AWS.config.update({
     secretAccessKey: process.env.AWS_S3_Secret_Key
 });
 
-let s3 = new AWS.S3();
+// let s3 = new AWS.S3();
 
 function addPhoto(imgObj) {
-    
     
     var file = imgObj.data;
     var fileName = imgObj.name;
 
-  
     // Use S3 ManagedUpload class as it supports multipart uploads
     var upload = new AWS.S3.ManagedUpload({
-      params: {
+    params: {
         Bucket: process.env.AWS_S3_IMAGE_BUCKET_NAME,
         Key: fileName,
         
         Body: Buffer.from(file.replace(/^data:image\/\w+;base64,/, ""),'base64'),
         ContentEncoding: 'base64',
-      }
+    }
     });
-  
-    var promise = upload.promise();
-  
-    promise.then(
-      function(data) {
-        console.log("Successfully uploaded photo.");
-      },
-      function(err) {
-        console.log('sdfldsjf;lsdjf;lkdsjf;ljds;lfkajds;lkfjs;')
-        return console.log("There was an error uploading your photo: ", err.message);
-      }
-    );
-  }
-    
-    
+
+    return upload.promise();
+};
 
 export default defineEventHandler (async event => {
     
-    const body = await useBody(event)
-    // console.log(body.imageData)
-    // console.log(body.imageName)
-    addPhoto({data: body.imageData, name: body.imageName})
-    //uploadFilePromises.push(uploadFile(body.imageAray[0].name, body.imageAray[0].data));
+    const body = await useBody(event);
+
+    // Build an Array of promises to upload the image
+    let uploadPromiseArray = [];
+    Object.values(body.imageData).forEach((imageData, index) => {
+        uploadPromiseArray.push(addPhoto({data: imageData, name: body.imageNameArray[index]}));
+    });
+
+    
+    Promise.all(uploadPromiseArray).then((values) => {
+        console.log(values)
+    });
+    
 
     return {status: '200'};
 });
