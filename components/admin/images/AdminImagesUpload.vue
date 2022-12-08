@@ -54,8 +54,6 @@ watchEffect(() => {
 
 
 async function handleImageUpload() {
-
-
     Promise.all(
         adminStore.uploadedImageArray
         .map(
@@ -74,13 +72,14 @@ async function handleImageUpload() {
         )
     )
     .then((base64Images) => {
-        
+        // console.log(adminStore.uploadedImageArray[0].name)
         
         let response = $fetch(`/api/admin/image/upload`, {
             method: 'POST',
             body: JSON.stringify({
                 // Create an Array of Object [{name: image_name, data: image file to base 64 string}]
-                imageArray: JSON.stringify(adminStore.uploadedImageArray.map((image, index) => [{name: image.name, data: base64Images[index]}]))
+                imageData: base64Images[0],
+                imageName: adminStore.uploadedImageArray[0].name
             })
         })
         .then((response) => {
