@@ -1,5 +1,6 @@
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
+    // product_id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE,
     short_description TEXT,
     description TEXT,
@@ -14,6 +15,7 @@ CREATE TABLE products (
 );
 CREATE TABLE purchases (
     id SERIAL PRIMARY KEY,
+    // purchase_id SERIAL PRIMARY KEY,
     order_id VARCHAR(255) NOT NULL,
     product_id INTEGER REFERENCES products(id) NOT NULL,
     quantity INTEGER NOT NULL,
@@ -25,6 +27,18 @@ CREATE TABLE purchases (
     stripe_payment_intent_id TEXT,
     stripe_charge_id TEXT
 );
+
+CREATE TABLE images(
+    image_id SERIAL PRIMARY KEY,
+    file_name TEXT NOT NULL,
+    file_url TEXT NOT NULL,
+);
+
+CREATE TABLE product_images(
+    product_id INTEGER REFERENCES products(id),
+    image_id INTEGER REFERENCES images(id),
+);
+
 // payment_success BOOLEAN  (I should only set this to true after appropriate Stripe webhook)
 
 INSERT INTO purchases (product_id, quantity, purchaser_email, purchase_date, subtotal_in_cents, currency, provider, stripe_cs)
@@ -106,3 +120,58 @@ INSERT INTO products
     'still accessories',
     true,
     '2022-10-02 06:28:19');
+
+
+
+
+
+
+
+
+
+
+
+
+
+**************************** images ***
+
+
+
+create table products(
+id SERIAL PRIMARY KEY,
+name TEXT,
+image_id INTEGER ARRAY
+);
+
+create table images(
+id SERIAL PRIMARY KEY,
+file_name TEXT
+);
+
+INSERT INTO images (file_name) VALUES ('some-image.bmp');
+INSERT INTO images (file_name) VALUES ('some-other-image.bmp');
+INSERT INTO images (file_name) VALUES ('yet-other-image.jpg');
+
+INSERT INTO products (name) VALUES ('5 gal still');
+
+
+UPDATE products SET image_id = array_append(image_id, (SELECT id from images WHERE file_name = 'some-image.bmp') );
+UPDATE products SET image_id = array_append(image_id, (SELECT id from images WHERE file_name = 'yet-other-image.jpg') );
+
+
+select image_id from products where 1 in (SELECT unnest(products.image_id) from products where id = 1);
+
+SELECT *
+FROM images
+JOIN products ON images.id = ANY(products.image_id)
+WHERE products.id = 1;
+
+
+SELECT *
+FROM images
+JOIN products ON images.id = ANY(products.image_id)
+WHERE products.id = 1;
+
+SELECT * 
+FROM images
+WHERE id IN( SELECT UNNEST("image_id") FROM products WHERE id = 1 );

@@ -11,10 +11,7 @@ AWS.config.update({
 let s3 = new AWS.S3();
 
 const listObjectsInBucket = async (bucketName) => {
-    // Create the parameters for calling listObjects
-    // const bucketParams = {
-    //     Bucket : bucketName,
-    // };
+    
     
     const objects = await s3
         .listObjectsV2({
@@ -35,8 +32,6 @@ const listObjectsInBucket = async (bucketName) => {
 
 
 export default defineEventHandler (async event => {
-    
-    // const body = await useBody(event)
     
     let allImageData = await listObjectsInBucket(process.env.AWS_S3_IMAGE_BUCKET_NAME);
     

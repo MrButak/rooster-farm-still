@@ -8,9 +8,9 @@
     drop-zone-text="Drop files here"
     upload-button-text="Choose File"
 />
-<div v-if="duplicateFileNameArray.length">
+<div v-if="duplicateFileArray.length">
     <p class="va-text-danger">Duplicate file name(s). Please remove the following file(s) before proceeding:</p>
-    <ul v-for="fileName in duplicateFileNameArray">
+    <ul v-for="fileName in duplicateFileArray">
         <li>{{ fileName.Key }}</li>
     </ul>
 </div>
@@ -29,35 +29,40 @@
 
 import { useAdminStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
-let duplicateFileNameArray = reactive([]);
+ // Holds all duplicate files. Displayed on DOM
+let duplicateFileArray = reactive([]);
 
+// Function will compare 'all images' vs 'images to be uploaded' and find duplicates.
+// Return: Boolean
 function hasDuplicateFileName() {
-    
     let duplicates = 
         adminStore.allImageBucketData.filter(imgObj => adminStore.uploadedImageArray.map((imgObj) => imgObj.name).includes(imgObj.Key));
-    duplicateFileNameArray.length = 0;
+    duplicateFileArray.length = 0;
     if(duplicates.length) {
-        Object.assign(duplicateFileNameArray, duplicates);
+        Object.assign(duplicateFileArray, duplicates);
     };
     return duplicates.length;
 };
 
+// Computed determines whether or not the 'upload image'<button> is disabled
 let canUploadImage = computed(() => {
     if(!adminStore.uploadedImageArray.length || hasDuplicateFileName()) {return false};
     return true;
 });
 
+// When a file is added to be uploaded, check for duplicates
 watchEffect(() => {
     hasDuplicateFileName(adminStore.uploadedImageArray);
 });
 
 
-
 async function handleImageUpload() {
+
     Promise.all(
         adminStore.uploadedImageArray
         .map(
             (image) =>
+            // Create an Array of base 64 images from the users image objects
             new Promise((resolve, reject) => {
                 const fileReader = new FileReader();
 
@@ -71,8 +76,6 @@ async function handleImageUpload() {
         )
     )
     .then((base64Images) => {
-        
-        
         let response = $fetch(`/api/admin/image/upload`, {
             method: 'POST',
             body: JSON.stringify({
@@ -82,11 +85,15 @@ async function handleImageUpload() {
         })
         .then((response) => {
             console.log(response)
+            switch(response.status) {
+                case '200':
+                    console.log(response);
+                    break;
+                default:
+                    alert('An error occurred while uploading your images, try again.')
+            }
         })
-        
-    });
-    
-    
+    }); 
 };
 
 </script>
