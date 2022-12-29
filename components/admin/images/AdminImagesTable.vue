@@ -1,18 +1,19 @@
 <template>
 <div class="row">
-      <va-input
+        <va-input
         class="flex mb-2 md6 xs12"
         placeholder="Filter..."
         v-model="input"
-      />
+        />
     </div>
-  
-    <va-data-table v-if="allProducts.length"
-      :items="allProducts"
-      :columns="columns"
-      :filter="input"
-      icon="home"
-      striped
+    
+    <!-- v-if="allProducts.length" -->
+    <va-data-table
+        :items="allProducts"
+        :columns="columns"
+        :filter="input"
+        icon="home"
+        striped
     >
 
     <template #header(edit)="{ label }">
@@ -23,7 +24,7 @@
         <va-icon 
             size="small" 
             name="edit" 
-            @click="selectedProductId = value; adminStore.initiateConfirmProductEdit(value, allProducts)"
+            @click="selectedProductId = value"
             />
     </template>
 
@@ -33,11 +34,10 @@
     </template>
 
     <template #cell(images)="{ value }">
-        {{ totalImageCount(value) }}
+        
         <va-icon 
             size="small" 
             name="visibility" 
-            @click="handleShowProductImages(value)"
             
             />
     </template>
@@ -46,17 +46,12 @@
 
     <!-- @filtered="filteredCount = $event.allProducts.length"   -->
     <!-- <va-alert class="mt-3" color="info" outline>
-      <span>
+        <span>
         Number of filtered items:
         <va-chip>{{ filteredCount }}</va-chip>
-      </span>
+        </span>
     </va-alert> -->
 
-    <!-- Confirm edit popup modal -->
-    <va-modal 
-        v-model="adminStore.showConfirmEditModal" :message="adminStore.confirmEditModalMessage" title="Edit?" 
-        @ok="adminStore.handleGotoEditProductView(selectedProductId, allProducts)"    
-    />
 
 </template>
 
@@ -66,23 +61,9 @@
 
 import { useAdminStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
-
-// When a user clicks the edit product icon, this will store the id.
-let selectedProductId = ref(0);
+const config = useRuntimeConfig();
 
 const input = ref('');
-let allProducts = reactive([]);
-
-function totalImageCount(productId) {
-    let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
-    let selectedProduct = allProducts[selectedProductIndex];
-    return selectedProduct.image_names.length;
-};
-
-function handleShowProductImages(productId) {
-    console.log('show images here');;
-};
-
 
 const columns = [
     { key: 'id', name: 'edit', label: 'edit' }, // passing the DB id here. When @click
@@ -94,24 +75,6 @@ const columns = [
     { key: 'added_on_timestamp', sortable: true },
 ]
 
-onMounted(() => {
-
-    (async() => {
-        await loadProductsIntoMemory();
-    })();
-
-});
-
-async function loadProductsIntoMemory() {
-    let productsDbData = await $fetch(`/api/get-products`);
-    productsDbData.forEach((product) => {
-        product.added_on_timestamp = new Date(product.added_on_timestamp).toLocaleString();
-
-    });
-
-    // console.log(productsDbData)
-    Object.assign(allProducts, productsDbData);
-};
 
 </script>
 

@@ -1,7 +1,7 @@
 <template>
 
 <div v-if="allProducts.length" class="flex flex-col align-center gap-16 mt-16 px-4">
-
+<!-- TODO: replace the following classes: md6, lg4 to use tailwind -->
     <div v-for="product in allProducts" class="flex md6 lg4">
         <va-card>
             <va-image

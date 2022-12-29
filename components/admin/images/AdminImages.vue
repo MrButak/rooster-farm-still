@@ -1,18 +1,39 @@
 <template>
 
 <h3 class="va-h3">Images</h3>
-<va-button 
-    icon="delete" 
-    color="danger" 
-    class="w-32"
-    :disabled="!imageSelection.length"
-    @click="showDeleteImageModal = !showDeleteImageModal"
+<div class="flex">
+    <span class="flex !flex-initial">
+        <va-button 
+            icon="delete" 
+            size="small"
+            color="danger" 
+            :disabled="!imageSelection.length"
+            @click="showDeleteImageModal = !showDeleteImageModal"
+            >
+            Delete
+        </va-button>
+    </span>
+    <!-- Image view options -->
+    <va-select
+        class="flex !flex-initial w-44"
+        :options="viewOptions"
+        v-model="imageView"
     >
-    Delete
-</va-button>
-<div class="flex gap-4">
+      <template #prependInner>
+            <va-icon
+                name="list"
+            />
+      </template>
+    </va-select>
+</div>
+
+<!-- Image views -->
+<!-- List -->
+<AdminImagesTable />
+<!-- Thumbnail -->
+<!-- <div class="flex flex-wrap gap-4">
     <div v-for="imageObj in adminStore.allImageBucketData" 
-            class="w-32" 
+            class="flex flex-col !flex-initial w-32 " 
             :style="{'backgroundColor': imagePreviewBgColor(imageObj)}"
         >
         <va-checkbox
@@ -26,7 +47,7 @@
         />
         <p class="w-32 truncate ...">{{ imageObj.Key }}</p>
     </div>
-</div>
+</div> -->
 
 <!-- No images to show -->
 <div v-if="!adminStore.allImageBucketData.length">
@@ -90,13 +111,18 @@ import { useAdminStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
 const config = useRuntimeConfig();
 
+// Image list options
+let viewOptions = ref(['list', 'thumbnail', 'large'])
+let imageView = ref('thumbnail');
+
 let showImageModal = ref(false);
 let showDeleteImageModal = ref(false);
 let viewedImage = {}; // This is assigned when an image is clicked
 
-// Holds image name when checkbox is checked
+// Holds image name(s) when checkbox is checked
 let imageSelection = ref([]);
 
+// If a checkbox is checked/unchecked this determines the div's background color
 function imagePreviewBgColor(imageName) {
     return imageSelection.value.includes(imageName.Key) ?
         '#D3D3D3' :

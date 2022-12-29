@@ -72,7 +72,7 @@ const adminStore = useAdminStore();
     display: flex;
     height: calc(100vh - 3.6rem);
     overflow: scroll;
-    flex: 1 1 0;
+    flex: 1 1 auto;
 }
 .admin-viewed-content-inner-wrapper {
     display: flex;
