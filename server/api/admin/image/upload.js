@@ -8,8 +8,6 @@ AWS.config.update({
     secretAccessKey: process.env.AWS_S3_Secret_Key
 });
 
-// let s3 = new AWS.S3();
-
 function addPhoto(imgObj) {
     
     var file = imgObj.data;
@@ -32,7 +30,7 @@ export default defineEventHandler (async event => {
     
     const body = await useBody(event);
 
-    // Build an Array of promises to upload the image
+    // Build an Array of promises: to upload the image
     let uploadPromiseArray = [];
     Object.values(body.imageData).forEach((imageData, index) => {
         uploadPromiseArray.push(addPhoto({data: imageData, name: body.imageNameArray[index]}));

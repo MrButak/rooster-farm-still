@@ -12,13 +12,11 @@
 </va-button>
 <div class="flex gap-4">
     <div v-for="imageObj in adminStore.allImageBucketData" 
-        class="w-32" 
-        
-        :style="{'backgroundColor': imagePreviewBgColor(imageObj)}"
+            class="w-32" 
+            :style="{'backgroundColor': imagePreviewBgColor(imageObj)}"
         >
-        
         <va-checkbox
-        v-model="imageSelection"
+            v-model="imageSelection"
             :array-value="imageObj.Key"
         />
         <va-image 
@@ -118,8 +116,39 @@ onMounted(() => {
 });
 
 async function handleDeleteImages() {
-    if(!imageSelection.length) { return };
+    // If no items to delete, return
+    if(!imageSelection.value.length) { return };
+    
+    // Create an Array of Objects
+    let deleteParams = [];
+    imageSelection.value.forEach((imageName) => {
+        deleteParams.push({'Key': imageName});
+    });
 
+    let response = $fetch(`/api/admin/image/delete`, {
+        method: 'POST',
+        body: JSON.stringify({
+            imageNameArray: deleteParams
+        })
+    })
+    .then((response) => {
+        switch(response.status) {
+            case '200':
+                // Success, now delete from State
+                // TODO: remove image objects from
+                Object.assign(
+                    adminStore.allImageBucketData, 
+                    adminStore.allImageBucketData.filter((imageObj) => {
+                        response.data.map((resObj) => { resObj.Key}).includes(imageObj.Key)
+                    })
+                )
+                console.log(response);
+                break;
+            case '500':
+                // Error(s)
+                console.log(response.data)
+        }
+    })
 };
 
 // Function handles API call to Amazon s3 to get all images.
