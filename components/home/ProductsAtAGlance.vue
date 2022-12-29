@@ -1,32 +1,31 @@
 <template>
 
-    <div v-if="allProducts.length" class="all-products-wrapper">
+<div v-if="allProducts.length" class="flex flex-col align-center gap-16 mt-16 px-4">
 
-        <div v-for="product in allProducts" class="flex md6 lg4">
-            <va-card>
-                {{ product.image_names }}
-                <va-image
-                :src="imageUrl(product.image_names[0])"
-                />
-                <va-card-content>
-                    <h6 class="va-h6">{{ product.name }}</h6>
-                </va-card-content>
-                <va-card-content>
-                    <p>{{ product.description }}</p>
-                </va-card-content>
-                <va-card-content>
-                    <p><b>${{ product.price }}</b></p>
-                </va-card-content>
-                <va-card-content align="center">
-                    <va-button 
-                        @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">
-                        See More
-                    </va-button>
-                </va-card-content>
-            </va-card>
-        </div>
-    
+    <div v-for="product in allProducts" class="flex md6 lg4">
+        <va-card>
+            <va-image
+            :src="imageUrl(product.image_names[0])"
+            />
+            <va-card-content>
+                <h6 class="va-h6">{{ product.name }}</h6>
+            </va-card-content>
+            <va-card-content>
+                <p>{{ product.description }}</p>
+            </va-card-content>
+            <va-card-content>
+                <p><b>${{ product.price }}</b></p>
+            </va-card-content>
+            <va-card-content align="center">
+                <va-button 
+                    @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">
+                    See More
+                </va-button>
+            </va-card-content>
+        </va-card>
     </div>
+
+</div>
 
 </template>
 
@@ -48,16 +47,3 @@ function imageUrl(imageName) {
 };
 
 </script>
-
-<style lang="scss">
-
-.all-products-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4rem;
-    margin: 4rem 0 0 0;
-    padding: 0 1rem;
-}
-
-</style>

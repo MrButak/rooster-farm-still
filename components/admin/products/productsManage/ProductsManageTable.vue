@@ -76,7 +76,7 @@ let allProducts = reactive([]);
 function totalImageCount(productId) {
     let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
     let selectedProduct = allProducts[selectedProductIndex];
-    return selectedProduct.image_urls.length + 1;
+    return selectedProduct.image_names.length;
 };
 
 function handleShowProductImages(productId) {

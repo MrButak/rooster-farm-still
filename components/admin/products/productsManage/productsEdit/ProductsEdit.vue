@@ -19,15 +19,24 @@
 <!-- ******************************************************************** -->
 <!-- Images -->
 <!-- ******************************************************************** -->
+<!-- The first image in the Array is the main image -->
 <h5 class="va-h5">Main image</h5>
-<va-image class="flex md6 lg4" src="https://picsum.photos/1500" />
-<p>{{ adminStore.productToEdit.main_image_url }}</p>
+<va-image class="flex md6 lg4" :src="mainImageUrl" />
+<p>{{ adminStore.productToEdit.image_names[0] }}</p>
 
 <h5 class="va-h5">Images</h5>
-<va-carousel :items="adminStore.productToEdit.image_urls
-" stateful indicators infinite swipable />
-<div v-for="(url, index) in adminStore.productToEdit.image_urls">
-    <p>{{ index + 1 }}. {{ url }}</p>
+<div v-if="productImagesArray.length" >
+    <!-- All images after index 0 are displayed on the image slider -->
+    <va-carousel 
+        :items="productImagesArray" 
+        stateful indicators infinite swipable 
+        />
+    <div v-for="(imageName, index) in adminStore.productToEdit.image_names.slice(1)">
+        <p>{{ index + 1 }}. {{ imageName }}</p>
+    </div>
+</div>
+<div v-else>
+    <p>No product images add some!</p>
 </div>
 
 <!-- ******************************************************************** -->
@@ -58,15 +67,25 @@
 
 <script setup>
 
-import { reactive, computed } from 'vue';
+import { computed } from 'vue';
 import { useAdminStore } from '~~/services/stateStore';
 
 import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
+const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 
+// Computed will return an everything after index 0 in the image_names Array with the base url prepended
+let productImagesArray = computed(() => {
+    return adminStore.productToEdit.image_names
+    .slice(1)
+    .map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});
+});
 
-
+// Computed will return the index 0 of image_names Array with the base_url prepended
+let mainImageUrl = computed(() => {
+    return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.image_names[0]
+});
 
 </script>
 
