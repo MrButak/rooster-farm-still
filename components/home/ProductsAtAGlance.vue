@@ -4,8 +4,9 @@
 
         <div v-for="product in allProducts" class="flex md6 lg4">
             <va-card>
+                {{ product.image_names }}
                 <va-image
-                :src="product.main_image_url"
+                :src="imageUrl(product.image_names[0])"
                 />
                 <va-card-content>
                     <h6 class="va-h6">{{ product.name }}</h6>
@@ -32,17 +33,19 @@
 
 <script setup>
 
-import { onMounted } from 'vue';
 const router = useRouter();
+const config = useRuntimeConfig();
 let allProducts = reactive([]);
-// const config = useRuntimeConfig();
 
-// onMounted(() => {
-    (async() => {
-        let productsDbData = await $fetch(`/api/get-products`);
-        productsDbData.forEach((product) => allProducts.push(product));
-    })();
-// });
+(async() => {
+    let productsDbData = await $fetch(`/api/get-products`);
+    productsDbData.forEach((product) => allProducts.push(product));
+})();
+
+function imageUrl(imageName) {
+    // imageKey: 'some-image-name.bmp' 
+    return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageName}`;
+};
 
 </script>
 

@@ -1,9 +1,3 @@
 Tailwind JIT 'just in time' mode does not work with nuxt 3 hot reloading.
 You have to restart the server 'npm run dev' for the new tailwind styles to take effect.
 Possible work-a-round: https://github.com/tailwindlabs/tailwindcss/issues/4962
-
-
-Admin Products
-
-Should display all folders,
-    Should display all images in folder

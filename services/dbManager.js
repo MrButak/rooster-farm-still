@@ -16,9 +16,9 @@ if(process.env.APP_ENVIRONMENT == 'production') {
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: {
-                required: true,
-                rejectUnauthorized: false
-            }
+            required: true,
+            rejectUnauthorized: false
+        }
     });
 };
 

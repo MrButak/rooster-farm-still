@@ -98,14 +98,13 @@ let viewedImage = {}; // This is assigned when an image is clicked
 let imageSelection = ref([]);
 
 function imagePreviewBgColor(imageName) {
-
     return imageSelection.value.includes(imageName.Key) ?
         '#D3D3D3' :
         'transparent';
 };
 
 function imageUrl(imageKey) {
-    // imageKey == some-image-name.bmp 
+    // imageKey: 'some-image-name.bmp' 
     return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;
 };
 
