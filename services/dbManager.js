@@ -82,4 +82,14 @@ async function updateProductQuantity(dbValues) {
     };
 };
 
-export { dbCall, selectProductData, storePurchase, updateProductQuantity, storeStripeChargeId }
+// Function is called after a successful image upload to AWS s3
+async function insertImageNames(dbValues) { // dbValues: String
+    let dbStmt = 'INSERT INTO images (file_name) VALUES ($1)';
+    try {
+        await pool.query(dbStmt, [dbValues]);
+    }
+    catch(err) {
+        console.log(err);
+    };
+};
+export { dbCall, selectProductData, storePurchase, updateProductQuantity, storeStripeChargeId, insertImageNames }

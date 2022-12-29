@@ -33,7 +33,7 @@ const adminStore = useAdminStore();
 let duplicateFileArray = reactive([]);
 
 // Function will compare 'all images' vs 'images to be uploaded' and find duplicates.
-// Return: Boolean
+// Return: Integer >= 0
 function hasDuplicateFileName() {
     let duplicates = 
         adminStore.allImageBucketData.filter(imgObj => adminStore.uploadedImageArray.map((imgObj) => imgObj.name).includes(imgObj.Key));
@@ -54,7 +54,6 @@ let canUploadImage = computed(() => {
 watchEffect(() => {
     hasDuplicateFileName(adminStore.uploadedImageArray);
 });
-
 
 async function handleImageUpload() {
 
@@ -87,7 +86,12 @@ async function handleImageUpload() {
             console.log(response)
             switch(response.status) {
                 case '200':
-                    console.log(response);
+                    console.log(response.data)
+                    adminStore.uploadedImageArray.length = 0;
+                    response.data.forEach((imgObj) => {
+                        console.log(imgObj)
+                        adminStore.allImageBucketData.push(imgObj)
+                    });
                     break;
                 default:
                     alert('An error occurred while uploading your images, try again.')

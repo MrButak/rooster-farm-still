@@ -1,3 +1,4 @@
+import { insertImageNames } from '../../../../services/dbManager';
 import AWS from 'aws-sdk';
 import dotenv from "dotenv";
 dotenv.config();
@@ -28,6 +29,7 @@ function addPhoto(imgObj) {
 
 export default defineEventHandler (async event => {
     
+    // TODO: Do some ERROR handling!
     const body = await useBody(event);
 
     // Build an Array of promises: to upload the image
@@ -36,10 +38,14 @@ export default defineEventHandler (async event => {
         uploadPromiseArray.push(addPhoto({data: imageData, name: body.imageNameArray[index]}));
     });
 
-    // Promise.all(uploadPromiseArray).then((values) => {
-    //     console.log(values)
-    // });
-    Promise.all(uploadPromiseArray)
+    // Resolve all promises
+    let response = await Promise.all(uploadPromiseArray).then((values) => {
+        return values;
+    });
     
-    return {status: '200'};
+    // Loop through uploaded images return values and insert into the DB
+    for(const imgObj of response) {
+        await insertImageNames(imgObj.Key);
+    };
+    return {status: '200', data: response}
 });

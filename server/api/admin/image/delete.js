@@ -28,6 +28,9 @@ export default defineEventHandler (async event => {
     };
     
     let response = await deleteObjectsInBucket(bucketParams);
+    // TODO: 
+    // 1 .Delete from images table in DB
+    // 2. Delete image names from products table image_names[] column
     return response.Errors.length ?
         {status: '500', data: response.Errors} :
         {status: '200', data: response.Deleted};

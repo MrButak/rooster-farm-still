@@ -108,17 +108,15 @@ function imageUrl(imageKey) {
     return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;
 };
 
-onMounted(() => {
-    (async() => {
-        await getAllImagesFromS3();
-    })();
-});
+(async() => {
+    await getAllImagesFromS3();
+})();
 
 async function handleDeleteImages() {
     // If no items to delete, return
     if(!imageSelection.value.length) { return };
     
-    // Create an Array of Objects
+    // Create an Array of Objects to send to the backend
     let deleteParams = [];
     imageSelection.value.forEach((imageName) => {
         deleteParams.push({'Key': imageName});
