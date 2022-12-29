@@ -134,19 +134,15 @@ async function handleDeleteImages() {
     .then((response) => {
         switch(response.status) {
             case '200':
-                // Success, now delete from State
-                // TODO: remove image objects from
-                Object.assign(
-                    adminStore.allImageBucketData, 
-                    adminStore.allImageBucketData.filter((imageObj) => {
-                        response.data.map((resObj) => { resObj.Key}).includes(imageObj.Key)
-                    })
-                )
-                console.log(response);
+                // Success, now delete from State and Component State
+                response.data.forEach((imgObj) => {
+                    adminStore.allImageBucketData.splice(adminStore.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
+                });
+                imageSelection.value.length = 0;
                 break;
             case '500':
                 // Error(s)
-                console.log(response.data)
+                console.log(response.data);
         }
     })
 };
