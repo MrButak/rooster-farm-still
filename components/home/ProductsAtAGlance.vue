@@ -1,8 +1,8 @@
 <template>
 
-<div v-if="allProducts.length" class="flex flex-col align-center gap-16 mt-16 px-4">
+<div v-if="productStore.allProducts.length" class="flex flex-col align-center gap-16 mt-16 px-4">
 <!-- TODO: replace the following classes: md6, lg4 to use tailwind -->
-    <div v-for="product in allProducts" class="flex md6 lg4">
+    <div v-for="product in productStore.allProducts" class="flex md6 lg4">
         <va-card>
             <va-image
             :src="imageUrl(product.image_names[0])"
@@ -32,13 +32,15 @@
 
 <script setup>
 
+import { useProductStore } from '~~/services/stateStore';
+const productStore = useProductStore();
+
 const router = useRouter();
 const config = useRuntimeConfig();
-let allProducts = reactive([]);
 
+// API call to backend - gets all products from DB
 (async() => {
-    let productsDbData = await $fetch(`/api/get-products`);
-    productsDbData.forEach((product) => allProducts.push(product));
+    await productStore.getAllProducts();
 })();
 
 function imageUrl(imageName) {

@@ -83,13 +83,10 @@ async function handleImageUpload() {
             })
         })
         .then((response) => {
-            console.log(response)
             switch(response.status) {
                 case '200':
-                    console.log(response.data)
                     adminStore.uploadedImageArray.length = 0;
                     response.data.forEach((imgObj) => {
-                        console.log(imgObj)
                         adminStore.allImageBucketData.push(imgObj)
                     });
                     break;

@@ -27,11 +27,56 @@
     </va-select>
 </div>
 
-<!-- Image views -->
+<!-- *****Image views***** -->
+
 <!-- List -->
-<AdminImagesTable />
+<div v-if="imageView == 'list'">
+    <div class="row">
+        <va-input
+        class="flex mb-2 md6 xs12"
+        placeholder="Filter..."
+        v-model="filterInput"
+        />
+    </div>
+    <va-data-table
+        :items="imageListObjArry"
+        :columns="columns"
+        :filter="filterInput"
+        icon="home"
+        striped
+    >
+
+    <template #header(view)="{ label }">
+        {{ label }}
+    </template>
+    <!-- image_name is value -->
+    <template #cell(view)="{ value }">
+        <va-icon 
+            size="small" 
+            name="visibility" 
+            @click="viewedImage = adminStore.allImageBucketData[adminStore.allImageBucketData.findIndex(imgObj => imgObj.Key == value)]; showImageModal = !showImageModal"
+            />
+    </template>
+        
+
+
+    <template #header(select)="{ label }">
+        {{ label }}
+        <!-- TODO: Select all -->
+    </template>
+    <!-- image_name is value -->
+    <template #cell(select)="{ value }">
+        <va-checkbox
+            v-model="imageSelection"
+            :array-value="value"
+        />
+    </template>
+
+    </va-data-table>
+</div>
+
 <!-- Thumbnail -->
-<!-- <div class="flex flex-wrap gap-4">
+<div v-if="imageView == 'thumbnail'" class="flex flex-wrap gap-4">
     <div v-for="imageObj in adminStore.allImageBucketData" 
             class="flex flex-col !flex-initial w-32 " 
             :style="{'backgroundColor': imagePreviewBgColor(imageObj)}"
@@ -47,7 +92,7 @@
         />
         <p class="w-32 truncate ...">{{ imageObj.Key }}</p>
     </div>
-</div> -->
+</div>
 
 <!-- No images to show -->
 <div v-if="!adminStore.allImageBucketData.length">
@@ -107,17 +152,39 @@
 
 <script setup>
 
-import { useAdminStore } from '~~/services/stateStore';
+import { useAdminStore, useProductStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
+const productStore = useProductStore();
 const config = useRuntimeConfig();
-
+function testy(val) {
+    console.log(val)
+}
 // Image list options
-let viewOptions = ref(['list', 'thumbnail', 'large'])
-let imageView = ref('thumbnail');
+let viewOptions = ref(['list', 'thumbnail'])
+let imageView = ref('list');
 
 let showImageModal = ref(false);
 let showDeleteImageModal = ref(false);
 let viewedImage = {}; // This is assigned when an image is clicked
+
+// List view
+const filterInput = ref('');
+const columns = [
+    // { key: 'view', name: 'view', label: 'view' },
+    { key: 'key', name: 'view', label: 'view' }, // passing the DB id here. When @click
+    { key: 'key', name: 'select', label: 'select', sortable: true },
+    { key: 'key', name: 'file_name', label: 'name' },
+    { key: 'lastModified', name:'last modified', sortable: true },
+    { key: 'displayed', name: 'displayed on' }
+];
+let imageListObjArry = computed(() => {
+    let imageObjArray = [];
+    adminStore.allImageBucketData.forEach((img) => {
+        imageObjArray.push({key: img.Key, lastModified: new Date(img.LastModified).toLocaleString()})
+    });
+    return imageObjArray;
+})
+
 
 // Holds image name(s) when checkbox is checked
 let imageSelection = ref([]);
@@ -157,7 +224,7 @@ async function handleDeleteImages() {
     .then((response) => {
         switch(response.status) {
             case '200':
-                // Success, now delete from State and Component State
+                // Success, now delete from State
                 response.data.forEach((imgObj) => {
                     adminStore.allImageBucketData.splice(adminStore.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
                 });

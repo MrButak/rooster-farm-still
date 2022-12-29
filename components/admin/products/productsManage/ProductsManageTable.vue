@@ -7,8 +7,8 @@
       />
     </div>
   
-    <va-data-table v-if="allProducts.length"
-      :items="allProducts"
+    <va-data-table v-if="productStore.allProducts.length"
+      :items="productStore.allProducts"
       :columns="columns"
       :filter="input"
       icon="home"
@@ -23,7 +23,7 @@
         <va-icon 
             size="small" 
             name="edit" 
-            @click="selectedProductId = value; adminStore.initiateConfirmProductEdit(value, allProducts)"
+            @click="selectedProductId = value; adminStore.initiateConfirmProductEdit(value, productStore.allProducts)"
             />
     </template>
 
@@ -55,7 +55,7 @@
     <!-- Confirm edit popup modal -->
     <va-modal 
         v-model="adminStore.showConfirmEditModal" :message="adminStore.confirmEditModalMessage" title="Edit?" 
-        @ok="adminStore.handleGotoEditProductView(selectedProductId, allProducts)"    
+        @ok="adminStore.handleGotoEditProductView(selectedProductId, productStore.allProducts)"    
     />
 
 </template>
@@ -64,25 +64,30 @@
 
 <script setup>
 
-import { useAdminStore } from '~~/services/stateStore';
+import { useAdminStore, useProductStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
+const productStore = useProductStore();
+
+// API call to backend - gets all products from DB
+(async() => {
+    await productStore.getAllProducts();
+})();
 
 // When a user clicks the edit product icon, this will store the id.
 let selectedProductId = ref(0);
 
 const input = ref('');
-let allProducts = reactive([]);
+// let allProducts = reactive([]);
 
 function totalImageCount(productId) {
-    let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
-    let selectedProduct = allProducts[selectedProductIndex];
+    let selectedProductIndex = productStore.allProducts.findIndex(product => product.id == productId);
+    let selectedProduct = productStore.allProducts[selectedProductIndex];
     return selectedProduct.image_names.length;
 };
 
 function handleShowProductImages(productId) {
     console.log('show images here');;
 };
-
 
 const columns = [
     { key: 'id', name: 'edit', label: 'edit' }, // passing the DB id here. When @click
@@ -92,26 +97,8 @@ const columns = [
     { key: 'price', sortable: true },
     { key: 'id', name: 'images', label: 'images' }, // passing the DB id here. When @click
     { key: 'added_on_timestamp', sortable: true },
-]
+];
 
-onMounted(() => {
-
-    (async() => {
-        await loadProductsIntoMemory();
-    })();
-
-});
-
-async function loadProductsIntoMemory() {
-    let productsDbData = await $fetch(`/api/get-products`);
-    productsDbData.forEach((product) => {
-        product.added_on_timestamp = new Date(product.added_on_timestamp).toLocaleString();
-
-    });
-
-    // console.log(productsDbData)
-    Object.assign(allProducts, productsDbData);
-};
 
 </script>
 

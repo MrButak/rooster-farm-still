@@ -124,8 +124,13 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 export const useProductStore = defineStore('productStore', {
     state: () => ({
         allProducts: []
-    })
-    
+    }),
+    actions: {
+        async getAllProducts() {
+            let productsDbData = await $fetch(`/api/get-products`);
+            productsDbData.forEach((product) => this.allProducts.push(product));
+        }
+    }
 });
 
 export const useOrderStore = defineStore('orderStore', {
@@ -228,7 +233,6 @@ export const useAdminStore = defineStore('adminStore', {
             let selectedProduct = allProducts[selectedProductIndex];
             this.confirmEditModalMessage =
                 `Are you sure you want to edit ${selectedProduct.name} ?`
-            console.log(selectedProduct);
         },
         // When the 'ok' is clicked to confirm the user wants to edit the product. Will assign the product the edit to a var and show the edit Component.
         handleGotoEditProductView(productId, allProducts) {
