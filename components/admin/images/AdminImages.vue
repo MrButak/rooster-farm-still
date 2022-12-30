@@ -1,5 +1,8 @@
 <template>
 
+<!-- update products SET image_names = array_append(image_names,'product-image-5.jpg'); -->
+
+
 <h3 class="va-h3">Images</h3>
 <div class="flex">
     <span class="flex !flex-initial">
@@ -57,8 +60,6 @@
             @click="viewedImage = adminStore.allImageBucketData[adminStore.allImageBucketData.findIndex(imgObj => imgObj.Key == value)]; showImageModal = !showImageModal"
             />
     </template>
-        
-
 
     <template #header(select)="{ label }">
         {{ label }}
@@ -66,6 +67,16 @@
     </template>
     <!-- image_name is value -->
     <template #cell(select)="{ value }">
+        <va-checkbox
+            v-model="imageSelection"
+            :array-value="value"
+        />
+    </template>
+
+    <template #header(displayed)="{ label }">
+        {{ label }}
+    </template>
+    <template #cell(displayed)="{ value }">
         <va-checkbox
             v-model="imageSelection"
             :array-value="value"
@@ -99,7 +110,7 @@
     <p>No images, try uploading some!</p>
 </div>
 
-<!-- Image modal -->
+<!-- View image modal -->
 <va-modal
     :fullscreen="true"
     v-model="showImageModal"
@@ -156,9 +167,16 @@ import { useAdminStore, useProductStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 const config = useRuntimeConfig();
-function testy(val) {
-    console.log(val)
-}
+
+(async() => {
+    // Load products into memory (if needed)
+    if(!productStore.allProducts.length) {
+        await productStore.getAllProducts();
+    };
+    // Load all s3 images into memory
+    await getAllImagesFromS3();
+})();
+
 // Image list options
 let viewOptions = ref(['list', 'thumbnail'])
 let imageView = ref('list');
@@ -175,13 +193,37 @@ const columns = [
     { key: 'key', name: 'select', label: 'select', sortable: true },
     { key: 'key', name: 'file_name', label: 'name' },
     { key: 'lastModified', name:'last modified', sortable: true },
-    { key: 'displayed', name: 'displayed on' }
+    { key: 'displayed', label: 'displayed on product(s)', name: 'displayed_on' }
 ];
+
+// Function will return an Array of all product names that are displaying the imgObj
+function getAllImagesDisplayedForProduct(imgObj) {
+    let productNames = [];
+    productStore.allProducts.forEach((productObj) => {
+        productObj.image_names.forEach((imageName) => {
+    
+            if(imageName == imgObj.Key && !productNames.includes(imageName)) {
+                productNames.push(productObj.name)
+            }
+        });
+    });
+    return productNames;
+};
+
+// Computed will return an Array of Objects to display on the 'list view' table
 let imageListObjArry = computed(() => {
     let imageObjArray = [];
     adminStore.allImageBucketData.forEach((img) => {
-        imageObjArray.push({key: img.Key, lastModified: new Date(img.LastModified).toLocaleString()})
+        // imageObjArray.push({key: img.Key, lastModified: new Date(img.LastModified).toLocaleString()})
+        imageObjArray.push(
+            {
+                key: img.Key, 
+                lastModified: new Date(img.LastModified).toLocaleString(), 
+                displayed: getAllImagesDisplayedForProduct(img)
+            }
+        );
     });
+    
     return imageObjArray;
 })
 
@@ -200,10 +242,6 @@ function imageUrl(imageKey) {
     // imageKey: 'some-image-name.bmp' 
     return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;
 };
-
-(async() => {
-    await getAllImagesFromS3();
-})();
 
 async function handleDeleteImages() {
     // If no items to delete, return
