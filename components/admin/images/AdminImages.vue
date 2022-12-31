@@ -1,8 +1,5 @@
 <template>
 
-<!-- update products SET image_names = array_append(image_names,'product-image-5.jpg'); -->
-
-
 <h3 class="va-h3">Images</h3>
 <div class="flex">
     <span class="flex !flex-initial">
@@ -10,7 +7,7 @@
             icon="delete" 
             size="small"
             color="danger" 
-            :disabled="!imageSelection.length"
+            :disabled="!adminStore.imageSelection.length"
             @click="showDeleteImageModal = !showDeleteImageModal"
             >
             Delete
@@ -42,7 +39,7 @@
         />
     </div>
     <va-data-table
-        :items="imageListObjArry"
+        :items="adminStore.imageListObjArry"
         :columns="columns"
         :filter="filterInput"
         icon="home"
@@ -57,7 +54,7 @@
         <va-icon 
             size="small" 
             name="visibility" 
-            @click="viewedImage = adminStore.allImageBucketData[adminStore.allImageBucketData.findIndex(imgObj => imgObj.Key == value)]; showImageModal = !showImageModal"
+            @click="adminStore.viewedImage = adminStore.allImageBucketData[adminStore.allImageBucketData.findIndex(imgObj => imgObj.Key == value)]; showImageModal = !showImageModal"
             />
     </template>
 
@@ -68,7 +65,7 @@
     <!-- image_name is value -->
     <template #cell(select)="{ value }">
         <va-checkbox
-            v-model="imageSelection"
+            v-model="adminStore.imageSelection"
             :array-value="value"
         />
     </template>
@@ -78,7 +75,7 @@
     </template>
     <template #cell(displayed)="{ value }">
         <va-checkbox
-            v-model="imageSelection"
+            v-model="adminStore.imageSelection"
             :array-value="value"
         />
     </template>
@@ -90,15 +87,15 @@
 <div v-if="imageView == 'thumbnail'" class="flex flex-wrap gap-4">
     <div v-for="imageObj in adminStore.allImageBucketData" 
             class="flex flex-col !flex-initial w-32 " 
-            :style="{'backgroundColor': imagePreviewBgColor(imageObj)}"
+            :style="{'backgroundColor': adminStore.imagePreviewBgColor(imageObj)}"
         >
         <va-checkbox
-            v-model="imageSelection"
+            v-model="adminStore.imageSelection"
             :array-value="imageObj.Key"
         />
         <va-image 
             class="w-32"
-            @click="viewedImage = imageObj; showImageModal = !showImageModal"
+            @click="adminStore.viewedImage = imageObj; showImageModal = !showImageModal"
             :src="imageUrl(imageObj.Key)"
         />
         <p class="w-32 truncate ...">{{ imageObj.Key }}</p>
@@ -119,10 +116,10 @@
     <template #content="{ ok }">
         <va-image 
             :contain="true"
-            :src="imageUrl(viewedImage.Key)" 
+            :src="imageUrl(adminStore.viewedImage.Key)" 
         />
         <va-card-title>
-            {{ viewedImage.Key }}
+            {{ adminStore.viewedImage.Key }}
         </va-card-title>
         
         <va-card-actions>
@@ -141,9 +138,9 @@
   >
     <template #content="{ ok }">
         <va-card-title>
-            Delete {{ imageSelection.length }} image(s)?
+            Delete {{ adminStore.imageSelection.length }} image(s)?
         </va-card-title>
-        <va-card-content v-for="imageName, index in imageSelection">
+        <va-card-content v-for="imageName, index in adminStore.imageSelection">
             <p>{{ index + 1 }}) {{ imageName }}</p>
         </va-card-content>
         <va-card-actions>
@@ -151,7 +148,7 @@
             @click="ok" color="info">Cancel
         </va-button>
         <va-button 
-            @click="handleDeleteImages" color="danger">Delete
+            @click="adminStore.handleDeleteImages" color="danger">Delete
         </va-button>
         </va-card-actions>
     </template>
@@ -174,7 +171,7 @@ const config = useRuntimeConfig();
         await productStore.getAllProducts();
     };
     // Load all s3 images into memory
-    await getAllImagesFromS3();
+    await adminStore.getAllImagesFromS3();
 })();
 
 // Image list options
@@ -183,7 +180,6 @@ let imageView = ref('list');
 
 let showImageModal = ref(false);
 let showDeleteImageModal = ref(false);
-let viewedImage = {}; // This is assigned when an image is clicked
 
 // List view
 const filterInput = ref('');
@@ -196,92 +192,9 @@ const columns = [
     { key: 'displayed', label: 'displayed on product(s)', name: 'displayed_on' }
 ];
 
-// Function will return an Array of all product names that are displaying the imgObj
-function getAllImagesDisplayedForProduct(imgObj) {
-    let productNames = [];
-    productStore.allProducts.forEach((productObj) => {
-        productObj.image_names.forEach((imageName) => {
-    
-            if(imageName == imgObj.Key && !productNames.includes(imageName)) {
-                productNames.push(productObj.name)
-            }
-        });
-    });
-    return productNames;
-};
-
-// Computed will return an Array of Objects to display on the 'list view' table
-let imageListObjArry = computed(() => {
-    let imageObjArray = [];
-    adminStore.allImageBucketData.forEach((img) => {
-        // imageObjArray.push({key: img.Key, lastModified: new Date(img.LastModified).toLocaleString()})
-        imageObjArray.push(
-            {
-                key: img.Key, 
-                lastModified: new Date(img.LastModified).toLocaleString(), 
-                displayed: getAllImagesDisplayedForProduct(img)
-            }
-        );
-    });
-    
-    return imageObjArray;
-})
-
-
-// Holds image name(s) when checkbox is checked
-let imageSelection = ref([]);
-
-// If a checkbox is checked/unchecked this determines the div's background color
-function imagePreviewBgColor(imageName) {
-    return imageSelection.value.includes(imageName.Key) ?
-        '#D3D3D3' :
-        'transparent';
-};
-
 function imageUrl(imageKey) {
     // imageKey: 'some-image-name.bmp' 
     return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;
-};
-
-async function handleDeleteImages() {
-    // If no items to delete, return
-    if(!imageSelection.value.length) { return };
-    
-    // Create an Array of Objects to send to the backend
-    let deleteParams = [];
-    imageSelection.value.forEach((imageName) => {
-        deleteParams.push({'Key': imageName});
-    });
-
-    let response = $fetch(`/api/admin/image/delete`, {
-        method: 'POST',
-        body: JSON.stringify({
-            imageNameArray: deleteParams
-        })
-    })
-    .then((response) => {
-        switch(response.status) {
-            case '200':
-                // Success, now delete from State
-                response.data.forEach((imgObj) => {
-                    adminStore.allImageBucketData.splice(adminStore.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
-                });
-                imageSelection.value.length = 0;
-                break;
-            case '500':
-                // Error(s)
-                console.log(response.data);
-        }
-    })
-};
-
-// Function handles API call to Amazon s3 to get all images.
-// getAllImagesFromS3() => backend => s3 API call => backend image data => response
-async function getAllImagesFromS3() {
-    let response = await $fetch(`/api/admin/image/get-all`, {
-
-    });
-    Object.assign(adminStore.allImageBucketData, response.imageData);
 };
 
 </script>

@@ -173,6 +173,8 @@ export const useAdminStore = defineStore('adminStore', {
         // Images
         allImageBucketData: [],
         uploadedImageArray: [],
+        imageSelection: [],// Holds image name(s) when checkbox is checked
+        viewedImage: {}, // This is assigned when an image is clicked
         // Handles all 'views' and sidebar items
         sidebarShown: false,
         activeRouteName: 'home',
@@ -212,7 +214,20 @@ export const useAdminStore = defineStore('adminStore', {
         ]
     }),
     getters: {
-
+        imageListObjArry: (state) => {
+            const adminStore = useAdminStore()
+            let imageObjArray = [];
+            state.allImageBucketData.forEach((img) => {
+                imageObjArray.push(
+                    {
+                        key: img.Key, 
+                        lastModified: new Date(img.LastModified).toLocaleString(), 
+                        displayed: adminStore.getAllImagesDisplayedForProduct(img)
+                    }
+                );
+            });
+            return imageObjArray;
+        }
     },
     actions: {
         // Sidebar actions
@@ -241,6 +256,64 @@ export const useAdminStore = defineStore('adminStore', {
             // Object.assign is important here, so the original values are not changed during the editing process. Only replaced by this.productToEdit after the user saves.
             Object.assign(this.productToEdit, selectedProduct);
             this.showEditProductComponent = true;
+        },
+        getAllImagesDisplayedForProduct(imgObj) {
+            const productStore = useProductStore();
+            let productNames = [];
+            productStore.allProducts.forEach((productObj) => {
+                productObj.image_names.forEach((imageName) => {
+            
+                    if(imageName == imgObj.Key && !productNames.includes(imageName)) {
+                        productNames.push(productObj.name)
+                    }
+                });
+            });
+            return productNames;
+        },
+        // If an image's checkbox is checked/unchecked this determines the div's background color
+        imagePreviewBgColor(imageName) {
+            return this.imageSelection.includes(imageName.Key) ?
+                '#D3D3D3' :
+                'transparent';
+        },
+        // Function handles API call to Amazon s3 to get all images.
+        // getAllImagesFromS3() => backend => s3 API call => backend image data => response
+        async getAllImagesFromS3() {
+            let response = await $fetch(`/api/admin/image/get-all`, {
+
+            });
+            Object.assign(this.allImageBucketData, response.imageData);
+        },
+        async handleDeleteImages() {
+            // If no items to delete, return
+            if(!this.imageSelection.length) { return };
+            
+            // Create an Array of Objects to send to the backend
+            let deleteParams = [];
+            this.imageSelection.forEach((imageName) => {
+                deleteParams.push({'Key': imageName});
+            });
+        
+            let response = $fetch(`/api/admin/image/delete`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    imageNameArray: deleteParams
+                })
+            })
+            .then((response) => {
+                switch(response.status) {
+                    case '200':
+                        // Success, now delete from State
+                        response.data.forEach((imgObj) => {
+                            this.allImageBucketData.splice(this.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
+                        });
+                        this.imageSelection.length = 0;
+                        break;
+                    case '500':
+                        // Error(s)
+                        console.log(response.data);
+                }
+            })
         }
     }
 });
