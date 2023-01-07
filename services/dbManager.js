@@ -22,7 +22,7 @@ if(process.env.APP_ENVIRONMENT == 'production') {
     });
 };
 
-async function dbCall() {
+async function getAllProducts() {
     
     let dbStmt = `SELECT * FROM products`;
     try {
@@ -34,6 +34,7 @@ async function dbCall() {
     };
 };
 
+// Function will get one product from the DB
 async function selectProductData(productName) {
     let dbStmt = `SELECT * FROM products WHERE name ilike ($1)`;
     let dbValues = [productName];
@@ -92,4 +93,24 @@ async function insertImageNames(dbValues) { // dbValues: String
         console.log(err);
     };
 };
-export { dbCall, selectProductData, storePurchase, updateProductQuantity, storeStripeChargeId, insertImageNames }
+
+// Function will delete an image after deleted from AWS s3
+async function deleteImage(imageName) { // dbValues: String
+    let dbStmt = 'DELETE FROM images WHERE file_name = ($1)';
+    try {
+        await pool.query(dbStmt, [imageName]);
+				console.log('image deleted***')
+    }
+    catch(err) {
+        console.log(err);
+    };
+};
+
+// Function will delete an image from all products, called after successful deletion from AWS s3
+async function deleteImagesFromProducts(imageName) {
+
+};
+
+export { getAllProducts, selectProductData, storePurchase, updateProductQuantity, 
+    storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts
+}

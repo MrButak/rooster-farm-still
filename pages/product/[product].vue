@@ -38,7 +38,7 @@
                 </p>
             </span>
         </div>
-
+        
         <text>Price: ${{ productData[0].price * quantitySelect }}</text>
         <div class="flex align-end gap-6 pt-6">
 
@@ -106,11 +106,15 @@ let addToCartButtonText = computed(() => {
         'Add to cart'
 });
 
+// Function accepts an Array of Strings and prepends each string with the AWS S3 bucket url
 function imageUrlArray(imageNameArray) {
-    // imageKey: 'some-image-name.bmp'
-    return imageNameArray.map((imageName) => {
-        return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageName}`
-    });
+		// Default images if none
+		if(!imageNameArray.length) {
+			return ['https://picsum.photos/1505', 'https://picsum.photos/1504', 'https://picsum.photos/1503']
+		}
+		return imageNameArray.map((imageName) => {
+				return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageName}`
+		});
 };
 
 onMounted(() => {

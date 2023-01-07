@@ -127,6 +127,7 @@ export const useProductStore = defineStore('productStore', {
     }),
     actions: {
         async getAllProducts() {
+						this.allProducts.length = 0;
             let productsDbData = await $fetch(`/api/get-products`);
             productsDbData.forEach((product) => this.allProducts.push(product));
         }
@@ -171,10 +172,14 @@ export const useAdminStore = defineStore('adminStore', {
         showEditProductComponent: false,
         showCancelEditModal: false,
         // Images
-        allImageBucketData: [],
+        allImageBucketData: [], // Holds all image data from the DB {}
         uploadedImageArray: [],
         imageSelection: [],// Holds image name(s) when checkbox is checked
         viewedImage: {}, // This is assigned when an image is clicked
+				addImageToProductObj: { // Admin adds an image to a product
+					showModal: false,
+					addMainImage: false // main image || product images. When adding a main image to a product, user can only select 1 image. When adding to product images multiple images can be selected.
+				},
         // Handles all 'views' and sidebar items
         sidebarShown: false,
         activeRouteName: 'home',
@@ -214,15 +219,16 @@ export const useAdminStore = defineStore('adminStore', {
         ]
     }),
     getters: {
+				// Create an Array of objects
         imageListObjArry: (state) => {
             const adminStore = useAdminStore()
             let imageObjArray = [];
             state.allImageBucketData.forEach((img) => {
                 imageObjArray.push(
                     {
-                        key: img.Key, 
+                        key: img.Key, // file name: some-img.jpg
                         lastModified: new Date(img.LastModified).toLocaleString(), 
-                        displayed: adminStore.getAllImagesDisplayedForProduct(img)
+                        displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
                     }
                 );
             });

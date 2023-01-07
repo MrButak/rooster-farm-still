@@ -5,7 +5,7 @@
     <div v-for="product in productStore.allProducts" class="flex md6 lg4">
         <va-card>
             <va-image
-            :src="imageUrl(product.image_names[0])"
+            :src="imageUrl(product.image_names)"
             />
             <va-card-content>
                 <h6 class="va-h6">{{ product.name }}</h6>
@@ -43,9 +43,14 @@ const config = useRuntimeConfig();
     await productStore.getAllProducts();
 })();
 
-function imageUrl(imageName) {
-    // imageKey: 'some-image-name.bmp' 
-    return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageName}`;
+// Function will prepend AWS S3 bucket URL to a String
+function imageUrl(imageNames) {
+	
+	if(!imageNames.length) {
+		return 'https://picsum.photos/1505';
+	};
+	// Return just the first image
+	return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageNames[0]}`;
 };
 
 </script>

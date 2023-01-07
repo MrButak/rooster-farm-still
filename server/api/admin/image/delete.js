@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import { deleteImage } from '../../../../services/dbManager';
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -16,6 +17,13 @@ async function deleteObjectsInBucket(bucketParams) {
     return res;
 };
 
+// DB call to delete image from image.file_name
+async function deleteImagesFromDb(imageNameArray) {
+	for(const imageName of imageNameArray) {
+		await deleteImage(imageName.Key);
+	}
+};
+
 export default defineEventHandler (async event => {
     
     const body = await useBody(event);
@@ -31,7 +39,11 @@ export default defineEventHandler (async event => {
     // TODO: 
     // 1 .Delete from images table in DB
     // 2. Delete image names from products table image_names[] column
-    return response.Errors.length ?
-        {status: '500', data: response.Errors} :
-        {status: '200', data: response.Deleted};
+    if(!response.Errors.length) {
+			await deleteImagesFromDb(response.Deleted);
+			
+			return {status: '200', data: response.Deleted}
+		}
+
+    return {status: '500', data: response.Errors};
 }); 

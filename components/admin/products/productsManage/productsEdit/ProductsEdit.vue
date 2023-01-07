@@ -21,8 +21,18 @@
 <!-- ******************************************************************** -->
 <!-- The first image in the Array is the main image -->
 <h5 class="va-h5">Main image</h5>
-<va-image class="flex md6 lg4" :src="mainImageUrl" />
-<p>{{ adminStore.productToEdit.image_names[0] }}</p>
+<span v-if="adminStore.productToEdit.image_names.length">
+	<va-image class="flex md6 lg4" :src="mainImageUrl" />
+	<p>{{ adminStore.productToEdit.image_names[0] }}</p>
+</span>
+<p v-else>No main image, try adding one!</p>
+<va-button 
+	@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
+	class="w-4 h-4"
+	icon="add" 
+	color="warning" 
+	icon-color="#812E9E"
+/>
 
 <h5 class="va-h5">Images</h5>
 <div v-if="productImagesArray.length" >
@@ -34,9 +44,15 @@
     <div v-for="(imageName, index) in adminStore.productToEdit.image_names.slice(1)">
         <p>{{ index + 1 }}. {{ imageName }}</p>
     </div>
+		<va-button 
+			class="w-4 h-4"
+			icon="add" 
+			color="warning" 
+			icon-color="#812E9E"
+		/>
 </div>
 <div v-else>
-    <p>No product images add some!</p>
+    <p>Add a main image first</p>
 </div>
 
 <!-- ******************************************************************** -->
@@ -59,8 +75,13 @@
     message="Are you sure you want to cancel? Any unsaved changes will be lost." 
     title="Overview" 
     @ok="adminStore.showEditProductComponent = false"
-    />
+/>
 <!-- TODO: Should .$reset store here too ^^^^ -->
+
+
+<!-- Add image to product modal -->
+<AddImageToProduct />
+
 </template>
 
 
@@ -72,6 +93,7 @@ import { useAdminStore } from '~~/services/stateStore';
 
 import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
+import AddImageToProduct from './AddImageToProduct.vue';
 const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 

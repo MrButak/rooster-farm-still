@@ -192,6 +192,7 @@ const columns = [
     { key: 'displayed', label: 'displayed on product(s)', name: 'displayed_on' }
 ];
 
+// Function prepends AWS S3 bucket URL to String
 function imageUrl(imageKey) {
     // imageKey: 'some-image-name.bmp' 
     return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;

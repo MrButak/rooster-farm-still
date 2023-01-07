@@ -1,8 +1,8 @@
-import { dbCall } from '../../services/dbManager.js';
+import { getAllProducts } from '../../services/dbManager.js';
 
 export default defineEventHandler(async event => {
 
-   let productsData = await dbCall()
+   let productsData = await getAllProducts()
    return productsData;
 });
 

@@ -28,9 +28,10 @@ CREATE TABLE purchases (
 
 CREATE TABLE images(
     id SERIAL PRIMARY KEY,
-    file_name TEXT NOT NULL
+    file_name TEXT NOT NULL UNIQUE
 );
 
+INSERT INTO images (file_name) VALUES ('product-image-1.jpg');
 
 // payment_success BOOLEAN  (I should only set this to true after appropriate Stripe webhook)
 
