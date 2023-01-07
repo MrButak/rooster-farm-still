@@ -74,16 +74,15 @@ function mainImageBGcolor(imageFileName) {
 };
 
 async function handleAddMainImageToProduct() {
-	
-	let request = await $fetch(`/api/create-payment-intent`, {
+	let response = await $fetch(`/api/admin/product/image/add`, {
 		method: 'POST',
 		body: JSON.stringify({
 			imageFileName: productMainImage.Key
 		})
 	});
 
-	let response = await request.JSON();
 	console.log(response)
+	// TODO: once image is add, prepend it to the products image array in State
 };
 
 </script>

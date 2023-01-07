@@ -96,14 +96,13 @@ async function insertImageNames(dbValues) { // dbValues: String
 
 // Function will delete an image after deleted from AWS s3
 async function deleteImage(imageName) { // dbValues: String
-    let dbStmt = 'DELETE FROM images WHERE file_name = ($1)';
-    try {
-        await pool.query(dbStmt, [imageName]);
-				console.log('image deleted***')
-    }
-    catch(err) {
-        console.log(err);
-    };
+	let dbStmt = 'DELETE FROM images WHERE file_name = ($1)';
+	try {
+		await pool.query(dbStmt, [imageName]);
+	}
+	catch(err) {
+		console.log(err);
+	};
 };
 
 // Function will delete an image from all products, called after successful deletion from AWS s3
@@ -111,6 +110,19 @@ async function deleteImagesFromProducts(imageName) {
 
 };
 
+async function addMainImageToProduct(imageFileName) {
+
+	let dbStmt = ''
+	try {
+		let query = await pool.query(dbStmt, [imageFileName]);
+		console.log(query)
+		return true;
+	}
+	catch(err) {
+		console.log(err);
+		return false;
+	}
+};
 export { getAllProducts, selectProductData, storePurchase, updateProductQuantity, 
     storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts
 }
