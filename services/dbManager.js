@@ -110,12 +110,11 @@ async function deleteImagesFromProducts(imageName) {
 
 };
 
-async function addMainImageToProduct(imageFileName) {
-
-	let dbStmt = ''
+async function addMainImageToProduct(imageFileName, productId) {
+	
+	let dbStmt = 'UPDATE products SET image_names = array_prepend(($1), image_names) WHERE id = ($2) Returning *';
 	try {
-		let query = await pool.query(dbStmt, [imageFileName]);
-		console.log(query)
+		let query = await pool.query(dbStmt, [imageFileName, productId]);
 		return true;
 	}
 	catch(err) {
@@ -124,5 +123,6 @@ async function addMainImageToProduct(imageFileName) {
 	}
 };
 export { getAllProducts, selectProductData, storePurchase, updateProductQuantity, 
-    storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts
+    storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts,
+		addMainImageToProduct
 }

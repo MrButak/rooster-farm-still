@@ -15,8 +15,6 @@
 								class="flex flex-col !flex-initial w-32 " 
 								
 							>
-							<!--:style="{'backgroundColor': adminStore.imagePreviewBgColor(imageObj)}"-->
-							
 							<va-checkbox
 								v-if="!adminStore.addImageToProductObj.addMainImage"
 								v-model="adminStore.imageSelection"
@@ -47,6 +45,8 @@
 
 	</template>
 
+
+	
 </va-modal>
 
 </template>
@@ -55,9 +55,10 @@
 
 <script setup>
 
-import { useAdminStore } from '~~/services/stateStore';
+import { useAdminStore, useProductStore } from '~~/services/stateStore';
 const config = useRuntimeConfig();
 const adminStore = useAdminStore();
+const productStore = useProductStore();
 
 // Function prepends AWS S3 bucket URL to String
 function imageUrl(imageKey) {
@@ -74,15 +75,44 @@ function mainImageBGcolor(imageFileName) {
 };
 
 async function handleAddMainImageToProduct() {
-	let response = await $fetch(`/api/admin/product/image/add`, {
-		method: 'POST',
-		body: JSON.stringify({
-			imageFileName: productMainImage.Key
-		})
-	});
+	
+	// Only update State for the product being edited. The original products data will not be changed yet. Only when the admin saves.
 
-	console.log(response)
-	// TODO: once image is add, prepend it to the products image array in State
+	// Only if the image is not already being used for the product, add the main image (index position 0 of the Array)
+	if(!adminStore.productToEdit.image_names.includes(productMainImage.Key)) {
+		adminStore.productToEdit.image_names[0] = productMainImage.Key;
+	};
+
+	// Close modal
+	adminStore.addImageToProductObj.showModal = false;
+	// TODO: Show success message
+
+	// let response = await $fetch(`/api/admin/product/image/add`, {
+	// 	method: 'POST',
+	// 	body: JSON.stringify({
+	// 		imageFileName: productMainImage.Key,
+	// 		productId: adminStore.productToEdit.id
+	// 	})
+	// });
+	// switch(response.status) {
+	// 	case '200':
+	// 		// Look for and remove any duplicate image file names for this product
+	// 		if(productStore.allProducts[productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)].image_names.includes(productMainImage.Key)) {
+	// 			productStore.allProducts[productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)].image_names = productStore.allProducts[productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)].image_names.filter((image_name) => {image_name != productMainImage.Key})
+	// 		};
+	// 		// Update State with new main image
+	// 		productStore.addMainImageToProduct(productMainImage.Key, adminStore.productToEdit.id);
+	// 		// Close modal
+	// 		adminStore.addImageToProductObj.showModal = false;
+	// 		// TODO: Show success message
+	// 		break;
+	// 	case '500':
+	// 		console.log(response.error);
+	// 		// TODO: Show error message
+	// 		break;
+	// 	default:
+	// 		console.log('Unhandled response in /admin AddImageToProduct.vue')
+	// }
 };
 
 </script>

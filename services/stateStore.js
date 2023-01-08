@@ -130,7 +130,11 @@ export const useProductStore = defineStore('productStore', {
 						this.allProducts.length = 0;
             let productsDbData = await $fetch(`/api/get-products`);
             productsDbData.forEach((product) => this.allProducts.push(product));
-        }
+        },
+				// Function is called after: user adds a main image to a product, image name is inserted in the DB products.image_names[0] row
+				addMainImageToProduct(imageFileName, productId) {
+					this.allProducts[this.allProducts.findIndex(product => product.id == productId)].image_names.unshift(imageFileName);
+				}
     }
 });
 
@@ -167,7 +171,7 @@ export const useAdminStore = defineStore('adminStore', {
         // Edit product
         showConfirmEditModal: false,
         confirmEditModalMessage: '',
-        // This will end up getting Object.assign(productToEdit, selectedProductToEdit)
+        // This will end up getting Object.assign(productToEdit, user selected ProductToEdit)
         productToEdit: {},
         showEditProductComponent: false,
         showCancelEditModal: false,

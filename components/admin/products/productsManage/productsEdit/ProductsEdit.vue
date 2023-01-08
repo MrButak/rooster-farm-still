@@ -20,25 +20,38 @@
 <!-- Images -->
 <!-- ******************************************************************** -->
 <!-- The first image in the Array is the main image -->
-<h5 class="va-h5">Main image</h5>
+<div class="flex w-full items-center gap-2.5">
+    <h5 class="va-h5">Main image 
+			<span>
+				<va-icon
+					@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
+        	name="edit"
+    		/>
+			</span>
+		</h5>
+</div>
 <span v-if="adminStore.productToEdit.image_names.length">
 	<va-image class="flex md6 lg4" :src="mainImageUrl" />
 	<p>{{ adminStore.productToEdit.image_names[0] }}</p>
 </span>
-<p v-else>No main image, try adding one!</p>
-<va-button 
-	@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
-	class="w-4 h-4"
-	icon="add" 
-	color="warning" 
-	icon-color="#812E9E"
-/>
+<span v-else>
+	No main image, try adding one!
+</span>
 
-<h5 class="va-h5">Images</h5>
-<div v-if="productImagesArray.length" >
-    <!-- All images after index 0 are displayed on the image slider -->
+<!-- Image slider -->
+<h5 class="va-h5">Images
+	<!-- Only show edit icon if the product has a main image -->
+	<span v-if="adminStore.productToEdit.image_names.length">
+		<va-icon
+			@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
+			name="edit"
+		/>
+	</span>
+</h5>
+<!-- All images after index 0 are displayed on the image slider -->
+<div v-if="editProductImagesArray.length" >
     <va-carousel 
-        :items="productImagesArray" 
+        :items="editProductImagesArray" 
         stateful indicators infinite swipable 
         />
     <div v-for="(imageName, index) in adminStore.productToEdit.image_names.slice(1)">
@@ -51,7 +64,7 @@
 			icon-color="#812E9E"
 		/>
 </div>
-<div v-else>
+<div v-if="!adminStore.productToEdit.image_names.length">
     <p>Add a main image first</p>
 </div>
 
@@ -98,7 +111,7 @@ const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 
 // Computed will return an everything after index 0 in the image_names Array with the base url prepended
-let productImagesArray = computed(() => {
+let editProductImagesArray = computed(() => {
     return adminStore.productToEdit.image_names
     .slice(1)
     .map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});

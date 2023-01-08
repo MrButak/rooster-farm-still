@@ -7,13 +7,17 @@
 Component displays all inputs for editing the product:
     name, price, quantity, short description, long description
 -->
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Product name</h5>
-    <va-icon
-        :name="editNameIcon"
-        @click="canEditNameInput = !canEditNameInput; nameInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Product name
+			<span>
+				<va-icon
+						:name="editNameIcon"
+						@click="canEditNameInput = !canEditNameInput; nameInput.focus()"
+				/>
+			</span>
+		</h5>   
 </div>
+
 <div class="input-wrapper">
     <va-input
         class="mb-4"
@@ -24,13 +28,17 @@ Component displays all inputs for editing the product:
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Price</h5>
-    <va-icon
-        :name="editPriceIcon"
-        @click="canEditPriceInput = !canEditPriceInput; priceInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Price
+			<span>
+				<va-icon
+						:name="editPriceIcon"
+						@click="canEditPriceInput = !canEditPriceInput; priceInput.focus()"
+				/>
+			</span>
+		</h5>
 </div>
+
 <div class="input-wrapper">
     <va-input
         class="mb-4"
@@ -41,13 +49,17 @@ Component displays all inputs for editing the product:
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Quantity</h5>
-    <va-icon
-        :name="editQuantityIcon"
-        @click="canEditQuantityInput = !canEditQuantityInput; quantityInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Quantity
+			<span>
+				<va-icon
+						:name="editQuantityIcon"
+						@click="canEditQuantityInput = !canEditQuantityInput; quantityInput.focus()"
+				/>
+			</span>
+		</h5>
 </div>
+
 <div class="input-wrapper">
     <va-input
         class="mb-4"
@@ -58,13 +70,17 @@ Component displays all inputs for editing the product:
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Short description</h5>
-    <va-icon
-        :name="editShortDescriptionIcon"
-        @click="canEditShortDescriptionInput = !canEditShortDescriptionInput; shortDescriptionInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Short description
+			<span>
+				<va-icon
+						:name="editShortDescriptionIcon"
+						@click="canEditShortDescriptionInput = !canEditShortDescriptionInput; shortDescriptionInput.focus()"
+				/>
+			</span>
+		</h5>
 </div>
+
 <div class="input-wrapper">
     <va-input
         class="mb-4"
@@ -77,13 +93,17 @@ Component displays all inputs for editing the product:
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Long description</h5>
-    <va-icon
-        :name="editLongDescriptionIcon"
-        @click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Long description
+			<span>
+				<va-icon
+						:name="editLongDescriptionIcon"
+						@click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
+				/>
+			</span>
+		</h5>
 </div>
+
 <div class="input-wrapper">
     <va-input
         class="mb-4"
