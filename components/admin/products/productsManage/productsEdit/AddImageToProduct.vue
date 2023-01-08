@@ -106,14 +106,16 @@ function mainImageBGcolor(imageFileName) {
 
 
 async function handleAddProductImages() {
-
+	
 	// Add unique images to State
+	
 	productImagesToAdd.value.forEach((imageName) => {
-		if(adminStore.productToEdit.image_names && !adminStore.productToEdit.image_names.includes(imageName)) {
-			adminStore.productToEdit.image_names.push(imageName);
-		}
+		
+		if(!adminStore.productToEdit.image_names.includes(imageName)) {
+			adminStore.productToEdit.image_names.push(toRaw(imageName));
+		};
 	});
-
+	
 	// Reset Component State
 	productImagesToAdd.value.length = 0;
 	// Close modal

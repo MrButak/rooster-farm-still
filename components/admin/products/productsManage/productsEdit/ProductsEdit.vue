@@ -137,8 +137,8 @@ async function handleSaveProductEdits() {
 	// 2. send new data to the backend to be updated in the DB
 	// 3. update app state
 
-	console.log(adminStore.productToEdit);
-	console.log('Changes to make')
+	// console.log(JSON.stringify(adminStore.productToEdit.image_names));
+	// console.log('Changes to make')
 	
 	let updatedProductData = [];
 	let originalProduct = 
@@ -146,9 +146,9 @@ async function handleSaveProductEdits() {
 			productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)
 		];
 
-	console.log(originalProduct);
-	console.log('Original product')
-
+	// console.log(JSON.stringify(originalProduct.image_names));
+	// console.log('Original product')
+	
 	if(originalProduct.name != adminStore.productToEdit.name) {
 		updatedProductData.push({name: adminStore.productToEdit.name});
 	};
@@ -164,10 +164,23 @@ async function handleSaveProductEdits() {
 	if(originalProduct.quantity != adminStore.productToEdit.quantity) {
 		updatedProductData.push({quantity: adminStore.productToEdit.quantity});
 	};
-	// main_image_name,
-	// image_names[]
-	// specifications
-	// cetegory
+	if(originalProduct.main_image_name != adminStore.productToEdit.main_image_name) {
+		updatedProductData.push({main_image_name: adminStore.productToEdit.main_image_name});
+	};
+	
+	if(originalProduct.category != adminStore.productToEdit.category) {
+		updatedProductData.push({category: adminStore.productToEdit.category});
+	};
+
+	// String comparison on Arrays and Objects
+	if(JSON.stringify(originalProduct.image_names) != JSON.stringify(adminStore.productToEdit.image_names)) {
+		updatedProductData.push( {image_names: JSON.stringify(adminStore.productToEdit.image_names)} );
+	};
+	if(JSON.stringify(originalProduct.specifications) != JSON.stringify(adminStore.productToEdit.specifications)) {
+		updatedProductData.push( {specifications: JSON.stringify(adminStore.productToEdit.specifications)} );
+	};
+	
+	console.log(updatedProductData)
 };
 
 </script>

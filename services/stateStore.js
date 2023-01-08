@@ -1,6 +1,6 @@
 import { localStorageAvailable, getItemFromLs } from './lsManager';
 import { defineStore } from 'pinia';
-
+import { toRaw } from 'vue';
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
     state: () => ({
@@ -130,11 +130,7 @@ export const useProductStore = defineStore('productStore', {
 						this.allProducts.length = 0;
             let productsDbData = await $fetch(`/api/get-products`);
             productsDbData.forEach((product) => this.allProducts.push(product));
-        },
-				// Function is called after: user adds a main image to a product, image name is inserted in the DB products.image_names[0] row
-				addMainImageToProduct(imageFileName, productId) {
-					this.allProducts[this.allProducts.findIndex(product => product.id == productId)].image_names.unshift(imageFileName);
-				}
+        }
     }
 });
 
@@ -264,14 +260,11 @@ export const useAdminStore = defineStore('adminStore', {
         // When the 'ok' is clicked to confirm the user wants to edit the product. Will assign the product the edit to a var and show the edit Component.
         handleGotoEditProductView(productId, allProducts) {
             let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
-            let selectedProduct = allProducts[selectedProductIndex];
+            
+						// Object.assign only does a shallow copy of the keys and values, meaning if one of the values in the object is another object or an array, then it is the same reference as was on the original object.
             // Object.assign is important here, so the original values are not changed during the editing process. Only replaced by this.productToEdit after the user saves.
-            Object.assign(this.productToEdit, selectedProduct);
-						// Issue: if the product has no images, main_image_name"" and image_names[] will be null, causing errors with later operations
-						if(!this.productToEdit.image_names) {
-							this.productToEdit.image_names = [];
-						}
-						
+						// Work-a-round - JSON.parse(JSON.stringify(Object with nested Array / Objects))
+            Object.assign(this.productToEdit, JSON.parse(JSON.stringify(allProducts[selectedProductIndex])));
             this.showEditProductComponent = true;
         },
         getAllImagesDisplayedForProduct(imgObj) {
@@ -283,7 +276,7 @@ export const useAdminStore = defineStore('adminStore', {
 						productStore.allProducts.forEach((productObj) => {
 
 							// Make sure there are images associated with the product
-							if(productObj.image_names) {
+							if(productObj.image_names.length) {
 
 								productObj.image_names.forEach((imageName) => {
 										if(imageName == imgObj.Key && !productNames.includes(imageName)) {
