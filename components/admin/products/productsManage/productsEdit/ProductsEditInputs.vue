@@ -127,6 +127,9 @@ import { useAdminStore } from '~~/services/stateStore';
 
 const adminStore = useAdminStore();
 
+onMounted(() => {
+	console.log(adminStore.productToEdit)
+});
 
 // Product name
 let canEditNameInput = ref(false);

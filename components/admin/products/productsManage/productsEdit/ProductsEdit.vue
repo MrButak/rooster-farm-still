@@ -50,13 +50,13 @@
 		/>
 	</span>
 </h5>
-<!-- All images after index 0 are displayed on the image slider -->
+<!-- Image slider. All product images except the main image -->
 <div v-if="editProductImagesArray.length" >
     <va-carousel 
         :items="editProductImagesArray" 
         stateful indicators infinite swipable 
         />
-    <div v-for="(imageName, index) in adminStore.productToEdit.image_names.slice(1)">
+    <div v-for="(imageName, index) in adminStore.productToEdit.image_names">
         <p class="pt-2">{{ index + 1 }}. {{ imageName }}
 					<span>
 						<va-icon
@@ -68,7 +68,7 @@
 				</p>
     </div>
 </div>
-<div v-if="!adminStore.productToEdit.image_names || !adminStore.productToEdit.image_names.length">
+<div v-if="!adminStore.productToEdit.main_image_name">
     <p>Add a main image first</p>
 </div>
 

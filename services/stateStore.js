@@ -267,6 +267,11 @@ export const useAdminStore = defineStore('adminStore', {
             let selectedProduct = allProducts[selectedProductIndex];
             // Object.assign is important here, so the original values are not changed during the editing process. Only replaced by this.productToEdit after the user saves.
             Object.assign(this.productToEdit, selectedProduct);
+						// Issue: if the product has no images, main_image_name"" and image_names[] will be null, causing errors with later operations
+						if(!this.productToEdit.image_names) {
+							this.productToEdit.image_names = [];
+						}
+						
             this.showEditProductComponent = true;
         },
         getAllImagesDisplayedForProduct(imgObj) {
