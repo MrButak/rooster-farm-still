@@ -11,8 +11,9 @@ Component displays all inputs for editing the product:
     <h5 class="va-h5">Product name
 			<span>
 				<va-icon
-						:name="editNameIcon"
-						@click="canEditNameInput = !canEditNameInput; nameInput.focus()"
+					@click="canEditNameInput = !canEditNameInput; nameInput.focus()"
+					:name="editNameIcon.name"
+					:color="editNameIcon.color"
 				/>
 			</span>
 		</h5>   
@@ -32,8 +33,9 @@ Component displays all inputs for editing the product:
     <h5 class="va-h5">Price
 			<span>
 				<va-icon
-						:name="editPriceIcon"
+						:name="editPriceIcon.name"
 						@click="canEditPriceInput = !canEditPriceInput; priceInput.focus()"
+						:color="editPriceIcon.color"
 				/>
 			</span>
 		</h5>
@@ -53,8 +55,9 @@ Component displays all inputs for editing the product:
     <h5 class="va-h5">Quantity
 			<span>
 				<va-icon
-						:name="editQuantityIcon"
-						@click="canEditQuantityInput = !canEditQuantityInput; quantityInput.focus()"
+					@click="canEditQuantityInput = !canEditQuantityInput; quantityInput.focus()"
+					:name="editQuantityIcon.name"
+					:color="editQuantityIcon.color"
 				/>
 			</span>
 		</h5>
@@ -74,7 +77,8 @@ Component displays all inputs for editing the product:
     <h5 class="va-h5">Short description
 			<span>
 				<va-icon
-						:name="editShortDescriptionIcon"
+						:name="editShortDescriptionIcon.name"
+						:color="editShortDescriptionIcon.color"
 						@click="canEditShortDescriptionInput = !canEditShortDescriptionInput; shortDescriptionInput.focus()"
 				/>
 			</span>
@@ -97,7 +101,8 @@ Component displays all inputs for editing the product:
     <h5 class="va-h5">Long description
 			<span>
 				<va-icon
-						:name="editLongDescriptionIcon"
+						:name="editLongDescriptionIcon.name"
+						:color="editLongDescriptionIcon.color"
 						@click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
 				/>
 			</span>
@@ -131,35 +136,35 @@ let canEditNameInput = ref(false);
 let nameInput = ref(null);
 let editNameIcon = computed(() => {
     return !canEditNameInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 })
 // Product price
 let canEditPriceInput = ref(false);
 let priceInput = ref(null);
 let editPriceIcon = computed(() => {
     return !canEditPriceInput.value ?
-        'edit' : 'done';
+      {name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 // Product qantity
 let canEditQuantityInput = ref(false);
 let quantityInput = ref(null);
 let editQuantityIcon = computed(() => {
     return !canEditQuantityInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 // Product short description
 let canEditShortDescriptionInput = ref(false);
 let shortDescriptionInput = ref(null);
 let editShortDescriptionIcon = computed(() => {
     return !canEditShortDescriptionInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 // Product long description
 let canEditLongDescriptionInput = ref(false);
 let longDescriptionInput = ref(null);
 let editLongDescriptionIcon = computed(() => {
     return !canEditLongDescriptionInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 
 </script>
