@@ -26,13 +26,14 @@
 				<va-icon
 					@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
         	name="edit"
+					color="info"
     		/>
 			</span>
 		</h5>
 </div>
-<span v-if="adminStore.productToEdit.image_names.length">
+<span v-if="adminStore.productToEdit.main_image_name">
 	<va-image class="flex md6 lg4" :src="mainImageUrl" />
-	<p>{{ adminStore.productToEdit.image_names[0] }}</p>
+	<p>{{ adminStore.productToEdit.main_image_name }}</p>
 </span>
 <span v-else>
 	No main image, try adding one!
@@ -41,10 +42,11 @@
 <!-- Image slider -->
 <h5 class="va-h5">Images
 	<!-- Only show edit icon if the product has a main image -->
-	<span v-if="adminStore.productToEdit.image_names.length">
+	<span v-if="adminStore.productToEdit.main_image_name">
 		<va-icon
 			@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = false"
 			name="edit"
+			color="info"
 		/>
 	</span>
 </h5>
@@ -115,13 +117,12 @@ const adminStore = useAdminStore();
 // Computed will return an everything after index 0 in the image_names Array with the base url prepended
 let editProductImagesArray = computed(() => {
     return adminStore.productToEdit.image_names
-    .slice(1)
     .map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});
 });
 
 // Computed will return the index 0 of image_names Array with the base_url prepended
 let mainImageUrl = computed(() => {
-    return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.image_names[0]
+    return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.main_image_name;
 });
 
 async function handleSaveProductEdits() {
@@ -150,15 +151,10 @@ async function handleSaveProductEdits() {
 	if(originalProduct.quantity != adminStore.productToEdit.quantity) {
 		updatedProductData.push({quantity: adminStore.productToEdit.quantity});
 	};
-	// image_name, specifications
-// 	name               | character varying(255)      |           |          | 
-//  short_description  | text                        |           |          | 
-//  description        | text                        |           |          | 
-//  price              | numeric                     |           |          | 
-//  quantity           | integer                     |           |          | 
-//  image_names        | text[]                      |           |          | 
-//  specifications     | json                        |           |          | 
-//  category           | character varying(255)      |           |          | 
+	// main_image_name,
+	// image_names[]
+	// specifications
+	// cetegory
 };
 
 </script>

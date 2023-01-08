@@ -4,7 +4,6 @@
 	v-model="adminStore.addImageToProductObj.showModal"
 	fullscreen
 	>
-
 	<template #content="{ ok }">
 		<va-card-content>
 			<!-- Thumbnail -->
@@ -13,21 +12,22 @@
 					<p v-else>Pick your product's images. These will be shown on the image slider when a customer is viewing your product on it's product page.</p>
 					<div v-for="imageObj in adminStore.allImageBucketData" 
 								class="flex flex-col !flex-initial w-32 " 
-								
 							>
 							<!-- Multi-image select. For adding images to the product. -->
 							<span v-if="!adminStore.addImageToProductObj.addMainImage"
 								class="flex flex-col justify-center items-center p-1">
-								<va-checkbox
-									v-model="productImagesToAdd"
-									:array-value="imageObj.Key"
-									
-								/>
-								<va-image 
-									class="w-32"
-									@click="Object.assign(productMainImage, imageObj);"
-									:src="imageUrl(imageObj.Key)"
-								/>
+								<!-- Exclude the main image -->
+								<span v-if="imageObj.Key != adminStore.productToEdit.main_image_name">
+									<va-checkbox
+										v-model="productImagesToAdd"
+										:array-value="imageObj.Key"
+									/>
+									<va-image 
+										class="w-32"
+										@click="Object.assign(productMainImage, imageObj);"
+										:src="imageUrl(imageObj.Key)"
+									/>
+								</span>
 							</span>
 
 							<!-- Main image select. For adding the product's main image. -->
@@ -73,11 +73,7 @@
 			</va-card-actions>
 		</span>
 		
-
 	</template>
-
-
-	
 </va-modal>
 
 </template>
@@ -129,10 +125,12 @@ async function handleAddMainImageToProduct() {
 	
 	// Only update State for the product being edited. The original products data will not be changed yet. Only when the admin saves.
 
-	// Only if the image is not already being used for the product, add the main image (index position 0 of the Array)
-	if(!adminStore.productToEdit.image_names.includes(productMainImage.Key)) {
-		adminStore.productToEdit.image_names[0] = productMainImage.Key;
+	// If the image was being used for one of the product images, remove it (no duplicate images for a product)
+	if(adminStore.productToEdit.image_names.includes(productMainImage.Key)) {
+		adminStore.productToEdit.image_names.splice(adminStore.productToEdit.image_names.findIndex(imageName => imageName == productMainImage.Key), 1)
 	};
+	adminStore.productToEdit.main_image_name = productMainImage.Key;
+
 	// Reset Component State
 	Object.assign(productMainImage, {});
 	// Close modal
