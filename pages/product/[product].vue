@@ -39,7 +39,7 @@
             </span>
         </div>
         
-        <text>Price: ${{ productData[0].price * quantitySelect }}</text>
+        <text>Price: ${{ (productData[0].price_in_cents / 100) * quantitySelect }}</text>
         <div class="flex align-end gap-6 pt-6">
 
             <span v-if="productData[0].quantity > 0">

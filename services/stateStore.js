@@ -22,7 +22,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
                     {
                         id: itemToPutInCart.id,
                         name: itemToPutInCart.name,
-                        price: itemToPutInCart.price,
+                        price_in_cents: itemToPutInCart.price_in_cents,
                         quantity: quantitySelected
                     }
                 ]));
@@ -39,7 +39,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
                 shoppingCart.push({
                     id: itemToPutInCart.id,
                     name: itemToPutInCart.name,
-                    price: itemToPutInCart.price,
+                    price_in_cents: itemToPutInCart.price_in_cents,
                     quantity: quantitySelected
                 })
                 // Set the item back into LS with the updated quantity

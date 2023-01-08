@@ -6,7 +6,7 @@
             <tbody>
                 <tr v-for="product in orderStore.userProductsToShip">
                     <td>{{ product.name }} x {{ product.quantity }}</td>
-                    <td class="va-text-right">${{ product.price * product.quantity }}</td>
+                    <td class="va-text-right">${{ (product.price_in_cents / 100) * product.quantity }}</td>
                 </tr>
                 <tr>
                     <td><h6 class="va-h6">Subtotal</h6></td>
@@ -57,7 +57,7 @@ onMounted(() => {
             let shoppingCartIndex = shoppingCart.findIndex(prod => prod.id == product.id);
             if(shoppingCartIndex != -1) {
                 product.quantity = shoppingCart[shoppingCartIndex].quantity;
-                orderStore.subTotal += parseInt(product.quantity) * parseInt(product.price);
+                orderStore.subTotal += parseInt(product.quantity) * (product.price_in_cents * 100);
                 orderStore.userProductsToShip.push(product);
             };
         });

@@ -15,12 +15,23 @@
 								class="flex flex-col !flex-initial w-32 " 
 								
 							>
-							<va-checkbox
-								v-if="!adminStore.addImageToProductObj.addMainImage"
-								v-model="adminStore.imageSelection"
-								:array-value="imageObj.Key"
-							/>
-							<span 
+							<!-- Multi-image select. For adding images to the product. -->
+							<span v-if="!adminStore.addImageToProductObj.addMainImage"
+								class="flex flex-col justify-center items-center p-1">
+								<va-checkbox
+									v-model="productImagesToAdd"
+									:array-value="imageObj.Key"
+									
+								/>
+								<va-image 
+									class="w-32"
+									@click="Object.assign(productMainImage, imageObj);"
+									:src="imageUrl(imageObj.Key)"
+								/>
+							</span>
+
+							<!-- Main image select. For adding the product's main image. -->
+							<span v-else
 								class="flex flex-col justify-center items-center p-1"
 								:style="{'backgroundColor': mainImageBGcolor(imageObj.Key) }"
 							>
@@ -35,13 +46,33 @@
 			</div>
 		</va-card-content>
 
-		<p v-if="productMainImage.Key">Set {{ productMainImage.Key }} as the main image?</p>
-		<va-card-actions>
-			<va-button @click="ok" color="warning">Cancel</va-button>
-			<span v-if="productMainImage.Key">
-				<va-button @click="handleAddMainImageToProduct()" color="success">Confirm</va-button>
+		<!-- Multi-image select. For adding images to the product. -->
+		<span v-if="!adminStore.addImageToProductObj.addMainImage">
+			<span v-if="productImagesToAdd.length">
+				<p>Add the following images?</p>
+				<br />
+				<p v-for="imageName in productImagesToAdd">{{ imageName }}</p>
+				<br />
 			</span>
-		</va-card-actions>
+			<va-card-actions>
+				<va-button @click="productImagesToAdd.length = 0, adminStore.addImageToProductObj.showModal = false" color="warning">Cancel</va-button>
+				<span v-if="productImagesToAdd.length">
+					<va-button @click="handleAddProductImages()" color="success">Confirm</va-button>
+				</span>
+			</va-card-actions>
+		</span>
+
+		<!-- Main image select. For adding the product's main image. -->
+		<span v-else>
+			<p v-if="productMainImage.Key">Set {{ productMainImage.Key }} as the main image?</p>
+			<va-card-actions>
+				<va-button @click="Object.assign(productMainImage, reactive({})), adminStore.addImageToProductObj.showModal = false" color="warning">Cancel</va-button>
+				<span v-if="productMainImage.Key">
+					<va-button @click="handleAddMainImageToProduct()" color="success">Confirm</va-button>
+				</span>
+			</va-card-actions>
+		</span>
+		
 
 	</template>
 
@@ -60,6 +91,9 @@ const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 
+// For holding multi-selected images
+let productImagesToAdd = ref([]);
+
 // Function prepends AWS S3 bucket URL to String
 function imageUrl(imageKey) {
     // imageKey: 'some-image-name.bmp' 
@@ -74,6 +108,23 @@ function mainImageBGcolor(imageFileName) {
 		'red';
 };
 
+
+async function handleAddProductImages() {
+
+	// Add unique images to State
+	productImagesToAdd.value.forEach((imageName) => {
+		if(!adminStore.productToEdit.image_names.includes(imageName)) {
+			adminStore.productToEdit.image_names.push(imageName);
+		}
+	});
+
+	// Reset Component State
+	productImagesToAdd.value.length = 0;
+	// Close modal
+	adminStore.addImageToProductObj.showModal = false;
+
+};
+
 async function handleAddMainImageToProduct() {
 	
 	// Only update State for the product being edited. The original products data will not be changed yet. Only when the admin saves.
@@ -82,9 +133,13 @@ async function handleAddMainImageToProduct() {
 	if(!adminStore.productToEdit.image_names.includes(productMainImage.Key)) {
 		adminStore.productToEdit.image_names[0] = productMainImage.Key;
 	};
-
+	// Reset Component State
+	Object.assign(productMainImage, {});
 	// Close modal
 	adminStore.addImageToProductObj.showModal = false;
+
+
+
 	// TODO: Show success message
 
 	// let response = await $fetch(`/api/admin/product/image/add`, {

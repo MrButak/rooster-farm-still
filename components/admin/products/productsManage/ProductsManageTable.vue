@@ -94,7 +94,7 @@ const columns = [
     { key: 'visible', sortable: true },
     { key: 'name', sortable: true },
     { key: 'quantity', sortable: true },
-    { key: 'price', sortable: true },
+    { key: 'price_in_cents', sortable: true },
     { key: 'id', name: 'images', label: 'images' }, // passing the DB id here. When @click
     { key: 'added_on_timestamp', sortable: true },
 ];

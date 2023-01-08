@@ -5,7 +5,7 @@
 <!-- ******************************************************************** -->
 <!--  
 Component displays all inputs for editing the product:
-    name, price, quantity, short description, long description
+    name, price_in_cents, quantity, short description, long description
 -->
 <div class="flex items-center gap-2.5 w-full">
     <h5 class="va-h5">Product name
@@ -18,7 +18,6 @@ Component displays all inputs for editing the product:
 			</span>
 		</h5>   
 </div>
-
 <div class="input-wrapper">
     <va-input
         class="mb-4"
@@ -30,7 +29,7 @@ Component displays all inputs for editing the product:
 </div>
 
 <div class="flex items-center gap-2.5 w-full">
-    <h5 class="va-h5">Price
+    <h5 class="va-h5">Price in cents
 			<span>
 				<va-icon
 						:name="editPriceIcon.name"
@@ -40,11 +39,10 @@ Component displays all inputs for editing the product:
 			</span>
 		</h5>
 </div>
-
 <div class="input-wrapper">
     <va-input
         class="mb-4"
-        v-model="adminStore.productToEdit.price"
+        v-model="adminStore.productToEdit.price_in_cents"
         :readonly="!canEditPriceInput"
         ref="priceInput"
         >
@@ -62,7 +60,6 @@ Component displays all inputs for editing the product:
 			</span>
 		</h5>
 </div>
-
 <div class="input-wrapper">
     <va-input
         class="mb-4"

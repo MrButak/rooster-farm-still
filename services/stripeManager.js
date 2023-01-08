@@ -93,7 +93,7 @@ function stripeWebHooks(stripeSignature, body) {
                         purchasedItems[key].quantity, 
                         paymentIntent['receipt_email'], 
                         new Date(Date.now()), 
-                        (purchasedItems[key].quantity * purchasedItems[key].price) * 100, // in cents 
+                        purchasedItems[key].quantity * purchasedItems[key].price_in_cents, // in cents 
                         paymentIntent['currency'], 
                         'stripe', 
                         paymentIntent['id']

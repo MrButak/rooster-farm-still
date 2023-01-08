@@ -43,7 +43,7 @@
 	<!-- Only show edit icon if the product has a main image -->
 	<span v-if="adminStore.productToEdit.image_names.length">
 		<va-icon
-			@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
+			@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = false"
 			name="edit"
 		/>
 	</span>
@@ -55,14 +55,16 @@
         stateful indicators infinite swipable 
         />
     <div v-for="(imageName, index) in adminStore.productToEdit.image_names.slice(1)">
-        <p>{{ index + 1 }}. {{ imageName }}</p>
+        <p class="pt-2">{{ index + 1 }}. {{ imageName }}
+					<span>
+						<va-icon
+							@click="adminStore.productToEdit.image_names.splice(adminStore.productToEdit.image_names.findIndex(image_name => image_name == imageName), 1)"
+							name="delete"
+							color="danger"
+						/>
+					</span>
+				</p>
     </div>
-		<va-button 
-			class="w-4 h-4"
-			icon="add" 
-			color="warning" 
-			icon-color="#812E9E"
-		/>
 </div>
 <div v-if="!adminStore.productToEdit.image_names.length">
     <p>Add a main image first</p>
@@ -79,7 +81,7 @@
     >
         Cancel
     </va-button>
-    <va-button>Save</va-button>
+    <va-button @click="handleSaveProductEdits()">Save</va-button>
 </div>
 
 <!-- Confirm cancel edit popup modal -->
@@ -121,6 +123,43 @@ let editProductImagesArray = computed(() => {
 let mainImageUrl = computed(() => {
     return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.image_names[0]
 });
+
+async function handleSaveProductEdits() {
+	// TODO: 
+	// 1. compare new data to old and see what has changed
+	// 2. send new data to the backend to be updated in the DB
+	// 3. update app state
+	let updatedProductData = [];
+	let originalProduct = 
+		productStore.allProducts[
+			productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)
+		];
+
+	if(originalProduct.name != adminStore.productToEdit.name) {
+		updatedProductData.push({name: adminStore.productToEdit.name});
+	};
+	if(originalProduct.short_description != adminStore.productToEdit.short_description) {
+		updatedProductData.push({short_description: adminStore.productToEdit.short_description});
+	};
+	if(originalProduct.description != adminStore.productToEdit.description) {
+		updatedProductData.push({description: adminStore.productToEdit.description});
+	};
+	if(originalProduct.price_in_cents != adminStore.productToEdit.price_in_cents) {
+		updatedProductData.push({price_in_cents: adminStore.productToEdit.price_in_cents});
+	};
+	if(originalProduct.quantity != adminStore.productToEdit.quantity) {
+		updatedProductData.push({quantity: adminStore.productToEdit.quantity});
+	};
+	// image_name, specifications
+// 	name               | character varying(255)      |           |          | 
+//  short_description  | text                        |           |          | 
+//  description        | text                        |           |          | 
+//  price              | numeric                     |           |          | 
+//  quantity           | integer                     |           |          | 
+//  image_names        | text[]                      |           |          | 
+//  specifications     | json                        |           |          | 
+//  category           | character varying(255)      |           |          | 
+};
 
 </script>
 
