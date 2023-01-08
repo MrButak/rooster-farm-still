@@ -68,7 +68,7 @@
 				</p>
     </div>
 </div>
-<div v-if="!adminStore.productToEdit.image_names.length">
+<div v-if="!adminStore.productToEdit.image_names || !adminStore.productToEdit.image_names.length">
     <p>Add a main image first</p>
 </div>
 
@@ -106,18 +106,24 @@
 <script setup>
 
 import { computed } from 'vue';
-import { useAdminStore } from '~~/services/stateStore';
+import { useAdminStore, useProductStore } from '~~/services/stateStore';
 
 import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
 import AddImageToProduct from './AddImageToProduct.vue';
 const config = useRuntimeConfig();
 const adminStore = useAdminStore();
+const productStore = useProductStore();
 
 // Computed will return an everything after index 0 in the image_names Array with the base url prepended
 let editProductImagesArray = computed(() => {
-    return adminStore.productToEdit.image_names
-    .map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});
+	// No images
+	if(!adminStore.productToEdit.image_names || !adminStore.productToEdit.image_names.length) {
+		return [];
+	};
+
+	return adminStore.productToEdit.image_names
+	.map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});
 });
 
 // Computed will return the index 0 of image_names Array with the base_url prepended
@@ -130,11 +136,18 @@ async function handleSaveProductEdits() {
 	// 1. compare new data to old and see what has changed
 	// 2. send new data to the backend to be updated in the DB
 	// 3. update app state
+
+	console.log(adminStore.productToEdit);
+	console.log('Changes to make')
+	
 	let updatedProductData = [];
 	let originalProduct = 
 		productStore.allProducts[
 			productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)
 		];
+
+	console.log(originalProduct);
+	console.log('Original product')
 
 	if(originalProduct.name != adminStore.productToEdit.name) {
 		updatedProductData.push({name: adminStore.productToEdit.name});
@@ -163,18 +176,4 @@ async function handleSaveProductEdits() {
 
 <style lang="scss" scoped>
 
-.title-and-icon-wrapper {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    gap: 0.6rem;
-}
-.input-wrapper {
-    display: flex;
-    width: 95%;
-    
-}
-.spec-wrapper {
-    display: flex;
-}
 </style>

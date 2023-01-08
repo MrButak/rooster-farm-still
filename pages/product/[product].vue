@@ -109,7 +109,7 @@ let addToCartButtonText = computed(() => {
 // Function accepts an Array of Strings and prepends each string with the AWS S3 bucket url
 function imageUrlArray(imageNameArray) {
 		// Default images if none
-		if(!imageNameArray.length) {
+		if(!imageNameArray || !imageNameArray.length) {
 			return ['https://picsum.photos/1505', 'https://picsum.photos/1504', 'https://picsum.photos/1503']
 		}
 		return imageNameArray.map((imageName) => {

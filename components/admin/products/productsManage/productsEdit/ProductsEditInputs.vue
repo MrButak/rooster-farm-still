@@ -18,7 +18,7 @@ Component displays all inputs for editing the product:
 			</span>
 		</h5>   
 </div>
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.name"
@@ -39,7 +39,7 @@ Component displays all inputs for editing the product:
 			</span>
 		</h5>
 </div>
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.price_in_cents"
@@ -60,7 +60,7 @@ Component displays all inputs for editing the product:
 			</span>
 		</h5>
 </div>
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.quantity"
@@ -82,7 +82,7 @@ Component displays all inputs for editing the product:
 		</h5>
 </div>
 
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.short_description"
@@ -106,7 +106,7 @@ Component displays all inputs for editing the product:
 		</h5>
 </div>
 
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.description"
@@ -168,19 +168,5 @@ let editLongDescriptionIcon = computed(() => {
 
 <style lang="scss" scoped>
 
-.title-and-icon-wrapper {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    gap: 0.6rem;
-}
-.input-wrapper {
-    display: flex;
-    width: 95%;
-    
-}
-.spec-wrapper {
-    display: flex;
-}
 
 </style>

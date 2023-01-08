@@ -82,7 +82,8 @@ const input = ref('');
 function totalImageCount(productId) {
     let selectedProductIndex = productStore.allProducts.findIndex(product => product.id == productId);
     let selectedProduct = productStore.allProducts[selectedProductIndex];
-    return selectedProduct.image_names.length;
+
+    return !selectedProduct.image_names || selectedProduct.image_names.length;
 };
 
 function handleShowProductImages(productId) {
