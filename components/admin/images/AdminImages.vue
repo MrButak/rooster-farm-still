@@ -73,6 +73,7 @@
     <template #header(displayed)="{ label }">
         {{ label }}
     </template>
+		
     <template #cell(displayed)="{ value }">
         <va-checkbox
             v-model="adminStore.imageSelection"

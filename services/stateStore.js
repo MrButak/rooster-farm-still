@@ -223,21 +223,23 @@ export const useAdminStore = defineStore('adminStore', {
         ]
     }),
     getters: {
-				// Create an Array of objects
-        imageListObjArry: (state) => {
-            const adminStore = useAdminStore()
-            let imageObjArray = [];
-            state.allImageBucketData.forEach((img) => {
-                imageObjArray.push(
-                    {
-                        key: img.Key, // file name: some-img.jpg
-                        lastModified: new Date(img.LastModified).toLocaleString(), 
-                        displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
-                    }
-                );
-            });
-            return imageObjArray;
-        }
+			// Create an Array of objects
+			imageListObjArry: (state) => {
+				const adminStore = useAdminStore()
+				let imageObjArray = [];
+				if(state.allImageBucketData.length) {
+					state.allImageBucketData.forEach((img) => {
+						imageObjArray.push(
+							{
+									key: img.Key, // file name: some-img.jpg
+									lastModified: new Date(img.LastModified).toLocaleString(), 
+									displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
+							}
+						);
+					})
+				};
+				return imageObjArray;
+			}
     },
     actions: {
         // Sidebar actions
@@ -268,17 +270,29 @@ export const useAdminStore = defineStore('adminStore', {
             this.showEditProductComponent = true;
         },
         getAllImagesDisplayedForProduct(imgObj) {
-            const productStore = useProductStore();
-            let productNames = [];
-            productStore.allProducts.forEach((productObj) => {
-                productObj.image_names.forEach((imageName) => {
-            
-                    if(imageName == imgObj.Key && !productNames.includes(imageName)) {
-                        productNames.push(productObj.name)
-                    }
-                });
-            });
-            return productNames;
+					const productStore = useProductStore();
+					let productNames = [];
+
+					if(productStore.allProducts.length) {
+
+						productStore.allProducts.forEach((productObj) => {
+
+							// Make sure there are images associated with the product
+							if(productObj.image_names) {
+
+								productObj.image_names.forEach((imageName) => {
+										if(imageName == imgObj.Key && !productNames.includes(imageName)) {
+												productNames.push(productObj.name)
+										}
+								});
+
+							};
+			
+						});
+						
+					};
+					
+					return productNames;
         },
         // If an image's checkbox is checked/unchecked this determines the div's background color
         imagePreviewBgColor(imageName) {

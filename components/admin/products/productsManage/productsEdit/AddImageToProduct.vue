@@ -109,7 +109,7 @@ async function handleAddProductImages() {
 
 	// Add unique images to State
 	productImagesToAdd.value.forEach((imageName) => {
-		if(!adminStore.productToEdit.image_names.includes(imageName)) {
+		if(adminStore.productToEdit.image_names && !adminStore.productToEdit.image_names.includes(imageName)) {
 			adminStore.productToEdit.image_names.push(imageName);
 		}
 	});
@@ -126,7 +126,7 @@ async function handleAddMainImageToProduct() {
 	// Only update State for the product being edited. The original products data will not be changed yet. Only when the admin saves.
 
 	// If the image was being used for one of the product images, remove it (no duplicate images for a product)
-	if(adminStore.productToEdit.image_names.includes(productMainImage.Key)) {
+	if(adminStore.productToEdit.image_names && adminStore.productToEdit.image_names.includes(productMainImage.Key)) {
 		adminStore.productToEdit.image_names.splice(adminStore.productToEdit.image_names.findIndex(imageName => imageName == productMainImage.Key), 1)
 	};
 	adminStore.productToEdit.main_image_name = productMainImage.Key;
