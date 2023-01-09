@@ -34,10 +34,74 @@ Images.init({
 });
 
 
+class Products extends Model {}
+
+Products.init({
+  // Model attributes are defined here
+  id: {
+    type: DataTypes.INTEGER,
+		primaryKey: true,
+    allowNull: false
+  },
+	name: {
+    type: DataTypes.STRING
+  },
+  short_description: {
+    type: DataTypes.TEXT
+  },
+	description: {
+    type: DataTypes.TEXT
+  },
+	price_in_cents: {
+    type: DataTypes.TEXT
+  },
+	quantity: {
+    type: DataTypes.TEXT
+  },
+	main_image_name: {
+    type: DataTypes.STRING
+  },
+	image_names: {
+    type: DataTypes.ARRAY(DataTypes.STRING)
+  },
+	specifications: {
+    type: DataTypes.JSON
+  },
+	category: {
+    type: DataTypes.STRING
+  },
+	visible: {
+    type: DataTypes.BOOLEAN
+  },
+	added_on_timestamp: {
+    type: DataTypes.DATE
+  }
+	
+}, 
+{
+	timestamps: false,
+  // Other model options go here
+  sequelize, // We need to pass the connection instance
+  modelName: 'products' // We need to choose the model name
+});
+  
+//  image_names        | character varying(255)[]    |           |          | 
+//  specifications     | json                        |           |          | 
+//  category           | character varying(255)      |           |          | 
+//  visible            | boolean                     |           |          | 
+//  added_on_timestamp | timestamp without time zone |           |          | 
+//  main_image_name    | character varying(255)      |           |          | 
 
 (async() => {
-	const users = await Images.findAll();
-console.log(users)
+	// const users = await Products.findAll();
+	// users.forEach((item) => {
+	// 	console.log(item.image_names)
+	// })
+	// await Products.update({ lastName: "Doe" }, {
+	// 	where: {
+	// 		lastName: null
+	// 	}
+	// });
 })();
 
 
@@ -180,17 +244,29 @@ async function addMainImageToProduct(imageFileName, productId) {
 };
 
 async function testDynamicColumnNames(columnName, columnValue) {
-	
-	// let dbStmt = `UPDATE products SET ${columnName[0]} = ($1) WHERE id = 16`;
-	// console.log(dbStmt, JSON.parse(JSON.stringify(columnValue)) )
-	// try {
-	// 	let query = await pool.query(dbStmt, JSON.parse(JSON.stringify([columnValue[0]])));
-	// 	console.log(query.rows)
-	// }
-	// catch(err) {
-	// 	console.log(err);
-	// }
-}
+
+	let dbStmt = `UPDATE products SET ${columnName} = ($1) WHERE id = 16`;
+	try {
+
+		switch(columnName[0]) {
+			case 'image_names':
+				let q1 = await pool.query( dbStmt, [JSON.parse(columnValue[0])] );
+				console.log(q1.rows)
+				break;
+			default:
+				// 'main_image_name', 'specifications', 'quantity', 'price_in_cents':
+				let q2 = await pool.query(dbStmt, [columnValue[0]]);
+				console.log(q2);
+				console.log(columnName)
+		};
+		return true;
+	}
+	catch(err) {
+		console.log(err);
+		return false;
+	};
+};
+
 export { getAllProducts, selectProductData, storePurchase, updateProductQuantity, 
     storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts,
 		addMainImageToProduct,
