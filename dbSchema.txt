@@ -1,3 +1,5 @@
+TODO: Look into a default value, to avoide undefined values
+
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) UNIQUE,

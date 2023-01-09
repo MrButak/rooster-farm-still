@@ -1,7 +1,7 @@
 import { addMainImageToProduct} from '../../../../../services/dbManager';
 import dotenv from "dotenv";
 dotenv.config();
-
+ // NOT IN USE
 
 export default defineEventHandler (async event => {
     

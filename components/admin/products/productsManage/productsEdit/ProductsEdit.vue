@@ -131,24 +131,13 @@ let mainImageUrl = computed(() => {
     return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.main_image_name;
 });
 
-async function handleSaveProductEdits() {
-	// TODO: 
-	// 1. compare new data to old and see what has changed
-	// 2. send new data to the backend to be updated in the DB
-	// 3. update app state
-
-	// console.log(JSON.stringify(adminStore.productToEdit.image_names));
-	// console.log('Changes to make')
-	
+function productChangesArray() {
 	let updatedProductData = [];
 	let originalProduct = 
 		productStore.allProducts[
 			productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)
 		];
 
-	// console.log(JSON.stringify(originalProduct.image_names));
-	// console.log('Original product')
-	
 	if(originalProduct.name != adminStore.productToEdit.name) {
 		updatedProductData.push({name: adminStore.productToEdit.name});
 	};
@@ -179,9 +168,31 @@ async function handleSaveProductEdits() {
 	if(JSON.stringify(originalProduct.specifications) != JSON.stringify(adminStore.productToEdit.specifications)) {
 		updatedProductData.push( {specifications: JSON.stringify(adminStore.productToEdit.specifications)} );
 	};
+
+	return updatedProductData;
+}
+
+async function handleSaveProductEdits() {
+	// TODO: 
+	// *DONE* 1. compare new data to old and see what has changed
+	// 2. send new data to the backend to be updated in the DB
+	// 3. update app state
+
 	
-	console.log(updatedProductData)
+	// Early return if nothing has changed
+	if(!productChangesArray().length) { return };
+
+	let response = await $fetch(`/api/admin/product/update`, {
+		method: 'POST',
+		body: JSON.stringify({
+			productData: productChangesArray()
+		})
+	});
+	
+	console.log(response)
+	
 };
+
 
 </script>
 

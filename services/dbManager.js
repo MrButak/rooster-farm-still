@@ -1,7 +1,63 @@
 import pgPackage from 'pg';
+
+import { Sequelize, DataTypes,  Model } from 'sequelize';
+
+
 const { Pool } = pgPackage;
 import dotenv from "dotenv";
 dotenv.config();
+
+
+const sequelize = new Sequelize(process.env.DATABASE_URL);
+
+
+class Images extends Model {}
+
+Images.init({
+  // Model attributes are defined here
+  id: {
+    type: DataTypes.INTEGER,
+		primaryKey: true,
+    allowNull: false
+  },
+  file_name: {
+    type: DataTypes.STRING,
+		allowNull: false
+    // allowNull defaults to true
+  }
+}, 
+{
+	timestamps: false,
+  // Other model options go here
+  sequelize, // We need to pass the connection instance
+  modelName: 'images' // We need to choose the model name
+});
+
+
+
+(async() => {
+	const users = await Images.findAll();
+console.log(users)
+})();
+
+
+// Images.init({
+//   // Model attributes are defined here
+//   id: {
+//     type: DataTypes.INTEGER,
+//     allowNull: false
+//   },
+//   file_name: {
+//     type: DataTypes.STRING,
+// 		allowNull: false
+//     // allowNull defaults to true
+//   }
+// }, {
+//   // Other model options go here
+//   sequelize, // We need to pass the connection instance
+//   modelName: 'Images' // We need to choose the model name
+// });
+
 
 let pool = new Pool({});
 
@@ -122,7 +178,22 @@ async function addMainImageToProduct(imageFileName, productId) {
 		return false;
 	}
 };
+
+async function testDynamicColumnNames(columnName, columnValue) {
+	
+	// let dbStmt = `UPDATE products SET ${columnName[0]} = ($1) WHERE id = 16`;
+	// console.log(dbStmt, JSON.parse(JSON.stringify(columnValue)) )
+	// try {
+	// 	let query = await pool.query(dbStmt, JSON.parse(JSON.stringify([columnValue[0]])));
+	// 	console.log(query.rows)
+	// }
+	// catch(err) {
+	// 	console.log(err);
+	// }
+}
 export { getAllProducts, selectProductData, storePurchase, updateProductQuantity, 
     storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts,
-		addMainImageToProduct
+		addMainImageToProduct,
+		testDynamicColumnNames
 }
+
