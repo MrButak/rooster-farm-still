@@ -6,8 +6,6 @@ dotenv.config();
 export default defineEventHandler (async event => {
     
 	const body = await useBody(event);
-	
-	console.log(body.newProductData);
 
     let insertSuccess = await createNewProduct(body.newProductData);
     console.log(insertSuccess)

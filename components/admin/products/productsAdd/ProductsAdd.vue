@@ -1,6 +1,23 @@
 <template>
 
-<h3 class="va-h3">Add Products</h3>
+<span v-if="!adminStore.showAddProductComponent">
+    <va-button
+        @click="adminStore.showAddProductComponent = !adminStore.showAddProductComponent"
+        >Add Product
+    </va-button>
+</span>
+
+<span v-else>
+<div class="d-flex">
+    <h3 class="va-h3">Add Product</h3>        
+    <va-spacer class="spacer" />
+    <va-icon
+        @click="showConfirmExitCreateProductModal = !showConfirmExitCreateProductModal"
+        class="mr-2"
+        name="cancel"
+        size="medium"
+    />
+</div>
 
 <div class="flex items-center gap-2.5 w-full">
     <h5 class="va-h5">Product name</h5>   
@@ -93,6 +110,7 @@
 
 <div class="flex justify-between gap-28 w-full">
     <va-button
+        @click="showConfirmExitCreateProductModal = !showConfirmExitCreateProductModal"
         color="secondary"
     >
         Cancel
@@ -100,6 +118,13 @@
     <va-button @click="handleCreateNewProduct()">Create Product</va-button>
 </div>
 
+<va-modal 
+    v-model="showConfirmExitCreateProductModal" 
+    message="Leave? Your new product is not saved. All progress will be lost." 
+    title="Overview"
+    @ok="handleCloseAddProductComponent()"
+    />
+</span>
 </template>
 
 <script setup>
@@ -112,11 +137,32 @@ import ProductsEditImages from '~~/components/admin/products/productsManage/prod
 import ProductsEditSpecs from '~~/components/admin/products/productsManage/productsEdit/ProductsEditSpecs.vue';
 const adminStore = useAdminStore();
 
+// Confirm exit modal
+let showConfirmExitCreateProductModal = ref(false);
+
 let nameInput = ref(null);
 let priceInput = ref(null);
 let quantityInput = ref(null);
 let shortDescriptionInput = ref(null);
 let longDescriptionInput = ref(null);
+
+function handleCloseAddProductComponent() {
+    // Clear State
+    Object.assign(adminStore.productToAdd, {
+        name: '',
+        price_in_cents: null,
+        quantity: null,
+        short_description: '',
+        description: '',
+        main_image_name: '',
+        image_names: [], // Array of Strings
+        specifications: [], // Array of Objects
+        visible: true,
+        category: null, // not in use
+    }); 
+    // Close this Component
+    adminStore.showAddProductComponent = !adminStore.showAddProductComponent
+};
 
 function handleAddProductImages() {
     // Add unique images to State
@@ -159,6 +205,8 @@ async function handleCreateNewProduct() {
     switch(response.status) {
         case '200':
             console.log('success');
+            handleCloseAddProductComponent();
+            // TODO: Show success message
             break;
         default:
             console.log(response.status, response.error);
@@ -166,5 +214,6 @@ async function handleCreateNewProduct() {
 
     console.log(response)
 };
+
 
 </script>

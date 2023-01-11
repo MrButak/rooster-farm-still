@@ -32,6 +32,7 @@
             </span>
             
             <span v-else-if="adminStore.activeRouteName == 'productsAdd'" style="display:flex;flex-direction:column;gap: 1.8rem">
+
                 <span class="admin-viewed-content-component-wrapper">
                     <ProductsAdd />
                 </span>
