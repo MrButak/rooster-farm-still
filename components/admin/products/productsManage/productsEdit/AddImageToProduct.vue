@@ -8,41 +8,41 @@
 		<va-card-content>
 			<!-- Thumbnail -->
 			<div class="flex flex-wrap gap-4">
-					<p v-if="adminStore.addImageToProductObj.addMainImage">Pick your main image. This is the image which will be displayed on the products main listing.</p>
-					<p v-else>Pick your product's images. These will be shown on the image slider when a customer is viewing your product on it's product page.</p>
-					<div v-for="imageObj in adminStore.allImageBucketData" 
-								class="flex flex-col !flex-initial w-32 " 
-							>
-							<!-- Multi-image select. For adding images to the product. -->
-							<span v-if="!adminStore.addImageToProductObj.addMainImage"
-								class="flex flex-col justify-center items-center p-1">
-								<!-- Exclude the main image -->
-								<span v-if="imageObj.Key != adminStore.productToEdit.main_image_name">
-									<va-checkbox
-										v-model="productImagesToAdd"
-										:array-value="imageObj.Key"
-									/>
-									<va-image 
-										class="w-32"
-										@click="Object.assign(productMainImage, imageObj);"
-										:src="imageUrl(imageObj.Key)"
-									/>
-								</span>
-							</span>
+                <p v-if="adminStore.addImageToProductObj.addMainImage">Pick your main image. This is the image which will be displayed on the products main listing.</p>
+                <p v-else>Pick your product's images. These will be shown on the image slider when a customer is viewing your product on it's product page.</p>
+                <div v-for="imageObj in adminStore.allImageBucketData" 
+                            class="flex flex-col !flex-initial w-32 " 
+                        >
+                        <!-- Multi-image select. For adding images to the product. -->
+                        <span v-if="!adminStore.addImageToProductObj.addMainImage"
+                            class="flex flex-col justify-center items-center p-1">
+                            <!-- Exclude the main image -->
+                            <span v-if="imageObj.Key != adminStore.productToEdit.main_image_name">
+                                <va-checkbox
+                                    v-model="productImagesToAdd"
+                                    :array-value="imageObj.Key"
+                                />
+                                <va-image 
+                                    class="w-32"
+                                    @click="Object.assign(productMainImage, imageObj);"
+                                    :src="imageUrl(imageObj.Key)"
+                                />
+                            </span>
+                        </span>
 
-							<!-- Main image select. For adding the product's main image. -->
-							<span v-else
-								class="flex flex-col justify-center items-center p-1"
-								:style="{'backgroundColor': mainImageBGcolor(imageObj.Key) }"
-							>
-								<va-image 
-									class="w-32"
-									@click="Object.assign(productMainImage, imageObj);"
-									:src="imageUrl(imageObj.Key)"
-								/>
-							</span>
-							<p class="w-32 truncate ...">{{ imageObj.Key }}</p>
-					</div>
+                        <!-- Main image select. For adding the product's main image. -->
+                        <span v-else
+                            class="flex flex-col justify-center items-center p-1"
+                            :style="{'backgroundColor': mainImageBGcolor(imageObj.Key) }"
+                        >
+                            <va-image 
+                                class="w-32"
+                                @click="Object.assign(productMainImage, imageObj);"
+                                :src="imageUrl(imageObj.Key)"
+                            />
+                        </span>
+                        <p class="w-32 truncate ...">{{ imageObj.Key }}</p>
+                </div>
 			</div>
 		</va-card-content>
 
@@ -87,6 +87,11 @@ const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 
+// defineProps({
+//     productImagesToAdd: Array,
+//     imageUrl: String,
+//     mainImageBGcolor: String,
+// })
 // For holding multi-selected images
 let productImagesToAdd = ref([]);
 
@@ -108,7 +113,6 @@ function mainImageBGcolor(imageFileName) {
 async function handleAddProductImages() {
 	
 	// Add unique images to State
-	
 	productImagesToAdd.value.forEach((imageName) => {
 		
 		if(!adminStore.productToEdit.image_names.includes(imageName)) {
@@ -120,7 +124,6 @@ async function handleAddProductImages() {
 	productImagesToAdd.value.length = 0;
 	// Close modal
 	adminStore.addImageToProductObj.showModal = false;
-
 };
 
 async function handleAddMainImageToProduct() {

@@ -1,6 +1,5 @@
 import { localStorageAvailable, getItemFromLs } from './lsManager';
 import { defineStore } from 'pinia';
-import { toRaw } from 'vue';
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
     state: () => ({
@@ -163,7 +162,20 @@ export const useUiStore = defineStore('uiStore', {
 
 export const useAdminStore = defineStore('adminStore', {
     state: () => ({
-        
+        // Add product
+        productToAdd: {
+            name: '',
+            price_in_cents: null,
+            quantity: null,
+            short_description: '',
+            long_description: '',
+            main_image: '',
+            images: [], // Array of Strings
+            specifications: [], // Array of Objects
+            visible: true,
+            category: null, // not in use
+
+        },
         // Edit product
         showConfirmEditModal: false,
         confirmEditModalMessage: '',
@@ -176,10 +188,11 @@ export const useAdminStore = defineStore('adminStore', {
         uploadedImageArray: [],
         imageSelection: [],// Holds image name(s) when checkbox is checked
         viewedImage: {}, // This is assigned when an image is clicked
-				addImageToProductObj: { // Admin adds an image to a product
-					showModal: false,
-					addMainImage: false // main image || product images. When adding a main image to a product, user can only select 1 image. When adding to product images multiple images can be selected.
-				},
+        // For both product edit and product add
+        addImageToProductObj: {
+            showModal: false,
+            addMainImage: false // main image || product images. When adding a main image to a product, user can only select 1 image. When adding to product images multiple images can be selected.
+        },
         // Handles all 'views' and sidebar items
         sidebarShown: false,
         activeRouteName: 'home',

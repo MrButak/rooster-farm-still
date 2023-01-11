@@ -31,6 +31,11 @@
                 </span>
             </span>
             
+            <span v-else-if="adminStore.activeRouteName == 'productsAdd'" style="display:flex;flex-direction:column;gap: 1.8rem">
+                <span class="admin-viewed-content-component-wrapper">
+                    <ProductsAdd />
+                </span>
+            </span>
 
         </span>
     </span>
@@ -46,9 +51,11 @@
 import { useAdminStore } from '~~/services/stateStore';
 import ProductsManage from '~~/components/admin/products/productsManage/ProductsManage.vue';
 import ProductsEdit from '~~/components/admin/products/productsManage/productsEdit/ProductsEdit.vue';
+import ProductsAdd from '~~/components/admin/products/productsAdd/ProductsAdd.vue';
 import { getItemFromLs } from '~~/services/lsManager';
 
 import { useColors } from 'vuestic-ui';
+
 const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'));
