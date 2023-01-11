@@ -11,26 +11,20 @@
     />
 </div>
 
-<!-- ******************************************************************** -->
 <!-- Edit inputs: name, quantity, descriptions, price -->
-<!-- ******************************************************************** -->
 <ProductsEditInputs />
 
-<!-- ******************************************************************** -->
 <!-- Images: main image and a slider for the product's secondary images -->
-<!-- ******************************************************************** -->
 <ProductsEditImages 
     :productPropObj="adminStore.productToEdit"
     :mainImageUrl="createImageUrlFromString(adminStore.productToEdit.main_image_name)"
     :imageUrls="createImageUrlsFromArray(adminStore.productToEdit.image_names)"
 />
 
-
-<!-- ******************************************************************** -->
-<!-- Specifications -->
-<!-- ******************************************************************** -->
-<ProductsEditSpecs />
-
+<!-- Specifications: stored as JSON in the DB -->
+<ProductsEditSpecs 
+    :productPropObj="adminStore.productToEdit"
+/>
 
 <div class="flex justify-between gap-28 w-full">
     <va-button
@@ -64,7 +58,6 @@
 
 <script setup>
 
-import { computed } from 'vue';
 import { useAdminStore, useProductStore,
         createImageUrlFromString, createImageUrlsFromArray
 } from '~~/services/stateStore';
@@ -73,14 +66,9 @@ import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
 import ProductsEditImages from './ProductsEditImages.vue';
 import AddImageToProductModal from './AddImageToProductModal.vue';
-const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 
-
-// let mainImageUrl = computed(() => {
-//     return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.main_image_name;
-// });
 // *** Props ***
 async function handleAddProductImages() {
 	
@@ -111,19 +99,6 @@ async function handleAddMainImageToProduct() {
 	// Close modal
 	adminStore.addImageToProductObj.showModal = false;
 };
-
-
-
-// Computed will return base url prepended to each String in the Array
-// let editProductImagesArray = computed(() => {
-// 	// No images
-// 	if(!adminStore.productToEdit.image_names.length) {
-// 		return [];
-// 	};
-// 	return adminStore.productToEdit.image_names
-// 	.map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});
-// });
-
 
 
 // Function will compare product details with the edited version and return an Array[{table_name: new_value(s)}]
@@ -201,9 +176,3 @@ async function handleSaveProductEdits() {
 
 
 </script>
-
-
-
-<style lang="scss" scoped>
-
-</style>
