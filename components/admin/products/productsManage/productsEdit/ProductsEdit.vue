@@ -22,14 +22,14 @@
 <!-- The first image in the Array is the main image -->
 <div class="flex w-full items-center gap-2.5">
     <h5 class="va-h5">Main image 
-			<span>
-				<va-icon
-					@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
-        	name="edit"
-					color="info"
-    		/>
-			</span>
-		</h5>
+        <span>
+            <va-icon
+                @click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
+                name="edit"
+                color="info"
+            />
+        </span>
+    </h5>
 </div>
 <span v-if="adminStore.productToEdit.main_image_name">
 	<va-image class="flex md6 lg4" :src="mainImageUrl" />
@@ -57,15 +57,15 @@
         stateful indicators infinite swipable 
         />
     <div v-for="(imageName, index) in adminStore.productToEdit.image_names">
-        <p class="pt-2">{{ index + 1 }}. {{ imageName }}
-					<span>
-						<va-icon
-							@click="adminStore.productToEdit.image_names.splice(adminStore.productToEdit.image_names.findIndex(image_name => image_name == imageName), 1)"
-							name="delete"
-							color="danger"
-						/>
-					</span>
-				</p>
+        <p class="pt-2">{{ index }}. {{ imageName }}
+            <span>
+                <va-icon
+                    @click="adminStore.productToEdit.image_names.splice(adminStore.productToEdit.image_names.findIndex(image_name => image_name == imageName), 1)"
+                    name="delete"
+                    color="danger"
+                />
+            </span>
+        </p>
     </div>
 </div>
 <div v-if="!adminStore.productToEdit.main_image_name">
@@ -115,10 +115,10 @@ const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 
-// Computed will return an everything after index 0 in the image_names Array with the base url prepended
+// Computed will return base url prepended to each String in the Array
 let editProductImagesArray = computed(() => {
 	// No images
-	if(!adminStore.productToEdit.image_names || !adminStore.productToEdit.image_names.length) {
+	if(!adminStore.productToEdit.image_names.length) {
 		return [];
 	};
 
@@ -175,11 +175,6 @@ function productChangesArray() {
 }
 
 async function handleSaveProductEdits() {
-	// TODO: 
-	// *DONE* 1. compare new data to old and see what has changed
-	// 2. send new data to the backend to be updated in the DB
-	// 3. update app state
-
 	
 	// Early return if nothing has changed
 	if(!productChangesArray().length) { return };

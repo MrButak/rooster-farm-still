@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { testDynamicColumnNames } from '~~/services/dbManager';
+import { updateProductDetails } from '~~/services/dbManager';
 dotenv.config();
 
 
@@ -7,19 +7,17 @@ export default defineEventHandler (async event => {
     
 	const body = await useBody(event);
 	
-	// Collect Boolean for every item updated - if any updates fail, send error message to user.
-	// TODO: There is a better way to find out if all DB updates were successfull and collect more data about any errors - find and use it
-	// let inserted  = [];
-	for(const columnObj of body.productData) {
-		// inserted.push( await testDynamicColumnNames( Object.keys(columnObj).flat(), Object.values(columnObj) ) );
-        let column = Object.keys(columnObj)[0];
-        let value = Object.values(columnObj)[0]
-        await testDynamicColumnNames(column, value, body.productId)
-	};
-
-    
-	// return inserted.includes(false) ?
-		// {status: '500', error: 'Unknown error updating product details. Please refresh page and try again.'} :
+	// TODO: How to handle one of these failing?
+    try {
+        for(const columnObj of body.productData) {
+            let column = Object.keys(columnObj)[0];
+            let value = Object.values(columnObj)[0]
+            await updateProductDetails(column, value, body.productId)
+	    };
+    }
+    catch(err) {
+        console.log(err)
+        return{status:'500', error: 'An unknown error occurred when updating this product\'s details.'}
+    };
 	return{status: '200'};
-	
 }); 
