@@ -179,6 +179,7 @@ export const useAdminStore = defineStore('adminStore', {
             category: null, // not in use
 
         },
+        showAddProductComponent: false,
         // Edit product
         showConfirmEditModal: false,
         confirmEditModalMessage: '',

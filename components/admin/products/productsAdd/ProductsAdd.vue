@@ -1,10 +1,18 @@
 <template>
 
+<span v-if="!adminStore.showAddProductComponent">
+    <va-button
+        @click="adminStore.showAddProductComponent = !adminStore.showAddProductComponent"
+        >Add Product
+    </va-button>
+</span>
+
+<span v-else>
 <div class="d-flex">
     <h3 class="va-h3">Add Product</h3>        
     <va-spacer class="spacer" />
     <va-icon
-        @click="showConfirmExitCreateProductModal = true"
+        @click="showConfirmExitCreateProductModal = !showConfirmExitCreateProductModal"
         class="mr-2"
         name="cancel"
         size="medium"
@@ -102,7 +110,7 @@
 
 <div class="flex justify-between gap-28 w-full">
     <va-button
-        @click="showConfirmExitCreateProductModal = true"
+        @click="showConfirmExitCreateProductModal = !showConfirmExitCreateProductModal"
         color="secondary"
     >
         Cancel
@@ -114,9 +122,9 @@
     v-model="showConfirmExitCreateProductModal" 
     message="Leave? Your new product is not saved. All progress will be lost." 
     title="Overview"
-    :ok="handleCancelAddProduct"
+    @ok="handleCloseAddProductComponent()"
     />
-
+</span>
 </template>
 
 <script setup>
@@ -138,11 +146,11 @@ let quantityInput = ref(null);
 let shortDescriptionInput = ref(null);
 let longDescriptionInput = ref(null);
 
-
-function handleCancelAddProduct() {
-    // TODO: 
-    // 1. Clear State: Object.assign(adminStore.productToAdd, {})
-    // 2. Close this Component
+function handleCloseAddProductComponent() {
+    // Clear State
+    Object.assign(adminStore.productToAdd, {}); 
+    // Close this Component
+    adminStore.showAddProductComponent = !adminStore.showAddProductComponent
 };
 
 function handleAddProductImages() {
@@ -186,6 +194,8 @@ async function handleCreateNewProduct() {
     switch(response.status) {
         case '200':
             console.log('success');
+            handleCloseAddProductComponent();
+            // TODO: Show success message
             break;
         default:
             console.log(response.status, response.error);
@@ -193,5 +203,6 @@ async function handleCreateNewProduct() {
 
     console.log(response)
 };
+
 
 </script>
