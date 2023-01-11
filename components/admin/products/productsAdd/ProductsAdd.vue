@@ -74,11 +74,20 @@
     </va-input>
 </div>
 
+
+<!-- Add image to product modal -->
+<AddImageToProduct 
+    :productPropObj="adminStore.productToEdit"
+    :handleAddProductImages="handleAddProductImages"
+    :handleAddMainImageToProduct="handleAddMainImageToProduct"
+/>
+
 </template>
 
 <script setup>
 
 import { useAdminStore } from '~~/services/stateStore';
+import AddImageToProduct from '~~/components/admin/products/productsManage/productsEdit/AddImageToProduct.vue'
 const adminStore = useAdminStore();
 
 let nameInput = ref(null);
@@ -86,5 +95,32 @@ let priceInput = ref(null);
 let quantityInput = ref(null);
 let shortDescriptionInput = ref(null);
 let longDescriptionInput = ref(null);
+
+function handleAddProductImages() {
+    // Add unique images to State
+	adminStore.productImagesToAdd.forEach((imageName) => {
+		
+		if(!adminStore.productToAdd.image_names.includes(imageName)) {
+			adminStore.productToAdd.image_names.push(toRaw(imageName));
+		};
+	});
+	// Reset Component State
+	adminStore.productImagesToAdd.length = 0;
+	// Close modal
+	adminStore.addImageToProductObj.showModal = false;
+};
+function handleAddMainImageToProduct() {
+
+	// If the image was being used for one of the product images, remove it (no duplicate images for a product)
+	if(adminStore.productToAdd.image_names && adminStore.productToAdd.image_names.includes(adminStore.productMainImage.Key)) {
+		adminStore.productToAdd.image_names.splice(adminStore.productToAdd.image_names.findIndex(imageName => imageName == adminStore.productMainImage.Key), 1)
+	};
+	adminStore.productToAdd.main_image_name = adminStore.productMainImage.Key;
+
+	// Reset Component State
+    Object.assign(adminStore.productMainImage, {})
+	// Close modal
+	adminStore.addImageToProductObj.showModal = false;
+};
 
 </script>

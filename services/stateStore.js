@@ -1,5 +1,8 @@
 import { localStorageAvailable, getItemFromLs } from './lsManager';
 import { defineStore } from 'pinia';
+// import dotenv from "dotenv";
+// dotenv.config();
+
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
     state: () => ({
@@ -169,8 +172,8 @@ export const useAdminStore = defineStore('adminStore', {
             quantity: null,
             short_description: '',
             long_description: '',
-            main_image: '',
-            images: [], // Array of Strings
+            main_image_name: '',
+            image_names: [], // Array of Strings
             specifications: [], // Array of Objects
             visible: true,
             category: null, // not in use
@@ -188,7 +191,10 @@ export const useAdminStore = defineStore('adminStore', {
         uploadedImageArray: [],
         imageSelection: [],// Holds image name(s) when checkbox is checked
         viewedImage: {}, // This is assigned when an image is clicked
+
         // For both product edit and product add
+        productImagesToAdd: [], // Uses as a v-model for multi-select images
+        productMainImage: {}, // Holds the image object when admin select the main image for a product
         addImageToProductObj: {
             showModal: false,
             addMainImage: false // main image || product images. When adding a main image to a product, user can only select 1 image. When adding to product images multiple images can be selected.
@@ -349,6 +355,26 @@ export const useAdminStore = defineStore('adminStore', {
                         console.log(response.data);
                 }
             })
+        },
+        // Admin adds images. Used in component AddImageToProduct.vue
+        mainImageBGcolor(mainImageObjForProduct, imageFileName) {
+            
+            return !mainImageObjForProduct.Key || mainImageObjForProduct.Key != imageFileName ?
+                'transparent' :
+                'red';
         }
     }
 });
+
+function createImageUrlFromString(fileName) {
+    const config = useRuntimeConfig();
+    return config.public.AWS_S3_BUCKET_BASE_URL + fileName;
+};
+
+function createImageUrlsFromArray(fileNameArray) {
+    if(!fileNameArray || !fileNameArray.length) { return [] };
+    const config = useRuntimeConfig();
+    return fileNameArray.map((fileName) => {return config.public.AWS_S3_BUCKET_BASE_URL + fileName});
+};
+
+export { createImageUrlFromString, createImageUrlsFromArray };

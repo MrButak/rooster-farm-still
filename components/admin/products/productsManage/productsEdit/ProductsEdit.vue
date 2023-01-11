@@ -16,10 +16,15 @@
 <!-- ******************************************************************** -->
 <ProductsEditInputs />
 
+<ProductsEditImages 
+    :productPropObj="adminStore.productToEdit"
+    :mainImageUrl="createImageUrlFromString(adminStore.productToEdit.main_image_name)"
+    :imageUrls="createImageUrlsFromArray(adminStore.productToEdit.image_names)"
+/>
 <!-- ******************************************************************** -->
 <!-- Images -->
 <!-- ******************************************************************** -->
-<!-- The first image in the Array is the main image -->
+<!--
 <div class="flex w-full items-center gap-2.5">
     <h5 class="va-h5">Main image 
         <span>
@@ -39,9 +44,9 @@
 	No main image, try adding one!
 </span>
 
-<!-- Image slider -->
+
 <h5 class="va-h5">Images
-	<!-- Only show edit icon if the product has a main image -->
+	
 	<span v-if="adminStore.productToEdit.main_image_name">
 		<va-icon
 			@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = false"
@@ -50,7 +55,7 @@
 		/>
 	</span>
 </h5>
-<!-- Image slider. All product images except the main image -->
+
 <div v-if="editProductImagesArray.length" >
     <va-carousel 
         :items="editProductImagesArray" 
@@ -71,6 +76,7 @@
 <div v-if="!adminStore.productToEdit.main_image_name">
     <p>Add a main image first</p>
 </div>
+-->
 
 <!-- ******************************************************************** -->
 <!-- Specifications -->
@@ -97,7 +103,11 @@
 
 
 <!-- Add image to product modal -->
-<AddImageToProduct />
+<AddImageToProduct 
+    :productPropObj="adminStore.productToEdit"
+    :handleAddProductImages="handleAddProductImages"
+    :handleAddMainImageToProduct="handleAddMainImageToProduct"
+/>
 
 </template>
 
@@ -106,30 +116,66 @@
 <script setup>
 
 import { computed } from 'vue';
-import { useAdminStore, useProductStore } from '~~/services/stateStore';
+import { useAdminStore, useProductStore,
+        createImageUrlFromString, createImageUrlsFromArray
+} from '~~/services/stateStore';
 
 import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
+import ProductsEditImages from './ProductsEditImages.vue';
 import AddImageToProduct from './AddImageToProduct.vue';
 const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 
-// Computed will return base url prepended to each String in the Array
-let editProductImagesArray = computed(() => {
-	// No images
-	if(!adminStore.productToEdit.image_names.length) {
-		return [];
+
+// let mainImageUrl = computed(() => {
+//     return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.main_image_name;
+// });
+// *** Props ***
+async function handleAddProductImages() {
+	
+	// Add unique images to State
+	adminStore.productImagesToAdd.forEach((imageName) => {
+		
+		if(!adminStore.productToEdit.image_names.includes(imageName)) {
+			adminStore.productToEdit.image_names.push(toRaw(imageName));
+		};
+	});
+	
+	// Reset Component State
+	adminStore.productImagesToAdd.length = 0;
+	// Close modal
+	adminStore.addImageToProductObj.showModal = false;
+}
+async function handleAddMainImageToProduct() {
+	
+	// Only update State for the product being edited. The original products data will not be changed yet. Only when the admin saves.
+	// If the image was being used for one of the product images, remove it (no duplicate images for a product)
+	if(adminStore.productToEdit.image_names && adminStore.productToEdit.image_names.includes(adminStore.productMainImage.Key)) {
+		adminStore.productToEdit.image_names.splice(adminStore.productToEdit.image_names.findIndex(imageName => imageName == adminStore.productMainImage.Key), 1)
 	};
+	adminStore.productToEdit.main_image_name = adminStore.productMainImage.Key;
 
-	return adminStore.productToEdit.image_names
-	.map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});
-});
+	// Reset Component State
+    Object.assign(adminStore.productMainImage, {})
+	// Close modal
+	adminStore.addImageToProductObj.showModal = false;
+};
 
-// Computed will return the index 0 of image_names Array with the base_url prepended
-let mainImageUrl = computed(() => {
-    return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.main_image_name;
-});
+
+
+// Computed will return base url prepended to each String in the Array
+// let editProductImagesArray = computed(() => {
+// 	// No images
+// 	if(!adminStore.productToEdit.image_names.length) {
+// 		return [];
+// 	};
+// 	return adminStore.productToEdit.image_names
+// 	.map((imgName) => {return config.public.AWS_S3_BUCKET_BASE_URL + imgName});
+// });
+
+
 
 // Function will compare product details with the edited version and return an Array[{table_name: new_value(s)}]
 function productChangesArray() {
