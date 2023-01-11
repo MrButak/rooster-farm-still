@@ -213,6 +213,7 @@ async function deleteImagesFromProducts(imageName) {
 
     // Remove image name from products.main_image_name
     await Products.update({ main_image_name: null }, { where: { main_image_name: imageName } });
+};
 
 // ** in use?
 async function addMainImageToProduct(imageFileName, productId) {
@@ -228,7 +229,7 @@ async function addMainImageToProduct(imageFileName, productId) {
 	}
 };
 
-async function testDynamicColumnNames(columnName, columnValue, productId) {
+async function updateProductDetails(columnName, columnValue, productId) {
 
 	let dbStmt = `UPDATE products SET ${columnName} = ($1) WHERE id = ${productId}`;
 	try {
@@ -256,6 +257,6 @@ async function testDynamicColumnNames(columnName, columnValue, productId) {
 export { getAllProducts, selectProductData, storePurchase, updateProductQuantity, 
     storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts,
 		addMainImageToProduct,
-		testDynamicColumnNames
+		updateProductDetails
 }
 
