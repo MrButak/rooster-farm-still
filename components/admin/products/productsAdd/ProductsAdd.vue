@@ -91,6 +91,15 @@
     :handleAddMainImageToProduct="handleAddMainImageToProduct"
 />
 
+<div class="flex justify-between gap-28 w-full">
+    <va-button
+        color="secondary"
+    >
+        Cancel
+    </va-button>
+    <va-button @click="handleCreateNewProduct()">Create Product</va-button>
+</div>
+
 </template>
 
 <script setup>
@@ -134,6 +143,18 @@ function handleAddMainImageToProduct() {
     Object.assign(adminStore.productMainImage, {})
 	// Close modal
 	adminStore.addImageToProductObj.showModal = false;
+};
+
+async function handleCreateNewProduct() {
+    
+    // TODO: Validation
+
+    let response = $fetch(`/api/admin/product/create`, {
+        method: 'POST',
+        body: JSON.stringify({
+            newProductData: adminStore.productToAdd
+        })
+    })
 };
 
 </script>

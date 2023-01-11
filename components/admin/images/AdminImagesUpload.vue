@@ -86,8 +86,8 @@ async function handleImageUpload() {
             switch(response.status) {
                 case '200':
                     adminStore.uploadedImageArray.length = 0;
-										console.log(response.data)
-										console.log('Response from image upload after successful upload in s3 bucket and insertion into DB table images')
+                    // console.log(response.data)
+                    console.log('Response from image upload after successful upload in s3 bucket and insertion into DB table images')
                     response.data.forEach((imgObj) => {
                         adminStore.allImageBucketData.push(imgObj)
                     });
