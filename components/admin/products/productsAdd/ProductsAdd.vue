@@ -148,7 +148,18 @@ let longDescriptionInput = ref(null);
 
 function handleCloseAddProductComponent() {
     // Clear State
-    Object.assign(adminStore.productToAdd, {}); 
+    Object.assign(adminStore.productToAdd, {
+        name: '',
+        price_in_cents: null,
+        quantity: null,
+        short_description: '',
+        description: '',
+        main_image_name: '',
+        image_names: [], // Array of Strings
+        specifications: [], // Array of Objects
+        visible: true,
+        category: null, // not in use
+    }); 
     // Close this Component
     adminStore.showAddProductComponent = !adminStore.showAddProductComponent
 };

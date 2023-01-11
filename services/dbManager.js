@@ -254,7 +254,7 @@ async function createNewProduct(productObj) {
         image_names: productObj.image_names,
         specifications: productObj.specifications,
         // category: productObj.category,
-        // visible: productObj.visible,
+        visible: productObj.visible,
         added_on_timestamp: new Date(Date.now())
     });
 
