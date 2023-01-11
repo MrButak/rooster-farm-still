@@ -37,7 +37,7 @@
 
             <va-card-content>
                 <text>left in stock: {{ calculateProductQuantityInStock(product.id, product.quantity) }}</text><br />
-                <text>price: ${{ product.price * product.quantity }}</text>
+                <text>price: ${{ (product.price_in_cents / 100) * product.quantity }}</text>
             </va-card-content>
             
             <div class="my-5">
@@ -144,7 +144,7 @@ function calculateProductQuantityInStock(productId, productQuantity) {
 function calculateSubtotal() {
 
     let subtotal = 0;
-    shoppingCartItems.forEach((product) => subtotal += product.quantity * product.price);
+    shoppingCartItems.forEach((product) => subtotal += product.quantity * (product.price_in_cents / 100));
     return subtotal;
 };
 

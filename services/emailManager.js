@@ -11,7 +11,7 @@ function sendPaymentSuccessEmail(paymentIntent) {
     Object.keys(products).forEach((key) => {
         itemsPurchased.push({
             name: products[key].name,
-            price: products[key].price * products[key].quantity,
+            price: (products[key].price_in_cents * 100) * products[key].quantity,
             quantity: products[key].quantity
         });
     });

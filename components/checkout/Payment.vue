@@ -54,7 +54,7 @@ async function createPaymentIntent() {
     orderStore.userProductsToShip.forEach((product) => {
         purchasedItemsObj[product.id] = {
             'name': product.name,
-            'price': product.price,
+            'price_in_cents': product.price_in_cents,
             'quantity': product.quantity
         };
     });

@@ -5,7 +5,7 @@
 <div v-if="productLoaded" class="flex flex-col md:flex-row">
     <va-carousel
         class=""
-        :items="productData[0].image_urls" 
+        :items="imageUrlArray(productData[0].image_names)" 
         :ratio="4/3" 
         stateful indicators infinite swipable 
     />
@@ -20,11 +20,11 @@
 
         <va-tabs v-model="productDetailsTabs">
             <template #tabs>
-            <va-tab
-                v-for="tab in ['Description', 'Specs']"
-                :key="tab"
-                >
-                {{ tab }}
+                <va-tab
+                    v-for="tab in ['Description', 'Specs']"
+                    :key="tab"
+                    >
+                    {{ tab }}
                 </va-tab>
             </template>
         </va-tabs>
@@ -38,8 +38,8 @@
                 </p>
             </span>
         </div>
-
-        <text>Price: ${{ productData[0].price * quantitySelect }}</text>
+        
+        <text>Price: ${{ (productData[0].price_in_cents / 100) * quantitySelect }}</text>
         <div class="flex align-end gap-6 pt-6">
 
             <span v-if="productData[0].quantity > 0">
@@ -84,6 +84,7 @@ import { useShoppingCartStore } from '~~/services/stateStore';
 import { getItemFromLs } from '../../services/lsManager';
 
 import { useColors } from 'vuestic-ui';
+const config = useRuntimeConfig();
 const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'))
@@ -104,6 +105,17 @@ let addToCartButtonText = computed(() => {
         'In cart' :
         'Add to cart'
 });
+
+// Function accepts an Array of Strings and prepends each string with the AWS S3 bucket url
+function imageUrlArray(imageNameArray) {
+		// Default images if none
+		if(!imageNameArray || !imageNameArray.length) {
+			return ['https://picsum.photos/1505', 'https://picsum.photos/1504', 'https://picsum.photos/1503']
+		}
+		return imageNameArray.map((imageName) => {
+				return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageName}`
+		});
+};
 
 onMounted(() => {
     (async() => {
@@ -152,50 +164,4 @@ function handleAddToCart() {
 };
 
 </script>
-    
-
-    
-<style lang="scss">
-
-// .product-wrapper-main {
-//     display: flex;
-//     justify-content: center;
-//     padding: 2rem 1rem;
-//     .product-wrapper {
-//         width: 100%;
-
-//         .tab-content-wrapper {
-//             overflow-y: scroll;
-//         }
-//         .va-input-wrapper__container {
-//                 // width: 8rem;
-//             }
-//             .quantity-and-checkout-button-wrapper {
-//                 display: flex;
-//                 width: 100%;
-//             }
-//     }  
-// }
-
-// @media only screen and (min-width: 640px)  {
-    
-        
-//         .product-wrapper {
-//             display: flex;
-//             max-width: 120rem;
-//             .tab-content-wrapper {
-//                 height: 100%;
-//             }
-//         }
-// }
-
-// @media (max-width:768px) {
-//     .half {
-//         width: 100%;
-//     }
-//     .custom-col {
-//         flex-direction: column;
-//     }
-// }
-</style>
     

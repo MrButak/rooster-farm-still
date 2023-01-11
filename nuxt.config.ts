@@ -12,6 +12,7 @@ export default defineNuxtConfig({
             STRIPE_PK: process.env.STRIPE_PK,
             BASE_URL: process.env.BASE_URL,
             GOOGLE_MAPS_API: process.env.GOOGLE_MAPS_API,
+            AWS_S3_BUCKET_BASE_URL: process.env.AWS_S3_BUCKET_BASE_URL,
         }
     },
     buildModules: ['@pinia/nuxt'],

@@ -5,16 +5,20 @@
 <!-- ******************************************************************** -->
 <!--  
 Component displays all inputs for editing the product:
-    name, price, quantity, short description, long description
+    name, price_in_cents, quantity, short description, long description
 -->
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Product name</h5>
-    <va-icon
-        :name="editNameIcon"
-        @click="canEditNameInput = !canEditNameInput; nameInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Product name
+			<span>
+				<va-icon
+					@click="canEditNameInput = !canEditNameInput; nameInput.focus()"
+					:name="editNameIcon.name"
+					:color="editNameIcon.color"
+				/>
+			</span>
+		</h5>   
 </div>
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.name"
@@ -24,31 +28,39 @@ Component displays all inputs for editing the product:
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Price</h5>
-    <va-icon
-        :name="editPriceIcon"
-        @click="canEditPriceInput = !canEditPriceInput; priceInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Price in cents
+			<span>
+				<va-icon
+						:name="editPriceIcon.name"
+						@click="canEditPriceInput = !canEditPriceInput; priceInput.focus()"
+						:color="editPriceIcon.color"
+				/>
+			</span>
+		</h5>
 </div>
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
-        v-model="adminStore.productToEdit.price"
+        v-model="adminStore.productToEdit.price_in_cents"
         :readonly="!canEditPriceInput"
         ref="priceInput"
         >
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Quantity</h5>
-    <va-icon
-        :name="editQuantityIcon"
-        @click="canEditQuantityInput = !canEditQuantityInput; quantityInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Quantity
+			<span>
+				<va-icon
+					@click="canEditQuantityInput = !canEditQuantityInput; quantityInput.focus()"
+					:name="editQuantityIcon.name"
+					:color="editQuantityIcon.color"
+				/>
+			</span>
+		</h5>
 </div>
-<div class="input-wrapper">
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.quantity"
@@ -58,14 +70,19 @@ Component displays all inputs for editing the product:
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Short description</h5>
-    <va-icon
-        :name="editShortDescriptionIcon"
-        @click="canEditShortDescriptionInput = !canEditShortDescriptionInput; shortDescriptionInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Short description
+			<span>
+				<va-icon
+						:name="editShortDescriptionIcon.name"
+						:color="editShortDescriptionIcon.color"
+						@click="canEditShortDescriptionInput = !canEditShortDescriptionInput; shortDescriptionInput.focus()"
+				/>
+			</span>
+		</h5>
 </div>
-<div class="input-wrapper">
+
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.short_description"
@@ -77,14 +94,19 @@ Component displays all inputs for editing the product:
     </va-input>
 </div>
 
-<div class="title-and-icon-wrapper">
-    <h5 class="va-h5">Long description</h5>
-    <va-icon
-        :name="editLongDescriptionIcon"
-        @click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
-    />
+<div class="flex items-center gap-2.5 w-full">
+    <h5 class="va-h5">Long description
+        <span>
+            <va-icon
+                :name="editLongDescriptionIcon.name"
+                :color="editLongDescriptionIcon.color"
+                @click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
+            />
+        </span>
+	</h5>
 </div>
-<div class="input-wrapper">
+
+<div class="flex w-[95%]">
     <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.description"
@@ -105,60 +127,49 @@ import { useAdminStore } from '~~/services/stateStore';
 
 const adminStore = useAdminStore();
 
+onMounted(() => {
+	console.log(adminStore.productToEdit)
+});
 
 // Product name
 let canEditNameInput = ref(false);
 let nameInput = ref(null);
 let editNameIcon = computed(() => {
     return !canEditNameInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 })
 // Product price
 let canEditPriceInput = ref(false);
 let priceInput = ref(null);
 let editPriceIcon = computed(() => {
     return !canEditPriceInput.value ?
-        'edit' : 'done';
+      {name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 // Product qantity
 let canEditQuantityInput = ref(false);
 let quantityInput = ref(null);
 let editQuantityIcon = computed(() => {
     return !canEditQuantityInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 // Product short description
 let canEditShortDescriptionInput = ref(false);
 let shortDescriptionInput = ref(null);
 let editShortDescriptionIcon = computed(() => {
     return !canEditShortDescriptionInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 // Product long description
 let canEditLongDescriptionInput = ref(false);
 let longDescriptionInput = ref(null);
 let editLongDescriptionIcon = computed(() => {
     return !canEditLongDescriptionInput.value ?
-        'edit' : 'done';
+			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 
 </script>
 
 <style lang="scss" scoped>
 
-.title-and-icon-wrapper {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    gap: 0.6rem;
-}
-.input-wrapper {
-    display: flex;
-    width: 95%;
-    
-}
-.spec-wrapper {
-    display: flex;
-}
 
 </style>

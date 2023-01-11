@@ -22,10 +22,20 @@
                 </span>
             </span>
 
-            <span v-else-if="adminStore.activeRouteName == 'images'" class="admin-viewed-content-component-wrapper">
-                <AdminImages />
+            <span v-else-if="adminStore.activeRouteName == 'images'" style="display:flex;flex-direction:column;gap: 1.8rem">
+                <span class="admin-viewed-content-component-wrapper">
+                    <AdminImagesUpload />
+                </span>
+                <span class="admin-viewed-content-component-wrapper">
+                    <AdminImages />
+                </span>
             </span>
             
+            <span v-else-if="adminStore.activeRouteName == 'productsAdd'" style="display:flex;flex-direction:column;gap: 1.8rem">
+                <span class="admin-viewed-content-component-wrapper">
+                    <ProductsAdd />
+                </span>
+            </span>
 
         </span>
     </span>
@@ -41,9 +51,11 @@
 import { useAdminStore } from '~~/services/stateStore';
 import ProductsManage from '~~/components/admin/products/productsManage/ProductsManage.vue';
 import ProductsEdit from '~~/components/admin/products/productsManage/productsEdit/ProductsEdit.vue';
+import ProductsAdd from '~~/components/admin/products/productsAdd/ProductsAdd.vue';
 import { getItemFromLs } from '~~/services/lsManager';
 
 import { useColors } from 'vuestic-ui';
+
 const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'));
@@ -67,7 +79,7 @@ const adminStore = useAdminStore();
     display: flex;
     height: calc(100vh - 3.6rem);
     overflow: scroll;
-    flex: 1 1 0;
+    flex: 1 1 auto;
 }
 .admin-viewed-content-inner-wrapper {
     display: flex;
@@ -85,10 +97,4 @@ const adminStore = useAdminStore();
     padding: .4rem;
 }
 
-@media only screen and (max-width: 640px)  {
-    .admin-viewed-content-wrapper {
-        
-    }
-    
-}
 </style>

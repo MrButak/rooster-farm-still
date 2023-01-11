@@ -1,5 +1,7 @@
 import { localStorageAvailable, getItemFromLs } from './lsManager';
 import { defineStore } from 'pinia';
+// import dotenv from "dotenv";
+// dotenv.config();
 
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
@@ -22,7 +24,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
                     {
                         id: itemToPutInCart.id,
                         name: itemToPutInCart.name,
-                        price: itemToPutInCart.price,
+                        price_in_cents: itemToPutInCart.price_in_cents,
                         quantity: quantitySelected
                     }
                 ]));
@@ -39,7 +41,7 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
                 shoppingCart.push({
                     id: itemToPutInCart.id,
                     name: itemToPutInCart.name,
-                    price: itemToPutInCart.price,
+                    price_in_cents: itemToPutInCart.price_in_cents,
                     quantity: quantitySelected
                 })
                 // Set the item back into LS with the updated quantity
@@ -124,8 +126,14 @@ export const useShoppingCartStore = defineStore('shoppingCartStore', {
 export const useProductStore = defineStore('productStore', {
     state: () => ({
         allProducts: []
-    })
-    
+    }),
+    actions: {
+        async getAllProducts() {
+			this.allProducts.length = 0;
+            let productsDbData = await $fetch(`/api/get-products`);
+            productsDbData.forEach((product) => this.allProducts.push(product));
+        }
+    }
 });
 
 export const useOrderStore = defineStore('orderStore', {
@@ -157,15 +165,40 @@ export const useUiStore = defineStore('uiStore', {
 
 export const useAdminStore = defineStore('adminStore', {
     state: () => ({
-        
+        // Add product
+        productToAdd: {
+            name: '',
+            price_in_cents: null,
+            quantity: null,
+            short_description: '',
+            description: '',
+            main_image_name: '',
+            image_names: [], // Array of Strings
+            specifications: [], // Array of Objects
+            visible: true,
+            category: null, // not in use
+
+        },
         // Edit product
         showConfirmEditModal: false,
         confirmEditModalMessage: '',
-        // This will end up getting Object.assign(productToEdit, selectedProductToEdit)
+        // This will end up getting Object.assign(productToEdit, user selected ProductToEdit)
         productToEdit: {},
         showEditProductComponent: false,
         showCancelEditModal: false,
+        // Images
+        allImageBucketData: [], // Holds all image data from the DB {}
+        uploadedImageArray: [],
+        imageSelection: [],// Holds image name(s) when checkbox is checked
+        viewedImage: {}, // This is assigned when an image is clicked
 
+        // For both product edit and product add
+        productImagesToAdd: [], // Uses as a v-model for multi-select images
+        productMainImage: {}, // Holds the image object when admin select the main image for a product
+        addImageToProductObj: {
+            showModal: false,
+            addMainImage: false // main image || product images. When adding a main image to a product, user can only select 1 image. When adding to product images multiple images can be selected.
+        },
         // Handles all 'views' and sidebar items
         sidebarShown: false,
         activeRouteName: 'home',
@@ -205,7 +238,23 @@ export const useAdminStore = defineStore('adminStore', {
         ]
     }),
     getters: {
-
+			// Create an Array of objects
+			imageListObjArry: (state) => {
+				const adminStore = useAdminStore()
+				let imageObjArray = [];
+				if(state.allImageBucketData.length) {
+					state.allImageBucketData.forEach((img) => {
+						imageObjArray.push(
+							{
+                                key: img.Key, // file name: some-img.jpg
+                                lastModified: new Date(img.LastModified).toLocaleString(), 
+                                displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
+							}
+						);
+					})
+				};
+				return imageObjArray;
+			}
     },
     actions: {
         // Sidebar actions
@@ -226,15 +275,106 @@ export const useAdminStore = defineStore('adminStore', {
             let selectedProduct = allProducts[selectedProductIndex];
             this.confirmEditModalMessage =
                 `Are you sure you want to edit ${selectedProduct.name} ?`
-            console.log(selectedProduct);
         },
         // When the 'ok' is clicked to confirm the user wants to edit the product. Will assign the product the edit to a var and show the edit Component.
         handleGotoEditProductView(productId, allProducts) {
             let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
-            let selectedProduct = allProducts[selectedProductIndex];
+            
+			// Object.assign only does a shallow copy of the keys and values, meaning if one of the values in the object is another object or an array, then it is the same reference as was on the original object.
             // Object.assign is important here, so the original values are not changed during the editing process. Only replaced by this.productToEdit after the user saves.
-            Object.assign(this.productToEdit, selectedProduct);
+			// Work-a-round - JSON.parse(JSON.stringify(Object with nested Array / Objects))
+            Object.assign(this.productToEdit, JSON.parse(JSON.stringify(allProducts[selectedProductIndex])));
             this.showEditProductComponent = true;
+        },
+        getAllImagesDisplayedForProduct(imgObj) {
+            const productStore = useProductStore();
+            let productNames = [];
+
+            if(productStore.allProducts.length) {
+
+                productStore.allProducts.forEach((productObj) => {
+
+                    // Make sure there are images associated with the product
+                    if(productObj.image_names.length) {
+
+                        productObj.image_names.forEach((imageName) => {
+                            if(imageName == imgObj.Key && !productNames.includes(imageName)) {
+                                    productNames.push(productObj.name)
+                            }
+                        });
+
+                    };
+    
+                });
+                
+            };
+            
+            return productNames;
+        },
+        // If an image's checkbox is checked/unchecked this determines the div's background color
+        imagePreviewBgColor(imageName) {
+            return this.imageSelection.includes(imageName.Key) ?
+                '#D3D3D3' :
+                'transparent';
+        },
+        // Function handles API call to Amazon s3 to get all images.
+        // getAllImagesFromS3() => backend => s3 API call => backend image data => response
+        async getAllImagesFromS3() {
+            let response = await $fetch(`/api/admin/image/get-all`, {
+
+            });
+            Object.assign(this.allImageBucketData, response.imageData);
+        },
+        async handleDeleteImages() {
+            // If no items to delete, return
+            if(!this.imageSelection.length) { return };
+            
+            // Create an Array of Objects to send to the backend
+            let deleteParams = [];
+            this.imageSelection.forEach((imageName) => {
+                deleteParams.push({'Key': imageName});
+            });
+        
+            let response = $fetch(`/api/admin/image/delete`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    imageNameArray: deleteParams
+                })
+            })
+            .then((response) => {
+                switch(response.status) {
+                    case '200':
+                        // Success, now delete from State
+                        response.data.forEach((imgObj) => {
+                            this.allImageBucketData.splice(this.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
+                        });
+                        this.imageSelection.length = 0;
+                        break;
+                    case '500':
+                        // Error(s)
+                        console.log(response.data);
+                }
+            })
+        },
+        // Admin adds images. Used in component AddImageToProductModal.vue
+        mainImageBGcolor(mainImageObjForProduct, imageFileName) {
+            
+            return !mainImageObjForProduct.Key || mainImageObjForProduct.Key != imageFileName ?
+                'transparent' :
+                'red';
         }
     }
 });
+
+function createImageUrlFromString(fileName) {
+    const config = useRuntimeConfig();
+    return config.public.AWS_S3_BUCKET_BASE_URL + fileName;
+};
+
+function createImageUrlsFromArray(fileNameArray) {
+    if(!fileNameArray || !fileNameArray.length) { return [] };
+    const config = useRuntimeConfig();
+    return fileNameArray.map((fileName) => {return config.public.AWS_S3_BUCKET_BASE_URL + fileName});
+};
+
+export { createImageUrlFromString, createImageUrlsFromArray };
