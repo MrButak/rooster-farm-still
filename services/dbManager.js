@@ -41,6 +41,7 @@ Products.init({
 id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
     allowNull: false
 },
 name: {
@@ -84,19 +85,6 @@ added_on_timestamp: {
     sequelize, // We need to pass the connection instance
     modelName: 'products' // We need to choose the model name
 });
-  
-
-(async() => {
-	// const users = await Products.findAll();
-	// users.forEach((item) => {
-	// 	console.log(item.image_names)
-	// })
-	// await Products.update({ lastName: "Doe" }, {
-	// 	where: {
-	// 		lastName: null
-	// 	}
-	// });
-})();
 
 
 let pool = new Pool({});
@@ -220,7 +208,7 @@ async function addMainImageToProduct(imageFileName, productId) {
 	
 	let dbStmt = 'UPDATE products SET image_names = array_prepend(($1), image_names) WHERE id = ($2) Returning *';
 	try {
-		let query = await pool.query(dbStmt, [imageFileName, productId]);
+		await pool.query(dbStmt, [imageFileName, productId]);
 		return true;
 	}
 	catch(err) {
@@ -254,9 +242,29 @@ async function updateProductDetails(columnName, columnValue, productId) {
 	};
 };
 
+async function createNewProduct(productObj) {
+
+    const newProduct = await Products.create({
+        name: productObj.name,
+        short_description: productObj.short_description,
+        description: productObj.description,
+        price_in_cents: productObj.price_in_cents,
+        quantity: productObj.quantity,
+        main_image_name: productObj.main_image_name,
+        image_names: productObj.image_names,
+        specifications: productObj.specifications,
+        // category: productObj.category,
+        // visible: productObj.visible,
+        added_on_timestamp: new Date(Date.now())
+    });
+
+    return newProduct;
+
+};
+
 export { getAllProducts, selectProductData, storePurchase, updateProductQuantity, 
     storeStripeChargeId, insertImageNames, deleteImage, deleteImagesFromProducts,
 		addMainImageToProduct,
-		updateProductDetails
+		updateProductDetails, createNewProduct
 }
 

@@ -171,7 +171,7 @@ export const useAdminStore = defineStore('adminStore', {
             price_in_cents: null,
             quantity: null,
             short_description: '',
-            long_description: '',
+            description: '',
             main_image_name: '',
             image_names: [], // Array of Strings
             specifications: [], // Array of Objects

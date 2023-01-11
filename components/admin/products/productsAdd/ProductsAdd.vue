@@ -59,17 +59,17 @@
 </div>
 
 <div class="flex items-center gap-2.5 w-full">
-    <h5 class="va-h5">Long description</h5>
+    <h5 class="va-h5">Detailed description</h5>
 </div>
 
 <div class="flex w-[95%]">
     <va-input
         class="mb-4"
-        v-model="adminStore.productToAdd.long_description"
+        v-model="adminStore.productToAdd.description"
         type="textarea"
         ref="longDescriptionInput"
         :autosize="true"
-        placeholder="product's long description: this text will appear on the product's page"
+        placeholder="product's detailed description: this text will appear on the product's page"
         >
     </va-input>
 </div>
@@ -149,12 +149,22 @@ async function handleCreateNewProduct() {
     
     // TODO: Validation
 
-    let response = $fetch(`/api/admin/product/create`, {
+    let response = await $fetch(`/api/admin/product/create`, {
         method: 'POST',
         body: JSON.stringify({
             newProductData: adminStore.productToAdd
         })
-    })
+    });
+
+    switch(response.status) {
+        case '200':
+            console.log('success');
+            break;
+        default:
+            console.log(response.status, response.error);
+    };
+
+    console.log(response)
 };
 
 </script>
