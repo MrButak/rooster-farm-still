@@ -131,7 +131,9 @@ let mainImageUrl = computed(() => {
     return config.public.AWS_S3_BUCKET_BASE_URL + adminStore.productToEdit.main_image_name;
 });
 
+// Function will compare product details with the edited version and return an Array[{table_name: new_value(s)}]
 function productChangesArray() {
+
 	let updatedProductData = [];
 	let originalProduct = 
 		productStore.allProducts[
@@ -185,11 +187,25 @@ async function handleSaveProductEdits() {
 	let response = await $fetch(`/api/admin/product/update`, {
 		method: 'POST',
 		body: JSON.stringify({
-			productData: productChangesArray()
+			productData: productChangesArray(),
+            productId: adminStore.productToEdit.id
 		})
 	});
-	
-	console.log(response)
+
+    switch(response.status) {
+        case '200':
+            // Clear out product to edit
+            adminStore.productToEdit = {};
+            // Close edit product modal
+            adminStore.showEditProductComponent = false;
+            // Update products with backend call. Another option would be to replace the Array item in productStore.allProducts to the edited one
+            await productStore.getAllProducts();
+            // TODO: show success message
+            break
+        default:
+            console.log(response.status, response.error)
+            break;
+    };
 	
 };
 

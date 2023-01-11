@@ -9,12 +9,17 @@ export default defineEventHandler (async event => {
 	
 	// Collect Boolean for every item updated - if any updates fail, send error message to user.
 	// TODO: There is a better way to find out if all DB updates were successfull and collect more data about any errors - find and use it
-	let inserted  = [];
+	// let inserted  = [];
 	for(const columnObj of body.productData) {
-		inserted.push( await testDynamicColumnNames( Object.keys(columnObj).flat(), Object.values(columnObj) ) );
+		// inserted.push( await testDynamicColumnNames( Object.keys(columnObj).flat(), Object.values(columnObj) ) );
+        let column = Object.keys(columnObj)[0];
+        let value = Object.values(columnObj)[0]
+        await testDynamicColumnNames(column, value, body.productId)
 	};
-	return inserted.includes(false) ?
-		{status: '500', error: 'Unknown error updating product details. Please refresh page and try again.'} :
-		{status: '200'};
+
+    
+	// return inserted.includes(false) ?
+		// {status: '500', error: 'Unknown error updating product details. Please refresh page and try again.'} :
+	return{status: '200'};
 	
 }); 

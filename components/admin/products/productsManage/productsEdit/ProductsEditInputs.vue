@@ -96,14 +96,14 @@ Component displays all inputs for editing the product:
 
 <div class="flex items-center gap-2.5 w-full">
     <h5 class="va-h5">Long description
-			<span>
-				<va-icon
-						:name="editLongDescriptionIcon.name"
-						:color="editLongDescriptionIcon.color"
-						@click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
-				/>
-			</span>
-		</h5>
+        <span>
+            <va-icon
+                :name="editLongDescriptionIcon.name"
+                :color="editLongDescriptionIcon.color"
+                @click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
+            />
+        </span>
+	</h5>
 </div>
 
 <div class="flex w-[95%]">

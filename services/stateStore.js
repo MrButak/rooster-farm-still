@@ -127,7 +127,7 @@ export const useProductStore = defineStore('productStore', {
     }),
     actions: {
         async getAllProducts() {
-						this.allProducts.length = 0;
+			this.allProducts.length = 0;
             let productsDbData = await $fetch(`/api/get-products`);
             productsDbData.forEach((product) => this.allProducts.push(product));
         }
@@ -227,9 +227,9 @@ export const useAdminStore = defineStore('adminStore', {
 					state.allImageBucketData.forEach((img) => {
 						imageObjArray.push(
 							{
-									key: img.Key, // file name: some-img.jpg
-									lastModified: new Date(img.LastModified).toLocaleString(), 
-									displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
+                                key: img.Key, // file name: some-img.jpg
+                                lastModified: new Date(img.LastModified).toLocaleString(), 
+                                displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
 							}
 						);
 					})
@@ -261,36 +261,36 @@ export const useAdminStore = defineStore('adminStore', {
         handleGotoEditProductView(productId, allProducts) {
             let selectedProductIndex = allProducts.findIndex(product => product.id == productId);
             
-						// Object.assign only does a shallow copy of the keys and values, meaning if one of the values in the object is another object or an array, then it is the same reference as was on the original object.
+			// Object.assign only does a shallow copy of the keys and values, meaning if one of the values in the object is another object or an array, then it is the same reference as was on the original object.
             // Object.assign is important here, so the original values are not changed during the editing process. Only replaced by this.productToEdit after the user saves.
-						// Work-a-round - JSON.parse(JSON.stringify(Object with nested Array / Objects))
+			// Work-a-round - JSON.parse(JSON.stringify(Object with nested Array / Objects))
             Object.assign(this.productToEdit, JSON.parse(JSON.stringify(allProducts[selectedProductIndex])));
             this.showEditProductComponent = true;
         },
         getAllImagesDisplayedForProduct(imgObj) {
-					const productStore = useProductStore();
-					let productNames = [];
+            const productStore = useProductStore();
+            let productNames = [];
 
-					if(productStore.allProducts.length) {
+            if(productStore.allProducts.length) {
 
-						productStore.allProducts.forEach((productObj) => {
+                productStore.allProducts.forEach((productObj) => {
 
-							// Make sure there are images associated with the product
-							if(productObj.image_names.length) {
+                    // Make sure there are images associated with the product
+                    if(productObj.image_names.length) {
 
-								productObj.image_names.forEach((imageName) => {
-										if(imageName == imgObj.Key && !productNames.includes(imageName)) {
-												productNames.push(productObj.name)
-										}
-								});
+                        productObj.image_names.forEach((imageName) => {
+                            if(imageName == imgObj.Key && !productNames.includes(imageName)) {
+                                    productNames.push(productObj.name)
+                            }
+                        });
 
-							};
-			
-						});
-						
-					};
-					
-					return productNames;
+                    };
+    
+                });
+                
+            };
+            
+            return productNames;
         },
         // If an image's checkbox is checked/unchecked this determines the div's background color
         imagePreviewBgColor(imageName) {

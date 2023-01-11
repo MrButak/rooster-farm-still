@@ -15,82 +15,76 @@ class Images extends Model {}
 
 Images.init({
   // Model attributes are defined here
-  id: {
-    type: DataTypes.INTEGER,
-		primaryKey: true,
+id: {
+type: DataTypes.INTEGER,
+    primaryKey: true,
     allowNull: false
-  },
-  file_name: {
+},
+file_name: {
     type: DataTypes.STRING,
-		allowNull: false
+    allowNull: false
     // allowNull defaults to true
-  }
+}
 }, 
 {
-	timestamps: false,
-  // Other model options go here
-  sequelize, // We need to pass the connection instance
-  modelName: 'images' // We need to choose the model name
+    timestamps: false,
+    // Other model options go here
+    sequelize, // We need to pass the connection instance
+    modelName: 'images' // We need to choose the model name
 });
 
 
 class Products extends Model {}
 
 Products.init({
-  // Model attributes are defined here
-  id: {
+// Model attributes are defined here
+id: {
     type: DataTypes.INTEGER,
-		primaryKey: true,
+    primaryKey: true,
     allowNull: false
-  },
-	name: {
+},
+name: {
     type: DataTypes.STRING
-  },
-  short_description: {
+},
+short_description: {
     type: DataTypes.TEXT
-  },
-	description: {
+},
+description: {
     type: DataTypes.TEXT
-  },
-	price_in_cents: {
+},
+price_in_cents: {
     type: DataTypes.TEXT
-  },
-	quantity: {
-    type: DataTypes.TEXT
-  },
-	main_image_name: {
+},
+    quantity: {
+type: DataTypes.TEXT
+},
+main_image_name: {
     type: DataTypes.STRING
-  },
-	image_names: {
+},
+image_names: {
     type: DataTypes.ARRAY(DataTypes.STRING)
-  },
-	specifications: {
+},
+specifications: {
     type: DataTypes.JSON
-  },
-	category: {
+},
+category: {
     type: DataTypes.STRING
-  },
-	visible: {
+},
+visible: {
     type: DataTypes.BOOLEAN
-  },
-	added_on_timestamp: {
+},
+added_on_timestamp: {
     type: DataTypes.DATE
-  }
-	
+}
+
 }, 
 {
-	timestamps: false,
-  // Other model options go here
-  sequelize, // We need to pass the connection instance
-  modelName: 'products' // We need to choose the model name
+    timestamps: false,
+    // Other model options go here
+    sequelize, // We need to pass the connection instance
+    modelName: 'products' // We need to choose the model name
 });
   
-//  image_names        | character varying(255)[]    |           |          | 
-//  specifications     | json                        |           |          | 
-//  category           | character varying(255)      |           |          | 
-//  visible            | boolean                     |           |          | 
-//  added_on_timestamp | timestamp without time zone |           |          | 
-//  main_image_name    | character varying(255)      |           |          | 
 
 (async() => {
 	// const users = await Products.findAll();
@@ -103,24 +97,6 @@ Products.init({
 	// 	}
 	// });
 })();
-
-
-// Images.init({
-//   // Model attributes are defined here
-//   id: {
-//     type: DataTypes.INTEGER,
-//     allowNull: false
-//   },
-//   file_name: {
-//     type: DataTypes.STRING,
-// 		allowNull: false
-//     // allowNull defaults to true
-//   }
-// }, {
-//   // Other model options go here
-//   sequelize, // We need to pass the connection instance
-//   modelName: 'Images' // We need to choose the model name
-// });
 
 
 let pool = new Pool({});
@@ -243,21 +219,22 @@ async function addMainImageToProduct(imageFileName, productId) {
 	}
 };
 
-async function testDynamicColumnNames(columnName, columnValue) {
+async function testDynamicColumnNames(columnName, columnValue, productId) {
 
-	let dbStmt = `UPDATE products SET ${columnName} = ($1) WHERE id = 16`;
+	let dbStmt = `UPDATE products SET ${columnName} = ($1) WHERE id = ${productId}`;
 	try {
-
-		switch(columnName[0]) {
+        console.log('success')
+        console.log(columnName, columnValue)
+		switch(columnName) {
 			case 'image_names':
-				let q1 = await pool.query( dbStmt, [JSON.parse(columnValue[0])] );
-				console.log(q1.rows)
+				await pool.query( dbStmt, [JSON.parse(columnValue)] );
+				// console.log(q1.rows)
 				break;
 			default:
 				// 'main_image_name', 'specifications', 'quantity', 'price_in_cents':
-				let q2 = await pool.query(dbStmt, [columnValue[0]]);
-				console.log(q2);
-				console.log(columnName)
+				await pool.query(dbStmt, [columnValue]);
+				// console.log(q2.rows);
+				
 		};
 		return true;
 	}
