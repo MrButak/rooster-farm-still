@@ -190,7 +190,7 @@ async function insertImageNames(dbValues) { // dbValues: String
     };
 };
 
-// Function will delete an image after deleted from AWS s3
+// Function will delete an image from images table after deleted from AWS s3
 async function deleteImage(imageName) { // dbValues: String
 	let dbStmt = 'DELETE FROM images WHERE file_name = ($1)';
 	try {
@@ -201,11 +201,20 @@ async function deleteImage(imageName) { // dbValues: String
 	};
 };
 
-// Function will delete an image from all products, called after successful deletion from AWS s3
+// Function will delete an image name from all products.image_names Array, called after successful deletion from AWS s3
 async function deleteImagesFromProducts(imageName) {
+    console.log({imageName})
+    // Remove image name from all Arrays 
+    const query = `UPDATE "products" SET "image_names" = array_remove("image_names", :imageName)`;
+    await sequelize.query(query, {
+        replacements: { imageName },
+        type: sequelize.QueryTypes.UPDATE
+    });
 
-};
+    // Remove image name from products.main_image_name
+    await Products.update({ main_image_name: null }, { where: { main_image_name: imageName } });
 
+// ** in use?
 async function addMainImageToProduct(imageFileName, productId) {
 	
 	let dbStmt = 'UPDATE products SET image_names = array_prepend(($1), image_names) WHERE id = ($2) Returning *';
