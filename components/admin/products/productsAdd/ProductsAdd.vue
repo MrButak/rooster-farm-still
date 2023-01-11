@@ -1,6 +1,15 @@
 <template>
 
-<h3 class="va-h3">Add Products</h3>
+<div class="d-flex">
+    <h3 class="va-h3">Add Product</h3>        
+    <va-spacer class="spacer" />
+    <va-icon
+        @click="showConfirmExitCreateProductModal = true"
+        class="mr-2"
+        name="cancel"
+        size="medium"
+    />
+</div>
 
 <div class="flex items-center gap-2.5 w-full">
     <h5 class="va-h5">Product name</h5>   
@@ -93,12 +102,20 @@
 
 <div class="flex justify-between gap-28 w-full">
     <va-button
+        @click="showConfirmExitCreateProductModal = true"
         color="secondary"
     >
         Cancel
     </va-button>
     <va-button @click="handleCreateNewProduct()">Create Product</va-button>
 </div>
+
+<va-modal 
+    v-model="showConfirmExitCreateProductModal" 
+    message="Leave? Your new product is not saved. All progress will be lost." 
+    title="Overview"
+    :ok="handleCancelAddProduct"
+    />
 
 </template>
 
@@ -112,11 +129,21 @@ import ProductsEditImages from '~~/components/admin/products/productsManage/prod
 import ProductsEditSpecs from '~~/components/admin/products/productsManage/productsEdit/ProductsEditSpecs.vue';
 const adminStore = useAdminStore();
 
+// Confirm exit modal
+let showConfirmExitCreateProductModal = ref(false);
+
 let nameInput = ref(null);
 let priceInput = ref(null);
 let quantityInput = ref(null);
 let shortDescriptionInput = ref(null);
 let longDescriptionInput = ref(null);
+
+
+function handleCancelAddProduct() {
+    // TODO: 
+    // 1. Clear State: Object.assign(adminStore.productToAdd, {})
+    // 2. Close this Component
+};
 
 function handleAddProductImages() {
     // Add unique images to State
