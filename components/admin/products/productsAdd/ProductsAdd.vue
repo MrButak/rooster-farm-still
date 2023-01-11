@@ -74,9 +74,14 @@
     </va-input>
 </div>
 
+<ProductsEditImages 
+    :productPropObj="adminStore.productToAdd"
+    :mainImageUrl="createImageUrlFromString(adminStore.productToAdd.main_image_name)"
+    :imageUrls="createImageUrlsFromArray(adminStore.productToAdd.image_names)"
+/>
 
 <!-- Add image to product modal -->
-<AddImageToProduct 
+<AddImageToProductModal
     :productPropObj="adminStore.productToEdit"
     :handleAddProductImages="handleAddProductImages"
     :handleAddMainImageToProduct="handleAddMainImageToProduct"
@@ -86,8 +91,11 @@
 
 <script setup>
 
-import { useAdminStore } from '~~/services/stateStore';
-import AddImageToProduct from '~~/components/admin/products/productsManage/productsEdit/AddImageToProduct.vue'
+import { useAdminStore,
+        createImageUrlFromString, createImageUrlsFromArray 
+} from '~~/services/stateStore';
+import AddImageToProductModal from '~~/components/admin/products/productsManage/productsEdit/AddImageToProductModal.vue';
+import ProductsEditImages from '~~/components/admin/products/productsManage/productsEdit/ProductsEditImages.vue';
 const adminStore = useAdminStore();
 
 let nameInput = ref(null);

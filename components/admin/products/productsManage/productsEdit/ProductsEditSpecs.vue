@@ -10,7 +10,7 @@ The original specification value is show as the placeholder and is not updated u
 New values are saved in specRefArray.
 -->
 <h5 class="va-h5">Product specifications</h5>
-<div style="display:flex;flex-direction:column;gap:.8rem;">
+<div class="flex flex-col gap-3">
     <!-- Loop through product specification Objects -->
     <div v-for="(spec, index) in adminStore.productToEdit.specifications">
         <div class="title-and-icon-wrapper">
@@ -101,6 +101,12 @@ import { useAdminStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
 
 let newSpecObject = reactive({key: '', value: ''});
+// Build reactive Array to store new key:values of product specifications
+let specRefArray = reactive([]);
+for(let i = 0; i < adminStore.productToEdit.specifications.length; i++) {
+    specRefArray.push({key: '', value: ''});
+};
+
 // Function will add another product specification
 function addSpec() {
     // Validation
@@ -119,11 +125,6 @@ let canAddSpecification = computed(() => {
     return !newSpecObject.key || !newSpecObject.value
 });
 
-// Build reactive Array to store new key:values of product specifications
-let specRefArray = reactive([]);
-for(let i = 0; i < adminStore.productToEdit.specifications.length; i++) {
-    specRefArray.push({key: '', value: ''});
-};
 
 function deleteSpec(specIndex) {
     // Remove spec from product

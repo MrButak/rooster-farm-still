@@ -12,76 +12,25 @@
 </div>
 
 <!-- ******************************************************************** -->
-<!-- Edit inputs -->
+<!-- Edit inputs: name, quantity, descriptions, price -->
 <!-- ******************************************************************** -->
 <ProductsEditInputs />
 
+<!-- ******************************************************************** -->
+<!-- Images: main image and a slider for the product's secondary images -->
+<!-- ******************************************************************** -->
 <ProductsEditImages 
     :productPropObj="adminStore.productToEdit"
     :mainImageUrl="createImageUrlFromString(adminStore.productToEdit.main_image_name)"
     :imageUrls="createImageUrlsFromArray(adminStore.productToEdit.image_names)"
 />
-<!-- ******************************************************************** -->
-<!-- Images -->
-<!-- ******************************************************************** -->
-<!--
-<div class="flex w-full items-center gap-2.5">
-    <h5 class="va-h5">Main image 
-        <span>
-            <va-icon
-                @click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = true"
-                name="edit"
-                color="info"
-            />
-        </span>
-    </h5>
-</div>
-<span v-if="adminStore.productToEdit.main_image_name">
-	<va-image class="flex md6 lg4" :src="mainImageUrl" />
-	<p>{{ adminStore.productToEdit.main_image_name }}</p>
-</span>
-<span v-else>
-	No main image, try adding one!
-</span>
 
-
-<h5 class="va-h5">Images
-	
-	<span v-if="adminStore.productToEdit.main_image_name">
-		<va-icon
-			@click="adminStore.addImageToProductObj.showModal = true, adminStore.addImageToProductObj.addMainImage = false"
-			name="edit"
-			color="info"
-		/>
-	</span>
-</h5>
-
-<div v-if="editProductImagesArray.length" >
-    <va-carousel 
-        :items="editProductImagesArray" 
-        stateful indicators infinite swipable 
-        />
-    <div v-for="(imageName, index) in adminStore.productToEdit.image_names">
-        <p class="pt-2">{{ index }}. {{ imageName }}
-            <span>
-                <va-icon
-                    @click="adminStore.productToEdit.image_names.splice(adminStore.productToEdit.image_names.findIndex(image_name => image_name == imageName), 1)"
-                    name="delete"
-                    color="danger"
-                />
-            </span>
-        </p>
-    </div>
-</div>
-<div v-if="!adminStore.productToEdit.main_image_name">
-    <p>Add a main image first</p>
-</div>
--->
 
 <!-- ******************************************************************** -->
 <!-- Specifications -->
 <!-- ******************************************************************** -->
 <ProductsEditSpecs />
+
 
 <div class="flex justify-between gap-28 w-full">
     <va-button
@@ -103,7 +52,7 @@
 
 
 <!-- Add image to product modal -->
-<AddImageToProduct 
+<AddImageToProductModal 
     :productPropObj="adminStore.productToEdit"
     :handleAddProductImages="handleAddProductImages"
     :handleAddMainImageToProduct="handleAddMainImageToProduct"
@@ -123,7 +72,7 @@ import { useAdminStore, useProductStore,
 import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
 import ProductsEditImages from './ProductsEditImages.vue';
-import AddImageToProduct from './AddImageToProduct.vue';
+import AddImageToProductModal from './AddImageToProductModal.vue';
 const config = useRuntimeConfig();
 const adminStore = useAdminStore();
 const productStore = useProductStore();

@@ -356,7 +356,7 @@ export const useAdminStore = defineStore('adminStore', {
                 }
             })
         },
-        // Admin adds images. Used in component AddImageToProduct.vue
+        // Admin adds images. Used in component AddImageToProductModal.vue
         mainImageBGcolor(mainImageObjForProduct, imageFileName) {
             
             return !mainImageObjForProduct.Key || mainImageObjForProduct.Key != imageFileName ?

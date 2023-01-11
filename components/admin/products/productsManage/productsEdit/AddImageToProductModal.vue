@@ -25,7 +25,7 @@
                                 <va-image 
                                     class="w-32"
                                     @click="Object.assign(adminStore.productMainImage, imageObj);"
-                                    :src="imageUrl(imageObj.Key)"
+                                    :src="createImageUrlFromString(imageObj.Key)"
                                 />
                             </span>
                         </span>
@@ -38,7 +38,7 @@
                             <va-image 
                                 class="w-32"
                                 @click="Object.assign(adminStore.productMainImage, imageObj);"
-                                :src="imageUrl(imageObj.Key)"
+                                :src="createImageUrlFromString(imageObj.Key)"
                             />
                         </span>
                         <p class="w-32 truncate ...">{{ imageObj.Key }}</p>
@@ -91,16 +91,9 @@ const productStore = useProductStore();
 
 defineProps({
     productPropObj: Object,
-    imageUrl: String,
     handleAddProductImages: Function,
     handleAddMainImageToProduct: Function
 });
-
-// Function prepends AWS S3 bucket URL to String
-// function imageUrl(imageKey) {
-//     // imageKey: 'some-image-name.bmp' 
-//     return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;
-// };
 
 
 </script>
