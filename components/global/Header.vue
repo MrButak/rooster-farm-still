@@ -35,10 +35,11 @@
 </div>
 
 <!-- Mobile menu -->
-<span class="md:hidden">
-    <nav v-show="dropdown" class="flex gap-36 pb-6">            
-        <Fire class="absolute left-[calc(50%-3rem)] top-[-2.8rem] w-[4.4rem]"/>
 
+<span class="md:hidden">
+    <Transition name="slide-fade">
+    <nav v-if="dropdown" class="flex gap-36 pb-6">            
+        <Fire class="absolute left-[calc(50%-3.4rem)] top-[-3rem] w-[4.4rem]"/>
         <div class="flex flex-col gap-2 w-1/4 text-right">
             <p><nuxt-link class="va-link" :to="config.public.BASE_URL">Home&nbsp;&nbsp;&nbsp;&nbsp;</nuxt-link></p>
             <p><a class="va-link" href="#">Contact&nbsp;&nbsp;</a></p>
@@ -48,8 +49,8 @@
             <p><a class="va-link" href="#">About Us</a></p>
         </div>
     </nav>
+</Transition>
 </span>
-
 </template>
 
 
@@ -97,5 +98,16 @@ nav {
     width: 100%;
     margin: -1rem 0 0 0; // to hide the bottom gradient border when the mobil menu is opened
 }
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
 
+.slide-fade-leave-active {
+  transition: all 0.5s;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+}
 </style>

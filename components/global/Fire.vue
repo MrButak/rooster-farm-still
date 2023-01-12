@@ -45,11 +45,8 @@ const uiStore = useUiStore();
 .mo-fire {
     animation: fadeIn 1s;
     z-index: 3;
-    
     height: auto;
     position: absolute;
-    
-    
 }
 
 .mo-fire svg {
