@@ -39,7 +39,7 @@
 <span class="md:hidden">
     <Transition name="slide-fade">
     <nav v-if="dropdown" class="flex gap-36 pb-6">            
-        <Fire class="absolute left-[calc(50%-3.4rem)] top-[-3rem] w-[4.4rem]"/>
+        <Fire class="absolute left-[calc(50%-3.2rem)] top-[-3rem] w-[4.4rem]"/>
         <div class="flex flex-col gap-2 w-1/4 text-right">
             <p><nuxt-link class="va-link" :to="config.public.BASE_URL">Home&nbsp;&nbsp;&nbsp;&nbsp;</nuxt-link></p>
             <p><a class="va-link" href="#">Contact&nbsp;&nbsp;</a></p>
