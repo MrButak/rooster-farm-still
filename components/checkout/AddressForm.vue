@@ -118,8 +118,7 @@ let errorMessage = ref('');
 let addressField1 = ref(null);
 
 onMounted(() => {
-    // If user refreshes page and Google places script is no longer in <head>
-    // if(!thirdPartyScriptsLoaded.value) { router.push('/shopping-cart') }
+    // If user refreshes page, the Google Places script is no longer in <head>, and they can not use the Google Places Autofill for their address. This fix is checking to see if the script has been loaded yet - if not go back to the start of the checkout process.
     if(!uiStore.thirdPartyScriptsLoaded) { router.push('/shopping-cart') }
     else { initAutocomplete() };
 });

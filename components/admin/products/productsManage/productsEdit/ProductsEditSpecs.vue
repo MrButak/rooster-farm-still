@@ -25,6 +25,7 @@ New values are saved in specRefArray.
                 class="mb-4"
                 v-model="specRefArray[index].key"
                 :placeholder="Object.keys(spec)[0]"
+                :rules="[Object.keys(spec)[0].trim().length || `Can't be blank`]"
                 >
                 <template #appendInner>
                     <!-- Save / delete input -->
@@ -45,6 +46,7 @@ New values are saved in specRefArray.
                 class="mb-4"
                 :placeholder="Object.values(spec)[0]"
                 v-model="specRefArray[index].value"
+                :rules="[Object.keys(spec)[0].trim().length || `Can't be blank`]"
                 >
                 <template #appendInner>
                     <!-- Save / delete input -->
@@ -67,12 +69,14 @@ New values are saved in specRefArray.
             class="mb-4"
             placeholder="name"
             v-model="newSpecObject.key"
+            :rules="[(v) => v.trim().length || `Can't be blank`]"
             >
         </va-input>
         <va-input
             class="mb-4"
             placeholder="value"
             v-model="newSpecObject.value"
+            :rules="[(v) => v.trim().length || `Can't be blank`]"
             >
         </va-input>
     </div>

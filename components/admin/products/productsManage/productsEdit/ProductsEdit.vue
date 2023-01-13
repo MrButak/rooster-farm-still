@@ -134,6 +134,8 @@ function productChangesArray() {
 	};
 
 	// String comparison on Arrays and Objects
+
+    // TODO: Look into Object.is() for Object comparisons. Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 	if(JSON.stringify(originalProduct.image_names) != JSON.stringify(adminStore.productToEdit.image_names)) {
 		updatedProductData.push( {image_names: JSON.stringify(adminStore.productToEdit.image_names)} );
 	};
@@ -143,9 +145,94 @@ function productChangesArray() {
 
 	return updatedProductData;
 }
+// Function will validate all inputs from a product edit before sending to the backend
+function formFieldsValid() {
+
+    let validField = [];
+    for(const key of Object.keys(adminStore.productToEdit)) {
+        switch(key) {
+            case 'short_description':
+                validField.push(
+                    adminStore.productToEdit[key].length && adminStore.productToEdit[key].length < 3000
+                );
+                break;
+            case 'description':
+                validField.push(
+                    adminStore.productToEdit[key].length && adminStore.productToEdit[key].length < 10000
+                );
+                break;
+            case 'name':
+                validField.push(
+                    adminStore.productToEdit[key].trim().length > 0 && !(/[^\w\(A-Za-z0-9)/ \-_?!@#$%^&*(){}+/\\<>,.|[\]]/g).test(adminStore.productToEdit[key])
+                );
+                break;
+            case 'price_in_cents':
+            case 'quantity':
+            case 'id':
+                // whole numbers only and not empty == true
+                validField.push(
+                    (/^[0-9]*$/).test(adminStore.productToEdit[key]) && adminStore.productToEdit[key].length
+                );
+                break;
+            case 'specifications':
+                // If no specs break
+                if(!adminStore.productToEdit[key].length) { break };
+                // TODO: Make sure Objects have no properties of their own. Valid: {key: value}, Invalid: {key:{prop1key: prop1value}, value}
+                // Check for valid Objects
+                validField.push(
+                    adminStore.productToEdit[key].every((spec) => {
+                        spec && typeof(spec) === 'object' && spec.constructor === Object
+                    })
+                );
+                break;
+            case 'category':
+            case 'added_on_timestamp':
+            case 'visible':
+            case 'main_image_name':
+            case 'image_names':
+                validField.push(true);
+                break;
+            default:
+                console.log(key)
+                validField.push(false);
+        };
+    };
+    console.log(validField)
+    // Debug:
+//     0: undefined
+// ​
+// 1: true
+// ​
+// 2: true
+// ​
+// 3: true
+// ​
+// 4: undefined
+// ​
+// 5: undefined
+// ​
+// 6: true
+// ​
+// 7: true
+// ​
+// 8: false
+// ​
+// 9: true
+// ​
+// 10: true
+// ​
+// 11: true
+    return validField.every((bool) => bool);
+};
 
 async function handleSaveProductEdits() {
 	
+    if(!formFieldsValid()) {return}
+    // TODO: validate fields here.
+    console.log(adminStore.productToEdit);
+    
+    return;
+    
 	// Early return if nothing has changed
 	if(!productChangesArray().length) { return };
 

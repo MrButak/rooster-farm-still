@@ -60,12 +60,15 @@ onMounted(() => {
                 orderStore.subTotal += parseInt(product.quantity) * (product.price_in_cents * 100);
                 orderStore.userProductsToShip.push(product);
             };
+            // TODO: I should put an else here. If the index is not found that means the user has an item that is not in the DB. Research the best way to handle this.
+            
         });
         productsLoaded.value = true;
     })();    
 });
 
 // If the user has made it this far, and no LS available send them to the home page
+// TODO: Look into putting this functionality into a middleware function - or route guard
 let shoppingCart = getItemFromLs('RVSshoppingCart');
 if(!shoppingCart || !localStorageAvailable()) { 
     orderStore.currentCheckoutStep = 1;
