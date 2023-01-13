@@ -9,14 +9,14 @@ Component displays all inputs for editing the product:
 -->
 <div class="flex items-center gap-2.5 w-full">
     <h5 class="va-h5">Product name
-			<span>
-				<va-icon
-					@click="canEditNameInput = !canEditNameInput; nameInput.focus()"
-					:name="editNameIcon.name"
-					:color="editNameIcon.color"
-				/>
-			</span>
-		</h5>   
+        <span>
+            <va-icon
+                @click="canEditNameInput = !canEditNameInput; nameInput.focus()"
+                :name="editNameIcon.name"
+                :color="editNameIcon.color"
+            />
+        </span>
+    </h5>   
 </div>
 <div class="flex w-[95%]">
     <va-input
@@ -24,20 +24,21 @@ Component displays all inputs for editing the product:
         v-model="adminStore.productToEdit.name"
         :readonly="!canEditNameInput"
         ref="nameInput"
+        :rules="[(v) => productNameValidation(v) || `Can't be blank`]"
         >
     </va-input>
 </div>
 
 <div class="flex items-center gap-2.5 w-full">
     <h5 class="va-h5">Price in cents
-			<span>
-				<va-icon
-						:name="editPriceIcon.name"
-						@click="canEditPriceInput = !canEditPriceInput; priceInput.focus()"
-						:color="editPriceIcon.color"
-				/>
-			</span>
-		</h5>
+        <span>
+            <va-icon
+                :name="editPriceIcon.name"
+                @click="canEditPriceInput = !canEditPriceInput; priceInput.focus()"
+                :color="editPriceIcon.color"
+            />
+        </span>
+    </h5>
 </div>
 <div class="flex w-[95%]">
     <va-input
@@ -45,6 +46,7 @@ Component displays all inputs for editing the product:
         v-model="adminStore.productToEdit.price_in_cents"
         :readonly="!canEditPriceInput"
         ref="priceInput"
+        :rules="[(v) => (/^[0-9]*$/).test(v) && v.length || `Whole numbers only`]"
         >
     </va-input>
 </div>
@@ -66,20 +68,21 @@ Component displays all inputs for editing the product:
         v-model="adminStore.productToEdit.quantity"
         :readonly="!canEditQuantityInput"
         ref="quantityInput"
+        :rules="[(v) => (/^[0-9]*$/).test(v) && v.length || `Whole numbers only`]"
         >
     </va-input>
 </div>
 
 <div class="flex items-center gap-2.5 w-full">
     <h5 class="va-h5">Short description
-			<span>
-				<va-icon
-						:name="editShortDescriptionIcon.name"
-						:color="editShortDescriptionIcon.color"
-						@click="canEditShortDescriptionInput = !canEditShortDescriptionInput; shortDescriptionInput.focus()"
-				/>
-			</span>
-		</h5>
+        <span>
+            <va-icon
+                :name="editShortDescriptionIcon.name"
+                :color="editShortDescriptionIcon.color"
+                @click="canEditShortDescriptionInput = !canEditShortDescriptionInput; shortDescriptionInput.focus()"
+            />
+        </span>
+    </h5>
 </div>
 
 <div class="flex w-[95%]">
@@ -90,6 +93,7 @@ Component displays all inputs for editing the product:
         type="textarea"
         ref="shortDescriptionInput"
         :autosize="true"
+        :rules="[(v) => v.length && v.length < 3000 || `Must be under 3,000 characters`]"
         >
     </va-input>
 </div>
@@ -114,6 +118,7 @@ Component displays all inputs for editing the product:
         type="textarea"
         ref="longDescriptionInput"
         :autosize="true"
+        :rules="[(v) => v.length && v.length < 10000 || `Must be under 10,000 characters`]"
         >
     </va-input>
 </div>
@@ -136,7 +141,7 @@ let canEditNameInput = ref(false);
 let nameInput = ref(null);
 let editNameIcon = computed(() => {
     return !canEditNameInput.value ?
-			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
+		{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 })
 // Product price
 let canEditPriceInput = ref(false);
@@ -166,6 +171,12 @@ let editLongDescriptionIcon = computed(() => {
     return !canEditLongDescriptionInput.value ?
 			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
+
+function productNameValidation(str) {
+    // A-Z a-z 0-9 !@#$%^&*()-_=/\(){}[]+/\<>,.|
+    return !(/[^\w\(A-Za-z0-9)/ \-_?!@#$%^&*(){}+/\\<>,.|[\]]/g).test(str) 
+        && str.trim().length > 0;  
+};
 
 </script>
 

@@ -61,7 +61,7 @@
 import { useAdminStore, useProductStore,
         createImageUrlFromString, createImageUrlsFromArray
 } from '~~/services/stateStore';
-
+import { validateProductDetails } from '~~/services/validationManager'
 import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
 import ProductsEditImages from './ProductsEditImages.vue';
@@ -101,58 +101,74 @@ async function handleAddMainImageToProduct() {
 };
 
 
-// Function will compare product details with the edited version and return an Array[{table_name: new_value(s)}]
-function productChangesArray() {
+// Function will compare product details with the edited version.
+// Returns: {field_name: updated_field_value, ...}. This is structured like the orginal product Object
+function productChangesObj() {
 
-	let updatedProductData = [];
+    let updatedProductObj = {};
 	let originalProduct = 
 		productStore.allProducts[
 			productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)
 		];
 
 	if(originalProduct.name != adminStore.productToEdit.name) {
-		updatedProductData.push({name: adminStore.productToEdit.name});
+        updatedProductObj.name = adminStore.productToEdit.name;
 	};
 	if(originalProduct.short_description != adminStore.productToEdit.short_description) {
-		updatedProductData.push({short_description: adminStore.productToEdit.short_description});
+        updatedProductObj.short_description = adminStore.productToEdit.short_description
 	};
 	if(originalProduct.description != adminStore.productToEdit.description) {
-		updatedProductData.push({description: adminStore.productToEdit.description});
+        updatedProductObj.description = adminStore.productToEdit.description
 	};
 	if(originalProduct.price_in_cents != adminStore.productToEdit.price_in_cents) {
-		updatedProductData.push({price_in_cents: adminStore.productToEdit.price_in_cents});
+        updatedProductObj.price_in_cents = adminStore.productToEdit.price_in_cents
 	};
 	if(originalProduct.quantity != adminStore.productToEdit.quantity) {
-		updatedProductData.push({quantity: adminStore.productToEdit.quantity});
+        updatedProductObj.quantity = adminStore.productToEdit.quantity
 	};
 	if(originalProduct.main_image_name != adminStore.productToEdit.main_image_name) {
-		updatedProductData.push({main_image_name: adminStore.productToEdit.main_image_name});
+        updatedProductObj.main_image_name = adminStore.productToEdit.main_image_name
 	};
 	
 	if(originalProduct.category != adminStore.productToEdit.category) {
-		updatedProductData.push({category: adminStore.productToEdit.category});
+        updatedProductObj.category = adminStore.productToEdit.category
 	};
 
 	// String comparison on Arrays and Objects
+
+    // TODO: Look into Object.is() for Object comparisons. Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 	if(JSON.stringify(originalProduct.image_names) != JSON.stringify(adminStore.productToEdit.image_names)) {
-		updatedProductData.push( {image_names: JSON.stringify(adminStore.productToEdit.image_names)} );
+        updatedProductObj.image_names = adminStore.productToEdit.image_names
 	};
 	if(JSON.stringify(originalProduct.specifications) != JSON.stringify(adminStore.productToEdit.specifications)) {
-		updatedProductData.push( {specifications: JSON.stringify(adminStore.productToEdit.specifications)} );
+        updatedProductObj.specifications = adminStore.productToEdit.specifications
 	};
-
-	return updatedProductData;
-}
+    return updatedProductObj;
+};
 
 async function handleSaveProductEdits() {
-	
-	// Early return if nothing has changed
-	if(!productChangesArray().length) { return };
+	  
+    let updatedProductDetails = productChangesObj();
+    // No changes
+    if(!Object.keys(updatedProductDetails).length) { return };
 
+    // Check if the new Product details (form fields) are valid
+    // [{field_name: field_valid?::Boolean},...]
+    let validateFormFieldArray = validateProductDetails(updatedProductDetails);
+    // Create an Array of Booleans that tell if a field was valid, all must be valid to continue
+    if(
+        !validateFormFieldArray.map((obj) => {
+            for(const key in obj) {
+                return obj[key]
+            }
+        }).every((bool) => bool)
+    ) { return }; // TODO: Show user error details
+    
+    // Update product in the DB
 	let response = await $fetch(`/api/admin/product/update`, {
 		method: 'POST',
 		body: JSON.stringify({
-			productData: productChangesArray(),
+			productData: updatedProductDetails,
             productId: adminStore.productToEdit.id
 		})
 	});
@@ -165,14 +181,16 @@ async function handleSaveProductEdits() {
             adminStore.showEditProductComponent = false;
             // Update products with backend call. Another option would be to replace the Array item in productStore.allProducts to the edited one
             await productStore.getAllProducts();
-            // TODO: show success message
-            break
+            // TODO: show success message: response.message
+            console.log('Update product success')
+            break;
+        case '400':
+            console.log(response.status, response.error)
+            break;
         default:
             console.log(response.status, response.error)
             break;
     };
-	
 };
-
 
 </script>

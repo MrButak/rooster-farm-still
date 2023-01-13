@@ -191,7 +191,6 @@ async function deleteImage(imageName) { // dbValues: String
 
 // Function will delete an image name from all products.image_names Array, called after successful deletion from AWS s3
 async function deleteImagesFromProducts(imageName) {
-    console.log({imageName})
     // Remove image name from all Arrays 
     const query = `UPDATE "products" SET "image_names" = array_remove("image_names", :imageName)`;
     await sequelize.query(query, {
@@ -217,29 +216,30 @@ async function addMainImageToProduct(imageFileName, productId) {
 	}
 };
 
+// Function will update a products.columnName value.
+// async function updateProductDetails(String, String||Array[String, ...]||Array[{String: String}, ...]||Integer||Boolean, Integer)
+// Returns: Boolean
+// Examples:
+// > async function updateProductDetails('name', 'Shiny New Thing', 2)
+// > true
+// >
+// > async function updateProductDetails('specifications', {'color': 'red'}, 2)
+// > true
 async function updateProductDetails(columnName, columnValue, productId) {
 
-	let dbStmt = `UPDATE products SET ${columnName} = ($1) WHERE id = ${productId}`;
-	try {
-        console.log('success')
-        console.log(columnName, columnValue)
-		switch(columnName) {
-			case 'image_names':
-				await pool.query( dbStmt, [JSON.parse(columnValue)] );
-				// console.log(q1.rows)
-				break;
-			default:
-				// 'main_image_name', 'specifications', 'quantity', 'price_in_cents':
-				await pool.query(dbStmt, [columnValue]);
-				// console.log(q2.rows);
-				
-		};
-		return true;
-	}
-	catch(err) {
-		console.log(err);
-		return false;
-	};
+    try {
+        await Products.update({ [columnName]: columnValue }, {
+            where: {
+            id: productId
+            }
+        });
+        return true;
+    }
+    catch(err) {
+        console.log(err);
+        return false;
+    };
+    
 };
 
 async function createNewProduct(productObj) {
