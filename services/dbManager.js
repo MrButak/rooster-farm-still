@@ -217,6 +217,14 @@ async function addMainImageToProduct(imageFileName, productId) {
 };
 
 // Function will update a products.columnName value.
+// async function updateProductDetails(String, String||Array[String, ...]||Array[{String: String}, ...]||Integer||Boolean, Integer)
+// Returns: Boolean
+// Examples:
+// > async function updateProductDetails('name', 'Shiny New Thing', 2)
+// > true
+// >
+// > async function updateProductDetails('specifications', {'color': 'red'}, 2)
+// > true
 async function updateProductDetails(columnName, columnValue, productId) {
 
     try {
@@ -225,8 +233,12 @@ async function updateProductDetails(columnName, columnValue, productId) {
             id: productId
             }
         });
+        return true;
     }
-    catch(err) {console.log(err)}
+    catch(err) {
+        console.log(err);
+        return false;
+    };
     
 };
 

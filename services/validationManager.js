@@ -1,7 +1,28 @@
-// Function will validate all product fields. Return an Array of Objects [{field_name, Boolean},...]
+// Function will validate all product fields.
+// validateProductDetails( 
+//     {
+//         String: String,
+//         String: Array[{String: String}, ...],
+//         String: Array[String, ...],
+//         String: Boolean
+//     }    
+// )
+// Returns: Array of Objects [{String, Boolean},...]
+// Examples:
+// >
+// validateProductDetails( 
+//     {
+//         'name': 'Shiny New Thing',
+//         'quantity': 10,
+//         'specifications': [{'color': 'red'}, {'height': '2 inches'}],
+//         'image_names': ['image-1.jpg', 'image-2.jpg']
+//         'price_in_cents': 3.55
+//     }    
+// )
+//
+// > [{'name': true}, {'quantity': true}, {'specifications': true}, {'image_names': true}, {'price_in_cents': false}]
 
-// validateProductDetails({'name'::String: 'Product Name'::String,Array[{String:String}],Array[String, ...],Integer}, ...)
-// Returns: [{field_name::String: was_valid?::Boolean}, ...]
+
 function validateProductDetails (productObject) {
     let validField = []; // Array of Booleans
     // Iterate over all properties in the Object, validating each
@@ -57,9 +78,7 @@ function validateProductDetails (productObject) {
         };
     };
 
-    // Are all input fields valid?
-    // return validField.every((bool) => bool);
-    return validField
+    return validField;
 };
 
 export { validateProductDetails };

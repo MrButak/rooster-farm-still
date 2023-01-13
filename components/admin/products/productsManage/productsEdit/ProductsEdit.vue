@@ -101,12 +101,11 @@ async function handleAddMainImageToProduct() {
 };
 
 
-// Function will compare product details with the edited version and return an Array[{column_name: new_value(s)}]
-// Returns [{field_name: field_value}, ...] // Return a new product Object, structured like the original
+// Function will compare product details with the edited version.
+// Returns: {field_name: updated_field_value, ...}. This is structured like the orginal product Object
 function productChangesObj() {
-    let updatedProductObj = {};
 
-	let updatedProductData = [];
+    let updatedProductObj = {};
 	let originalProduct = 
 		productStore.allProducts[
 			productStore.allProducts.findIndex(product => product.id == adminStore.productToEdit.id)
@@ -114,32 +113,25 @@ function productChangesObj() {
 
 	if(originalProduct.name != adminStore.productToEdit.name) {
         updatedProductObj.name = adminStore.productToEdit.name;
-		updatedProductData.push({name: adminStore.productToEdit.name});
 	};
 	if(originalProduct.short_description != adminStore.productToEdit.short_description) {
         updatedProductObj.short_description = adminStore.productToEdit.short_description
-		updatedProductData.push({short_description: adminStore.productToEdit.short_description});
 	};
 	if(originalProduct.description != adminStore.productToEdit.description) {
         updatedProductObj.description = adminStore.productToEdit.description
-		updatedProductData.push({description: adminStore.productToEdit.description});
 	};
 	if(originalProduct.price_in_cents != adminStore.productToEdit.price_in_cents) {
         updatedProductObj.price_in_cents = adminStore.productToEdit.price_in_cents
-		updatedProductData.push({price_in_cents: adminStore.productToEdit.price_in_cents});
 	};
 	if(originalProduct.quantity != adminStore.productToEdit.quantity) {
         updatedProductObj.quantity = adminStore.productToEdit.quantity
-		updatedProductData.push({quantity: adminStore.productToEdit.quantity});
 	};
 	if(originalProduct.main_image_name != adminStore.productToEdit.main_image_name) {
         updatedProductObj.main_image_name = adminStore.productToEdit.main_image_name
-		updatedProductData.push({main_image_name: adminStore.productToEdit.main_image_name});
 	};
 	
 	if(originalProduct.category != adminStore.productToEdit.category) {
         updatedProductObj.category = adminStore.productToEdit.category
-		updatedProductData.push({category: adminStore.productToEdit.category});
 	};
 
 	// String comparison on Arrays and Objects
@@ -147,16 +139,12 @@ function productChangesObj() {
     // TODO: Look into Object.is() for Object comparisons. Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 	if(JSON.stringify(originalProduct.image_names) != JSON.stringify(adminStore.productToEdit.image_names)) {
         updatedProductObj.image_names = adminStore.productToEdit.image_names
-		updatedProductData.push( {image_names: JSON.stringify(adminStore.productToEdit.image_names)} );
 	};
 	if(JSON.stringify(originalProduct.specifications) != JSON.stringify(adminStore.productToEdit.specifications)) {
         updatedProductObj.specifications = adminStore.productToEdit.specifications
-		updatedProductData.push( {specifications: JSON.stringify(adminStore.productToEdit.specifications)} );
 	};
     return updatedProductObj;
-
-	return updatedProductData;
-}
+};
 
 async function handleSaveProductEdits() {
 	  
@@ -193,11 +181,14 @@ async function handleSaveProductEdits() {
             adminStore.showEditProductComponent = false;
             // Update products with backend call. Another option would be to replace the Array item in productStore.allProducts to the edited one
             await productStore.getAllProducts();
-            // TODO: show success message
+            // TODO: show success message: response.message
             console.log('Update product success')
-            break
+            break;
+        case '400':
+            console.log(response.status, response.error)
+            break;
         default:
-            console.log('Unknown error updating product', response.status, response.error)
+            console.log(response.status, response.error)
             break;
     };
 };
