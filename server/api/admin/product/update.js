@@ -16,7 +16,7 @@ export default defineEventHandler (async event => {
                 return obj[key]
             }
         }).every((bool) => bool)
-    ) { return {status:'400', error: 'Invalid input'} }; // TODO: Show user error details
+    ) { return {status:'400', error: 'Invalid input'} };
 
     // Iterate through Object's properties, updating the values in the DB
     // TODO: Currently these are updated in the DB one item at a time. Is there a way to do it in one go?

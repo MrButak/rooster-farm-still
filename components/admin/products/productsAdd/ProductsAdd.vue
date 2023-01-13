@@ -29,6 +29,7 @@
         v-model="adminStore.productToAdd.name"
         ref="nameInput"
         placeholder="product name"
+        :rules="[(v) => productNameValidation(v) || `Can't be blank`]"
         >
     </va-input>
 </div>
@@ -42,6 +43,7 @@
         v-model="adminStore.productToAdd.price_in_cents"
         ref="priceInput"
         placeholder="price in cents"
+        :rules="[(v) => (/^[0-9]*$/).test(v) && v.length || `Whole numbers only`]"
         >
     </va-input>
 </div>
@@ -55,6 +57,7 @@
         v-model="adminStore.productToAdd.quantity"
         ref="quantityInput"
         placeholder="quantity"
+        :rules="[(v) => (/^[0-9]*$/).test(v) && v.length || `Whole numbers only`]"
         >
     </va-input>
 </div>
@@ -71,6 +74,7 @@
         ref="shortDescriptionInput"
         :autosize="true"
         placeholder="product's short description: this text will appear on the product's main listing"
+        :rules="[(v) => v.length && v.length < 3000 || `Must be under 3,000 characters`]"
         >
     </va-input>
 </div>
@@ -87,6 +91,7 @@
         ref="longDescriptionInput"
         :autosize="true"
         placeholder="product's detailed description: this text will appear on the product's page"
+        :rules="[(v) => v.length && v.length < 10000 || `Must be under 10,000 characters`]"
         >
     </va-input>
 </div>
@@ -132,6 +137,7 @@
 import { useAdminStore,
         createImageUrlFromString, createImageUrlsFromArray 
 } from '~~/services/stateStore';
+import { validateProductDetails } from '~~/services/validationManager';
 import AddImageToProductModal from '~~/components/admin/products/productsManage/productsEdit/AddImageToProductModal.vue';
 import ProductsEditImages from '~~/components/admin/products/productsManage/productsEdit/ProductsEditImages.vue';
 import ProductsEditSpecs from '~~/components/admin/products/productsManage/productsEdit/ProductsEditSpecs.vue';
@@ -146,6 +152,13 @@ let quantityInput = ref(null);
 let shortDescriptionInput = ref(null);
 let longDescriptionInput = ref(null);
 
+function productNameValidation(str) {
+    // A-Z a-z 0-9 !@#$%^&*()-_=/\(){}[]+/\<>,.|
+    return !(/[^\w\(A-Za-z0-9)/ \-_?!@#$%^&*(){}+/\\<>,.|[\]]/g).test(str) 
+        && str.trim().length > 0;  
+};
+
+// Function will hide this Component and reset State
 function handleCloseAddProductComponent() {
     // Clear State
     Object.assign(adminStore.productToAdd, {
@@ -167,7 +180,6 @@ function handleCloseAddProductComponent() {
 function handleAddProductImages() {
     // Add unique images to State
 	adminStore.productImagesToAdd.forEach((imageName) => {
-		
 		if(!adminStore.productToAdd.image_names.includes(imageName)) {
 			adminStore.productToAdd.image_names.push(toRaw(imageName));
 		};
@@ -177,6 +189,7 @@ function handleAddProductImages() {
 	// Close modal
 	adminStore.addImageToProductObj.showModal = false;
 };
+
 function handleAddMainImageToProduct() {
 
 	// If the image was being used for one of the product images, remove it (no duplicate images for a product)
@@ -193,8 +206,17 @@ function handleAddMainImageToProduct() {
 
 async function handleCreateNewProduct() {
     
-    // TODO: Validation
-
+    // Product input validation
+    let validateFormFieldArray = validateProductDetails(adminStore.productToAdd);
+    // If any fields not valid, return
+    if(
+        !validateFormFieldArray.map((obj) => {
+            for(const key in obj) {
+                return obj[key]
+            }
+        }).every((bool) => bool)
+    ) { return }; // TODO: Show user error details
+    
     let response = await $fetch(`/api/admin/product/create`, {
         method: 'POST',
         body: JSON.stringify({
@@ -204,15 +226,14 @@ async function handleCreateNewProduct() {
 
     switch(response.status) {
         case '200':
-            console.log('success');
             handleCloseAddProductComponent();
             // TODO: Show success message
             break;
         default:
             console.log(response.status, response.error);
+            handleCloseAddProductComponent();
+            // TODO: Show error message
     };
-
-    console.log(response)
 };
 
 

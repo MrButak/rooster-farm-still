@@ -8,8 +8,38 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+// const sequelize = new Sequelize(process.env.DATABASE_URL);
+let pool = new Pool({});
 
+let sequelize;
+
+if(process.env.APP_ENVIRONMENT == 'development') {
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: false
+    });
+    sequelize = new Sequelize(process.env.DATABASE_URL);
+};
+if(process.env.APP_ENVIRONMENT == 'production') {
+
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            required: true,
+            rejectUnauthorized: false
+        }
+    });
+    // const sequelize = new Sequelize(process.env.DATABASE_URL);
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
+        dialectOptions: {
+            ssl: {
+                require: true, // This will help you. But you will see nwe error
+                rejectUnauthorized: false // This line will fix new error
+            }
+        }
+    });
+    
+};
 
 class Images extends Model {}
 
@@ -86,25 +116,6 @@ added_on_timestamp: {
     modelName: 'products' // We need to choose the model name
 });
 
-
-let pool = new Pool({});
-
-if(process.env.APP_ENVIRONMENT == 'development') {
-    pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: false
-    });
-};
-if(process.env.APP_ENVIRONMENT == 'production') {
-
-    pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            required: true,
-            rejectUnauthorized: false
-        }
-    });
-};
 
 async function getAllProducts() {
     
@@ -242,23 +253,31 @@ async function updateProductDetails(columnName, columnValue, productId) {
     
 };
 
+// Function will insert a new product into the DB
 async function createNewProduct(productObj) {
 
-    const newProduct = await Products.create({
-        name: productObj.name,
-        short_description: productObj.short_description,
-        description: productObj.description,
-        price_in_cents: productObj.price_in_cents,
-        quantity: productObj.quantity,
-        main_image_name: productObj.main_image_name,
-        image_names: productObj.image_names,
-        specifications: productObj.specifications,
-        // category: productObj.category,
-        visible: productObj.visible,
-        added_on_timestamp: new Date(Date.now())
-    });
-
-    return newProduct;
+    try {
+        await Products.create({
+            name: productObj.name,
+            short_description: productObj.short_description,
+            description: productObj.description,
+            price_in_cents: productObj.price_in_cents,
+            quantity: productObj.quantity,
+            main_image_name: productObj.main_image_name,
+            image_names: productObj.image_names,
+            specifications: productObj.specifications,
+            category: productObj.category,
+            visible: productObj.visible,
+            added_on_timestamp: new Date(Date.now())
+        },
+        // Restrict insert to these columns:
+        { fields: ['name', 'short_description', 'description', 'price_in_cents', 'quantity', 'main_image_name', 'image_names', 'specifications', 'category', 'visible', 'added_on_timestamp'] });
+        return true;
+    }
+    catch(err) {
+        console.log(err)
+        return false;
+    };
 
 };
 
