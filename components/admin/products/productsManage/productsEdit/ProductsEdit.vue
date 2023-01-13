@@ -61,7 +61,7 @@
 import { useAdminStore, useProductStore,
         createImageUrlFromString, createImageUrlsFromArray
 } from '~~/services/stateStore';
-
+import { validateProductDetails } from '~~/services/validationManager'
 import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
 import ProductsEditImages from './ProductsEditImages.vue';
@@ -101,8 +101,10 @@ async function handleAddMainImageToProduct() {
 };
 
 
-// Function will compare product details with the edited version and return an Array[{table_name: new_value(s)}]
-function productChangesArray() {
+// Function will compare product details with the edited version and return an Array[{column_name: new_value(s)}]
+// Returns [{field_name: field_value}, ...] // Return a new product Object, structured like the original
+function productChangesObj() {
+    let updatedProductObj = {};
 
 	let updatedProductData = [];
 	let originalProduct = 
@@ -111,25 +113,32 @@ function productChangesArray() {
 		];
 
 	if(originalProduct.name != adminStore.productToEdit.name) {
+        updatedProductObj.name = adminStore.productToEdit.name;
 		updatedProductData.push({name: adminStore.productToEdit.name});
 	};
 	if(originalProduct.short_description != adminStore.productToEdit.short_description) {
+        updatedProductObj.short_description = adminStore.productToEdit.short_description
 		updatedProductData.push({short_description: adminStore.productToEdit.short_description});
 	};
 	if(originalProduct.description != adminStore.productToEdit.description) {
+        updatedProductObj.description = adminStore.productToEdit.description
 		updatedProductData.push({description: adminStore.productToEdit.description});
 	};
 	if(originalProduct.price_in_cents != adminStore.productToEdit.price_in_cents) {
+        updatedProductObj.price_in_cents = adminStore.productToEdit.price_in_cents
 		updatedProductData.push({price_in_cents: adminStore.productToEdit.price_in_cents});
 	};
 	if(originalProduct.quantity != adminStore.productToEdit.quantity) {
+        updatedProductObj.quantity = adminStore.productToEdit.quantity
 		updatedProductData.push({quantity: adminStore.productToEdit.quantity});
 	};
 	if(originalProduct.main_image_name != adminStore.productToEdit.main_image_name) {
+        updatedProductObj.main_image_name = adminStore.productToEdit.main_image_name
 		updatedProductData.push({main_image_name: adminStore.productToEdit.main_image_name});
 	};
 	
 	if(originalProduct.category != adminStore.productToEdit.category) {
+        updatedProductObj.category = adminStore.productToEdit.category
 		updatedProductData.push({category: adminStore.productToEdit.category});
 	};
 
@@ -137,86 +146,41 @@ function productChangesArray() {
 
     // TODO: Look into Object.is() for Object comparisons. Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 	if(JSON.stringify(originalProduct.image_names) != JSON.stringify(adminStore.productToEdit.image_names)) {
+        updatedProductObj.image_names = adminStore.productToEdit.image_names
 		updatedProductData.push( {image_names: JSON.stringify(adminStore.productToEdit.image_names)} );
 	};
 	if(JSON.stringify(originalProduct.specifications) != JSON.stringify(adminStore.productToEdit.specifications)) {
+        updatedProductObj.specifications = adminStore.productToEdit.specifications
 		updatedProductData.push( {specifications: JSON.stringify(adminStore.productToEdit.specifications)} );
 	};
+    return updatedProductObj;
 
 	return updatedProductData;
 }
-// Function will validate all inputs from a product edit before sending to the backend
-function formFieldsValid() {
-
-    let validField = [];
-    // Iterate over every product field
-    for(const key of Object.keys(adminStore.productToEdit)) {
-        switch(key) {
-            case 'short_description':
-                validField.push(
-                    adminStore.productToEdit[key].length && adminStore.productToEdit[key].length < 3000
-                );
-                break;
-            case 'description':
-                validField.push(
-                    adminStore.productToEdit[key].length && adminStore.productToEdit[key].length < 10000
-                );
-                break;
-            case 'name':2
-                validField.push(
-                    adminStore.productToEdit[key].trim().length > 0 && !(/[^\w\(A-Za-z0-9)/ \-_?!@#$%^&*(){}+/\\<>,.|[\]]/g).test(adminStore.productToEdit[key])
-                );
-                break;
-            case 'price_in_cents':
-            case 'quantity':
-            case 'id':
-                // whole numbers only and not empty == true
-                validField.push(
-                    adminStore.productToEdit[key] && (/^[0-9]*$/).test(adminStore.productToEdit[key])
-                );
-                break;
-            case 'specifications':
-                if(!adminStore.productToEdit[key].length) { break };
-                // TODO: Make sure Objects are not nested. Valid: {key: value}, Invalid: { key: value:{prop1key: prop1value} }
-                // Check for valid Objects
-                let validSpecObject = [];
-                adminStore.productToEdit[key].forEach((key) => {
-                    validSpecObject.push(key && typeof(key) === 'object' && key.constructor === Object);
-                });
-                validField.push(
-                   validSpecObject.every((bool) => bool)
-                );
-                break;
-            case 'category':
-            case 'added_on_timestamp':
-            case 'visible':
-            case 'main_image_name':
-            case 'image_names':
-                validField.push(true);
-                break;
-            default:
-                console.log('Unhandled Object.property. Edit product.', {key})
-                validField.push(false);
-        };
-    };
-
-    // Are all input fields valid?
-    return validField.every((bool) => bool);
-};
 
 async function handleSaveProductEdits() {
-	
-    // Early return if nothing has changed
-	if(!productChangesArray().length) { return };
+	  
+    let updatedProductDetails = productChangesObj();
+    // No changes
+    if(!Object.keys(updatedProductDetails).length) { return };
 
-    // TODO: Show user error details
-    if(!formFieldsValid()) {return}
-
+    // Check if the new Product details (form fields) are valid
+    // [{field_name: field_valid?::Boolean},...]
+    let validateFormFieldArray = validateProductDetails(updatedProductDetails);
+    // Create an Array of Booleans that tell if a field was valid, all must be valid to continue
+    if(
+        !validateFormFieldArray.map((obj) => {
+            for(const key in obj) {
+                return obj[key]
+            }
+        }).every((bool) => bool)
+    ) { return }; // TODO: Show user error details
+    
     // Update product in the DB
 	let response = await $fetch(`/api/admin/product/update`, {
 		method: 'POST',
 		body: JSON.stringify({
-			productData: productChangesArray(),
+			productData: updatedProductDetails,
             productId: adminStore.productToEdit.id
 		})
 	});
@@ -236,8 +200,6 @@ async function handleSaveProductEdits() {
             console.log('Unknown error updating product', response.status, response.error)
             break;
     };
-	
 };
-
 
 </script>
