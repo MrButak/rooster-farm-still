@@ -1,13 +1,19 @@
 <template>
 
 <h3 class="va-h3">Upload</h3>
-<va-file-upload
-    v-model="adminStore.uploadedImageArray"
-    dropzone
-    file-types="jpg,png"
-    drop-zone-text="Drop files here"
-    upload-button-text="Choose File"
-/>
+<va-inner-loading 
+    :loading ="fileUploadLoading"
+    :size="60"
+    >
+    <va-file-upload
+        v-model="adminStore.uploadedImageArray"
+        dropzone
+        file-types="jpg,png"
+        drop-zone-text="Drop files here"
+        upload-button-text="Choose File"  
+    />
+</va-inner-loading>
+
 <div v-if="duplicateFileArray.length">
     <p class="va-text-danger">Duplicate file name(s). Please remove the following file(s) before proceeding:</p>
     <ul v-for="fileName in duplicateFileArray">
@@ -28,9 +34,13 @@
 <script setup>
 
 import { useAdminStore } from '~~/services/stateStore';
+
 const adminStore = useAdminStore();
+
  // Holds all duplicate files. Displayed on DOM
 let duplicateFileArray = reactive([]);
+
+let fileUploadLoading = ref(false);
 
 // Function will compare 'all images' vs 'images to be uploaded' and find duplicates.
 // Return: Integer >= 0
@@ -57,6 +67,7 @@ watchEffect(() => {
 
 async function handleImageUpload() {
 
+    fileUploadLoading.value = !fileUploadLoading.value;
     Promise.all(
         adminStore.uploadedImageArray
         .map(
@@ -83,7 +94,10 @@ async function handleImageUpload() {
             })
         })
         .then((response) => {
+            // Stop upload spinner
+            fileUploadLoading.value = !fileUploadLoading.value;
             switch(response.status) {
+
                 case '200':
                     adminStore.uploadedImageArray.length = 0;
                     // console.log(response.data)
