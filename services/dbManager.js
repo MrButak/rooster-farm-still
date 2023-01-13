@@ -242,23 +242,31 @@ async function updateProductDetails(columnName, columnValue, productId) {
     
 };
 
+// Function will insert a new product into the DB
 async function createNewProduct(productObj) {
 
-    const newProduct = await Products.create({
-        name: productObj.name,
-        short_description: productObj.short_description,
-        description: productObj.description,
-        price_in_cents: productObj.price_in_cents,
-        quantity: productObj.quantity,
-        main_image_name: productObj.main_image_name,
-        image_names: productObj.image_names,
-        specifications: productObj.specifications,
-        // category: productObj.category,
-        visible: productObj.visible,
-        added_on_timestamp: new Date(Date.now())
-    });
-
-    return newProduct;
+    try {
+        await Products.create({
+            name: productObj.name,
+            short_description: productObj.short_description,
+            description: productObj.description,
+            price_in_cents: productObj.price_in_cents,
+            quantity: productObj.quantity,
+            main_image_name: productObj.main_image_name,
+            image_names: productObj.image_names,
+            specifications: productObj.specifications,
+            category: productObj.category,
+            visible: productObj.visible,
+            added_on_timestamp: new Date(Date.now())
+        },
+        // Restrict insert to these columns:
+        { fields: ['name', 'short_description', 'description', 'price_in_cents', 'quantity', 'main_image_name', 'image_names', 'specifications', 'category', 'visible', 'added_on_timestamp'] });
+        return true;
+    }
+    catch(err) {
+        console.log(err)
+        return false;
+    };
 
 };
 
