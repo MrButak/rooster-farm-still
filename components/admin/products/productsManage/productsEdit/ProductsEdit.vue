@@ -29,7 +29,8 @@
 <div class="flex justify-between gap-28 w-full">
     <va-button
         color="secondary"
-    >
+        @click="(adminStore.showCancelEditModal = !adminStore.showCancelEditModal)"
+        >
         Cancel
     </va-button>
     <va-button @click="handleSaveProductEdits()">Save</va-button>
