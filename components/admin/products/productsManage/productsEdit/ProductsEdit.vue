@@ -149,6 +149,7 @@ function productChangesArray() {
 function formFieldsValid() {
 
     let validField = [];
+    // Iterate over every product field
     for(const key of Object.keys(adminStore.productToEdit)) {
         switch(key) {
             case 'short_description':
@@ -161,7 +162,7 @@ function formFieldsValid() {
                     adminStore.productToEdit[key].length && adminStore.productToEdit[key].length < 10000
                 );
                 break;
-            case 'name':
+            case 'name':2
                 validField.push(
                     adminStore.productToEdit[key].trim().length > 0 && !(/[^\w\(A-Za-z0-9)/ \-_?!@#$%^&*(){}+/\\<>,.|[\]]/g).test(adminStore.productToEdit[key])
                 );
@@ -171,18 +172,19 @@ function formFieldsValid() {
             case 'id':
                 // whole numbers only and not empty == true
                 validField.push(
-                    (/^[0-9]*$/).test(adminStore.productToEdit[key]) && adminStore.productToEdit[key].length
+                    adminStore.productToEdit[key] && (/^[0-9]*$/).test(adminStore.productToEdit[key])
                 );
                 break;
             case 'specifications':
-                // If no specs break
                 if(!adminStore.productToEdit[key].length) { break };
-                // TODO: Make sure Objects have no properties of their own. Valid: {key: value}, Invalid: {key:{prop1key: prop1value}, value}
+                // TODO: Make sure Objects are not nested. Valid: {key: value}, Invalid: { key: value:{prop1key: prop1value} }
                 // Check for valid Objects
+                let validSpecObject = [];
+                adminStore.productToEdit[key].forEach((key) => {
+                    validSpecObject.push(key && typeof(key) === 'object' && key.constructor === Object);
+                });
                 validField.push(
-                    adminStore.productToEdit[key].every((spec) => {
-                        spec && typeof(spec) === 'object' && spec.constructor === Object
-                    })
+                   validSpecObject.every((bool) => bool)
                 );
                 break;
             case 'category':
@@ -193,49 +195,24 @@ function formFieldsValid() {
                 validField.push(true);
                 break;
             default:
-                console.log(key)
+                console.log('Unhandled Object.property. Edit product.', {key})
                 validField.push(false);
         };
     };
-    console.log(validField)
-    // Debug:
-//     0: undefined
-// ​
-// 1: true
-// ​
-// 2: true
-// ​
-// 3: true
-// ​
-// 4: undefined
-// ​
-// 5: undefined
-// ​
-// 6: true
-// ​
-// 7: true
-// ​
-// 8: false
-// ​
-// 9: true
-// ​
-// 10: true
-// ​
-// 11: true
+
+    // Are all input fields valid?
     return validField.every((bool) => bool);
 };
 
 async function handleSaveProductEdits() {
 	
-    if(!formFieldsValid()) {return}
-    // TODO: validate fields here.
-    console.log(adminStore.productToEdit);
-    
-    return;
-    
-	// Early return if nothing has changed
+    // Early return if nothing has changed
 	if(!productChangesArray().length) { return };
 
+    // TODO: Show user error details
+    if(!formFieldsValid()) {return}
+
+    // Update product in the DB
 	let response = await $fetch(`/api/admin/product/update`, {
 		method: 'POST',
 		body: JSON.stringify({
@@ -253,9 +230,10 @@ async function handleSaveProductEdits() {
             // Update products with backend call. Another option would be to replace the Array item in productStore.allProducts to the edited one
             await productStore.getAllProducts();
             // TODO: show success message
+            console.log('Update product success')
             break
         default:
-            console.log(response.status, response.error)
+            console.log('Unknown error updating product', response.status, response.error)
             break;
     };
 	
