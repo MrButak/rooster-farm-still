@@ -8,8 +8,38 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+// const sequelize = new Sequelize(process.env.DATABASE_URL);
+let pool = new Pool({});
 
+let sequelize;
+
+if(process.env.APP_ENVIRONMENT == 'development') {
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: false
+    });
+    sequelize = new Sequelize(process.env.DATABASE_URL);
+};
+if(process.env.APP_ENVIRONMENT == 'production') {
+
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            required: true,
+            rejectUnauthorized: false
+        }
+    });
+    // const sequelize = new Sequelize(process.env.DATABASE_URL);
+    sequelize = new Sequelize(process.env.DATABASE_URL, {
+        dialectOptions: {
+            ssl: {
+                require: true, // This will help you. But you will see nwe error
+                rejectUnauthorized: false // This line will fix new error
+            }
+        }
+    });
+    
+};
 
 class Images extends Model {}
 
@@ -86,25 +116,6 @@ added_on_timestamp: {
     modelName: 'products' // We need to choose the model name
 });
 
-
-let pool = new Pool({});
-
-if(process.env.APP_ENVIRONMENT == 'development') {
-    pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: false
-    });
-};
-if(process.env.APP_ENVIRONMENT == 'production') {
-
-    pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            required: true,
-            rejectUnauthorized: false
-        }
-    });
-};
 
 async function getAllProducts() {
     
