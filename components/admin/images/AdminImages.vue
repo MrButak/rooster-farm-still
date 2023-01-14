@@ -173,6 +173,8 @@
 <script setup>
 
 import { useAdminStore, useProductStore } from '~~/services/stateStore';
+import Toast from '~~/components/global/Toast.vue';
+const { init, close, closeAll } = useToast();
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 const config = useRuntimeConfig();
@@ -236,16 +238,31 @@ async function handleDeleteImages() {
     .then((response) => {
         switch(response.status) {
             case '200':
+                // Vuestic toast. Rendered from Component
+                // Deep copy the number of images deleted to show the user on the Toast message
+                let numberOfImagesUploaded = JSON.parse(JSON.stringify(adminStore.imageSelection.length))
+                init({color: 'success', duration: 2000, render: () => h(Toast, 
+                    {
+                        tPropMessage: `${numberOfImagesUploaded} Image(s) deleted`,
+                        tPropIconName: 'check_circle',
+                        tPropIconColor: '#000000'
+                    })
+                });
                 // Success, now delete from State
                 response.data.forEach((imgObj) => {
                     adminStore.allImageBucketData.splice(adminStore.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
-                });
+                });            
                 adminStore.imageSelection.length = 0;
-                // TODO: Show success message
                 break;
             case '500':
-                // Error(s)
-                // TODO: Show error message
+                // TODO: handle different response errors
+                init({color: 'danger', duration: 2000, render: () => h(Toast, 
+                    {
+                        tPropMessage: 'Error deleting images',
+                        tPropIconName: 'error',
+                        tPropIconColor: '#000000'
+                    })
+                });
                 console.log(response.data);
         };
         // Stop loading spinner

@@ -18,21 +18,12 @@
 
 </span>
 
-
 </template>
-
 
 
 <script setup>
 
-
+import { useGlobalConfig } from 'vuestic-ui'
+const {globalConfig} = useGlobalConfig()
 
 </script>
-
-
-
-<style lang="scss">
-
-
-
-</style>

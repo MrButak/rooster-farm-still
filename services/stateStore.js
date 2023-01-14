@@ -1,7 +1,5 @@
 import { localStorageAvailable, getItemFromLs } from './lsManager';
 import { defineStore } from 'pinia';
-// import dotenv from "dotenv";
-// dotenv.config();
 
 export const useShoppingCartStore = defineStore('shoppingCartStore', {
 
