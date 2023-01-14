@@ -238,18 +238,16 @@ async function handleDeleteImages() {
     .then((response) => {
         switch(response.status) {
             case '200':
+                // Vuestic toast. Rendered from Component
                 // Deep copy the number of images deleted to show the user on the Toast message
                 let numberOfImagesUploaded = JSON.parse(JSON.stringify(adminStore.imageSelection.length))
-                // Vuestic toast. Rendered from Component
-                // init({color: 'success', duration: 2000, render: () => h(Toast, 
-                //     {
-                //         tPropMessage: `${numberOfImagesUploaded} Image(s) deleted`,
-                //         tPropIconName: 'check_circle',
-                //         tPropIconColor: '#000000'
-                //     })
-                // });
-                
-
+                init({color: 'success', duration: 2000, render: () => h(Toast, 
+                    {
+                        tPropMessage: `${numberOfImagesUploaded} Image(s) deleted`,
+                        tPropIconName: 'check_circle',
+                        tPropIconColor: '#000000'
+                    })
+                });
                 // Success, now delete from State
                 response.data.forEach((imgObj) => {
                     adminStore.allImageBucketData.splice(adminStore.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);

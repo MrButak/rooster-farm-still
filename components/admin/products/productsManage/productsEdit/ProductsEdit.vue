@@ -67,6 +67,8 @@ import ProductsEditSpecs from './ProductsEditSpecs.vue';
 import ProductsEditInputs from './ProductsEditInputs.vue';
 import ProductsEditImages from './ProductsEditImages.vue';
 import AddImageToProductModal from './AddImageToProductModal.vue';
+import Toast from '~~/components/global/Toast.vue';
+const { init, close, closeAll } = useToast();
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 
@@ -176,20 +178,30 @@ async function handleSaveProductEdits() {
 
     switch(response.status) {
         case '200':
+            // Vuestic toast. Rendered from Component
+            init({color: 'success', duration: 2000, render: () => h(Toast, 
+                {
+                    tPropMessage: 'Product updated',
+                    tPropIconName: 'check_circle',
+                    tPropIconColor: '#000000'
+                })
+            });
             // Clear out product to edit
             adminStore.productToEdit = {};
             // Close edit product modal
             adminStore.showEditProductComponent = false;
             // Update products with backend call. Another option would be to replace the Array item in productStore.allProducts to the edited one
             await productStore.getAllProducts();
-            // TODO: show success message: response.message
-            console.log('Update product success')
-            break;
-        case '400':
-            console.log(response.status, response.error)
             break;
         default:
-            console.log(response.status, response.error)
+            init({color: 'danger', duration: 2000, render: () => h(Toast, 
+                {
+                    tPropMessage: 'Error updating product',
+                    tPropIconName: 'error',
+                    tPropIconColor: '#000000'
+                })
+            });
+            // console.log(response.status, response.error)
             break;
     };
 };

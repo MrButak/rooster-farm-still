@@ -141,6 +141,8 @@ import { validateProductDetails } from '~~/services/validationManager';
 import AddImageToProductModal from '~~/components/admin/products/productsManage/productsEdit/AddImageToProductModal.vue';
 import ProductsEditImages from '~~/components/admin/products/productsManage/productsEdit/ProductsEditImages.vue';
 import ProductsEditSpecs from '~~/components/admin/products/productsManage/productsEdit/ProductsEditSpecs.vue';
+import Toast from '~~/components/global/Toast.vue';
+const { init, close, closeAll } = useToast();
 const adminStore = useAdminStore();
 
 // Confirm exit modal
@@ -156,25 +158,6 @@ function productNameValidation(str) {
     // A-Z a-z 0-9 !@#$%^&*()-_=/\(){}[]+/\<>,.|
     return !(/[^\w\(A-Za-z0-9)/ \-_?!@#$%^&*(){}+/\\<>,.|[\]]/g).test(str) 
         && str.trim().length > 0;  
-};
-
-// Function will hide this Component and reset State
-function handleCloseAddProductComponent() {
-    // Clear State
-    Object.assign(adminStore.productToAdd, {
-        name: '',
-        price_in_cents: null,
-        quantity: null,
-        short_description: '',
-        description: '',
-        main_image_name: '',
-        image_names: [], // Array of Strings
-        specifications: [], // Array of Objects
-        visible: true,
-        category: null, // not in use
-    }); 
-    // Close this Component
-    adminStore.showAddProductComponent = !adminStore.showAddProductComponent
 };
 
 function handleAddProductImages() {
@@ -204,6 +187,25 @@ function handleAddMainImageToProduct() {
 	adminStore.addImageToProductObj.showModal = false;
 };
 
+// Function will hide this Component and reset State
+function handleCloseAddProductComponent() {
+    // Clear State
+    Object.assign(adminStore.productToAdd, {
+        name: '',
+        price_in_cents: null,
+        quantity: null,
+        short_description: '',
+        description: '',
+        main_image_name: '',
+        image_names: [], // Array of Strings
+        specifications: [], // Array of Objects
+        visible: true,
+        category: null, // not in use
+    }); 
+    // Close this Component
+    adminStore.showAddProductComponent = !adminStore.showAddProductComponent
+};
+
 async function handleCreateNewProduct() {
     
     // Product input validation
@@ -226,13 +228,27 @@ async function handleCreateNewProduct() {
 
     switch(response.status) {
         case '200':
+            // Vuestic toast. Rendered from Component
+            init({color: 'success', duration: 2000, render: () => h(Toast, 
+                {
+                    tPropMessage: 'Product added',
+                    tPropIconName: 'check_circle',
+                    tPropIconColor: '#000000'
+                })
+            });
             handleCloseAddProductComponent();
-            // TODO: Show success message
             break;
         default:
-            console.log(response.status, response.error);
+            // TODO: Handle difference errors
+            // console.log(response.status, response.error);
+            init({color: 'danger', duration: 2000, render: () => h(Toast, 
+                {
+                    tPropMessage: 'Error adding product',
+                    tPropIconName: 'error',
+                    tPropIconColor: '#000000'
+                })
+            });
             handleCloseAddProductComponent();
-            // TODO: Show error message
     };
 };
 

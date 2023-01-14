@@ -102,9 +102,9 @@ async function handleImageUpload() {
             switch(response.status) {
 
                 case '200':
+                    // Vuestic toast. Rendered from Component
                     // Deep copy the number of images deleted to show the user on the Toast message
                     let numberOfImagesUploaded = JSON.parse(JSON.stringify(adminStore.uploadedImageArray.length))
-                    // Vuestic toast. Rendered from Component
                     init({color: 'success', duration: 2000, render: () => h(Toast, 
                         {
                             tPropMessage: `${numberOfImagesUploaded} Image(s) uploaded`,
@@ -113,13 +113,21 @@ async function handleImageUpload() {
                         })
                     });
                     adminStore.uploadedImageArray.length = 0;
-                    // console.log(response.data)
-                    console.log('Response from image upload after successful upload in s3 bucket and insertion into DB table images')
+                    // Add image Objects to State
                     response.data.forEach((imgObj) => {
                         adminStore.allImageBucketData.push(imgObj)
                     });
                     break;
                 default:
+                    // TODO: handle different response errors
+                    init({color: 'danger', duration: 2000, render: () => h(Toast, 
+                        {
+                            tPropMessage: 'Error uploading image(s)',
+                            tPropIconName: 'error',
+                            tPropIconColor: '#000000'
+                        })
+                    });
+                    adminStore.uploadedImageArray.length = 0;
                     alert('An error occurred while uploading your images, try again.')
             }
         })
