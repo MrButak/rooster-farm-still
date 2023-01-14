@@ -18,29 +18,12 @@
 
 </span>
 
-<button @click="initToast()">Push me</button>
 </template>
-
 
 
 <script setup>
 
-
-// // Toast
-// const { init, close, closeAll } = useToast()
-// // Learn more about the `h()` syntax and vNodes here: https://vuejs.org/guide/extras/render-function.html#creating-vnodes
-// let renderedSuccessToast = () => h(SuccessToast)
-
-// function initToast() {
-//     init({message: 'hello', color: 'success', closeable: true, duration: 2000});
-// };
+import { useGlobalConfig } from 'vuestic-ui'
+const {globalConfig} = useGlobalConfig()
 
 </script>
-
-
-
-<style lang="scss">
-
-
-
-</style>

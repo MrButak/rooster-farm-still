@@ -34,6 +34,9 @@
 <script setup>
 
 import { useAdminStore } from '~~/services/stateStore';
+import Toast from '~~/components/global/Toast.vue';
+const { init, close, closeAll } = useToast();
+
 
 const adminStore = useAdminStore();
 
@@ -99,6 +102,16 @@ async function handleImageUpload() {
             switch(response.status) {
 
                 case '200':
+                    // Deep copy the number of images deleted to show the user on the Toast message
+                    let numberOfImagesUploaded = JSON.parse(JSON.stringify(adminStore.uploadedImageArray.length))
+                    // Vuestic toast. Rendered from Component
+                    init({color: 'success', duration: 2000, render: () => h(Toast, 
+                        {
+                            tPropMessage: `${numberOfImagesUploaded} Image(s) uploaded`,
+                            tPropIconName: 'check_circle',
+                            tPropIconColor: '#000000'
+                        })
+                    });
                     adminStore.uploadedImageArray.length = 0;
                     // console.log(response.data)
                     console.log('Response from image upload after successful upload in s3 bucket and insertion into DB table images')
