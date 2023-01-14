@@ -326,37 +326,6 @@ export const useAdminStore = defineStore('adminStore', {
             });
             Object.assign(this.allImageBucketData, response.imageData);
         },
-        async handleDeleteImages() {
-            // If no items to delete, return
-            if(!this.imageSelection.length) { return };
-            
-            // Create an Array of Objects to send to the backend
-            let deleteParams = [];
-            this.imageSelection.forEach((imageName) => {
-                deleteParams.push({'Key': imageName});
-            });
-        
-            let response = $fetch(`/api/admin/image/delete`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    imageNameArray: deleteParams
-                })
-            })
-            .then((response) => {
-                switch(response.status) {
-                    case '200':
-                        // Success, now delete from State
-                        response.data.forEach((imgObj) => {
-                            this.allImageBucketData.splice(this.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
-                        });
-                        this.imageSelection.length = 0;
-                        break;
-                    case '500':
-                        // Error(s)
-                        console.log(response.data);
-                }
-            })
-        },
         // Admin adds images. Used in component AddImageToProductModal.vue
         mainImageBGcolor(mainImageObjForProduct, imageFileName) {
             
