@@ -132,12 +132,17 @@
 </va-modal>
 
 <!-- delete image modal -->
+
 <va-modal
     :fullscreen="true"
     v-model="showDeleteImageModal"
     no-padding
   >
     <template #content="{ ok }">
+        <va-inner-loading 
+            :loading ="deleteImageLoading"
+            :size="60"
+            >
         <va-card-title>
             Delete {{ adminStore.imageSelection.length }} image(s)?
         </va-card-title>
@@ -149,11 +154,17 @@
             @click="ok" color="info">Cancel
         </va-button>
         <va-button 
-            @click="adminStore.handleDeleteImages" color="danger">Delete
+            @click="handleDeleteImages()" 
+            color="danger"
+            :disabled="deleteImageLoading || !adminStore.imageSelection.length"
+            >Delete
         </va-button>
         </va-card-actions>
+    </va-inner-loading>
     </template>
+
 </va-modal>
+
 
 </template>
 
@@ -165,6 +176,9 @@ import { useAdminStore, useProductStore } from '~~/services/stateStore';
 const adminStore = useAdminStore();
 const productStore = useProductStore();
 const config = useRuntimeConfig();
+
+// Loading spinner
+let deleteImageLoading = ref(false);
 
 (async() => {
     // Load products into memory (if needed)
@@ -197,6 +211,48 @@ const columns = [
 function imageUrl(imageKey) {
     // imageKey: 'some-image-name.bmp' 
     return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageKey}`;
+};
+
+
+async function handleDeleteImages() {
+    // If no items to delete, return
+    if(!adminStore.imageSelection.length) { return };
+
+    // Create an Array of Objects to send to the backend
+    let deleteParams = [];
+    adminStore.imageSelection.forEach((imageName) => {
+        deleteParams.push({'Key': imageName});
+    });
+
+    // Start loading spinner
+    deleteImageLoading.value = !deleteImageLoading.value;
+
+    let response = $fetch(`/api/admin/image/delete`, {
+        method: 'POST',
+        body: JSON.stringify({
+            imageNameArray: deleteParams
+        })
+    })
+    .then((response) => {
+        switch(response.status) {
+            case '200':
+                // Success, now delete from State
+                response.data.forEach((imgObj) => {
+                    adminStore.allImageBucketData.splice(adminStore.allImageBucketData.findIndex(img => img.Key == imgObj.Key), 1);
+                });
+                adminStore.imageSelection.length = 0;
+                // TODO: Show success message
+                break;
+            case '500':
+                // Error(s)
+                // TODO: Show error message
+                console.log(response.data);
+        };
+        // Stop loading spinner
+        deleteImageLoading.value = !deleteImageLoading.value;
+        // Close the modal
+        showDeleteImageModal.value = !showDeleteImageModal.value;
+    });
 };
 
 </script>
