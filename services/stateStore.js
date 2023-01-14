@@ -163,6 +163,11 @@ export const useUiStore = defineStore('uiStore', {
     })
 });
 
+export const useToastStore = defineStore('toastStore', {
+
+    
+});
+
 export const useAdminStore = defineStore('adminStore', {
     state: () => ({
         // Add product
