@@ -9,7 +9,8 @@
     message="Remove item from cart?"
     blur
 />
-
+<div class="mt-24 md:mt-44"></div>
+<h1 class="va-h1 text-center">Shopping Cart</h1>
 <div v-if="allProducts.length && shoppingCartItems.length" class="row row justify-center shopping-cart-products-wrapper">
     <div class="flex md6 lg4">
         <va-card>
@@ -63,16 +64,27 @@
     </div>
 </div>
 
-<div class="flex column justify-center" v-else>
-    <p>
-        There are currently no items in your shopping cart.
-        Check out our quality stills.
-    </p>
-    <div class="no-products-button-wrapper">
-        <va-button 
-            @click="router.push('/')">
-            Products
-        </va-button>        
+<div 
+    class="flex flex-col items-center mt-8" 
+    v-else
+    >
+    <div 
+        class="flex flex-col justify-center items-center gap-8 p-4"
+    >
+        <img 
+            :src="emptyShoppingCartSvg"
+            class="w-32"
+        />
+        <h4 class="va-h4 text-center">
+            Your Cart Is Currently Empty!
+        </h4>
+        <p class="text-center">Before proceeding to checkout you must have some products in your shopping cart :)</p>
+        <div class="no-products-button-wrapper">
+            <va-button 
+                @click="router.push('/')">
+                Products
+            </va-button>        
+        </div>
     </div>
 </div>
 
@@ -85,7 +97,7 @@
 import { onMounted } from 'vue';
 import { useUiStore, useShoppingCartStore } from '../services/stateStore';
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
-
+import emptyShoppingCartSvg from  '~~/public/img/empty-shopping-cart.svg';
 import { useColors } from 'vuestic-ui';
 const { applyPreset } = useColors();
 nextTick(() => {
