@@ -72,7 +72,7 @@
         class="flex flex-col justify-center items-center gap-8 p-4"
     >
         <img 
-            :src="emptyShoppingCartSvg"
+            :src="emptyShoppingCartIcon"
             class="w-32"
         />
         <h4 class="va-h4 text-center">
@@ -82,7 +82,7 @@
         <div class="no-products-button-wrapper">
             <va-button 
                 @click="router.push('/')">
-                Products
+                Shop
             </va-button>        
         </div>
     </div>
@@ -97,12 +97,18 @@
 import { onMounted } from 'vue';
 import { useUiStore, useShoppingCartStore } from '../services/stateStore';
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
-import emptyShoppingCartSvg from  '~~/public/img/empty-shopping-cart.svg';
+import emptyShoppingCartSvgLightMode from '~~/public/img/empty-shopping-cart-light-mode.svg';
+import emptyShoppingCartSvgDarkMode from '~~/public/img/empty-shopping-cart-dark-mode.svg';
 import { useColors } from 'vuestic-ui';
+
 const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'));
 });
+
+let emptyShoppingCartIcon = ref(null);
+
+
 
 // Pinia store
 const uiStore = useUiStore();
@@ -115,7 +121,11 @@ let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
 onMounted(() => {
-    
+
+    // Set the .svg to either light or dark mode here. The Vuestic.dev color theme is currently hard set to 'light' and there is a flash before the color mode is gotten from Local Store.
+    emptyShoppingCartIcon.value = getItemFromLs('vuestic-docs-theme') == 'dark' ?
+        emptyShoppingCartSvgDarkMode : emptyShoppingCartSvgLightMode;
+
     // Get products from DB so we know how many is in stock and the prices have not been tampered with in LS
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
@@ -145,9 +155,8 @@ onMounted(() => {
 
 // Function calculates the quantity available in stock
 function calculateProductQuantityInStock(productId, productQuantity) {
-    
+
     let productDbIndex = allProducts.findIndex(product => product.id == productId);
-    
     if(productDbIndex != -1) {
         return allProducts[productDbIndex].quantity - productQuantity;
     };
