@@ -1,8 +1,9 @@
 <template>
 <!-- TODO: set this header Globally using conditions -->
 <Header />
-        
-<div v-if="productLoaded" class="flex flex-col md:flex-row">
+
+<va-inner-loading :loading="!productLoaded" :size="60">
+<div v-if="productLoaded" class="flex flex-col md:flex-row p-1 sm:px-8">
     <va-carousel
         class=""
         :items="imageUrlArray(productData[0].image_names)" 
@@ -64,17 +65,14 @@
             </va-button>
         </div>
             
-
         </div>
         </va-card-content>
     </va-card>
     </div>
 </div>
-
-<va-button class="mr-2 mb-2" @click="$vaToast.init({ message: 'success color', color: 'success' })">success</va-button>
+</va-inner-loading>
 
 </template>
-
 
 
 <script setup>

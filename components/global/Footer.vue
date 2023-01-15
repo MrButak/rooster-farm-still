@@ -1,11 +1,14 @@
 <template>
 
-<footer class="footer-wrapper">
-    <p class="footer-text">© Rooster Valley Stills</p>
+<!-- Space above -->
+<div class="h-24"></div>
+
+<footer 
+    class="absolute bottom-0 w-full text-center py-2 bg-black">
+    <p class="text-white">© Rooster Valley Stills</p>
 </footer>
 
 </template>
-
 
 
 <script setup>
@@ -13,22 +16,3 @@
 
 
 </script>
-
-
-
-<style lang="scss" scoped>
-
-.footer-wrapper {
-    position: absolute;
-    background: black;
-    bottom:0;
-    width: 100%;
-    text-align: center;
-    padding: .3rem 0;
-    .footer-text {
-        color: white;
-        font-size: 14px;
-    }
-}
-
-</style>

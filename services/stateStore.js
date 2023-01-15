@@ -335,6 +335,7 @@ export const useAdminStore = defineStore('adminStore', {
 
 function createImageUrlFromString(fileName) {
     const config = useRuntimeConfig();
+    if(!fileName) { return 'https://picsum.photos/1505' }
     return config.public.AWS_S3_BUCKET_BASE_URL + fileName;
 };
 

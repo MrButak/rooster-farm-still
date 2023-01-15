@@ -9,7 +9,7 @@
     message="Remove item from cart?"
     blur
 />
-<div class="mt-24 md:mt-44"></div>
+
 <h1 class="va-h1 text-center">Shopping Cart</h1>
 <div v-if="allProducts.length && shoppingCartItems.length" class="row row justify-center shopping-cart-products-wrapper">
     <div class="flex md6 lg4">
