@@ -9,7 +9,8 @@
     message="Remove item from cart?"
     blur
 />
-
+<div class="mt-24 md:mt-44"></div>
+<h1 class="va-h1 text-center">Shopping Cart</h1>
 <div v-if="allProducts.length && shoppingCartItems.length" class="row row justify-center shopping-cart-products-wrapper">
     <div class="flex md6 lg4">
         <va-card>
@@ -63,16 +64,27 @@
     </div>
 </div>
 
-<div class="flex column justify-center" v-else>
-    <p>
-        There are currently no items in your shopping cart.
-        Check out our quality stills.
-    </p>
-    <div class="no-products-button-wrapper">
-        <va-button 
-            @click="router.push('/')">
-            Products
-        </va-button>        
+<div 
+    class="flex flex-col items-center mt-8" 
+    v-else
+    >
+    <div 
+        class="flex flex-col justify-center items-center gap-8 p-4"
+    >
+        <img 
+            :src="emptyShoppingCartIcon"
+            class="w-32"
+        />
+        <h4 class="va-h4 text-center">
+            Your Cart Is Currently Empty!
+        </h4>
+        <p class="text-center">Before proceeding to checkout you must have some products in your shopping cart :)</p>
+        <div class="no-products-button-wrapper">
+            <va-button 
+                @click="router.push('/')">
+                Shop
+            </va-button>        
+        </div>
     </div>
 </div>
 
@@ -85,12 +97,18 @@
 import { onMounted } from 'vue';
 import { useUiStore, useShoppingCartStore } from '../services/stateStore';
 import { localStorageAvailable, getItemFromLs } from '../services/lsManager';
-
+import emptyShoppingCartSvgLightMode from '~~/public/img/empty-shopping-cart-light-mode.svg';
+import emptyShoppingCartSvgDarkMode from '~~/public/img/empty-shopping-cart-dark-mode.svg';
 import { useColors } from 'vuestic-ui';
+
 const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'));
 });
+
+let emptyShoppingCartIcon = ref(null);
+
+
 
 // Pinia store
 const uiStore = useUiStore();
@@ -103,7 +121,11 @@ let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
 onMounted(() => {
-    
+
+    // Set the .svg to either light or dark mode here. The Vuestic.dev color theme is currently hard set to 'light' and there is a flash before the color mode is gotten from Local Store.
+    emptyShoppingCartIcon.value = getItemFromLs('vuestic-docs-theme') == 'dark' ?
+        emptyShoppingCartSvgDarkMode : emptyShoppingCartSvgLightMode;
+
     // Get products from DB so we know how many is in stock and the prices have not been tampered with in LS
     (async() => {
         let productsDbData = await $fetch('/api/get-products');
@@ -133,9 +155,8 @@ onMounted(() => {
 
 // Function calculates the quantity available in stock
 function calculateProductQuantityInStock(productId, productQuantity) {
-    
+
     let productDbIndex = allProducts.findIndex(product => product.id == productId);
-    
     if(productDbIndex != -1) {
         return allProducts[productDbIndex].quantity - productQuantity;
     };

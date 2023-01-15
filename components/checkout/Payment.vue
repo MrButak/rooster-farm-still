@@ -189,7 +189,7 @@ form {
 }
 /* Buttons and links */
 button {
-  background: #ffd166; // vuestic colors.presets.light.primary
+  background: #ffd166; // vuestic colors.presets.primary
   font-family: Arial, sans-serif;
   color: #ffffff;
   border-radius: 4px;

@@ -47,7 +47,7 @@ const config = useRuntimeConfig();
 function imageUrl(imageName) {
 	
 	if(!imageName) {
-		return 'https://picsum.photos/1505';
+		return 'https://picsum.photos/1505'; // default image if product has no main_image_name
 	};
 	return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageName}`;
 };

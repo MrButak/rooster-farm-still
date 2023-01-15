@@ -6,7 +6,7 @@
     v-model="colorThemeValue"
     color="#5123a1"
     off-color="#ffd300"
-    style="--va-switch-checker-background-color: #252723;"
+    style="---checker-background-color: #252723;"
 >
     <template #innerLabel>
     <div class="va-text-center">
@@ -45,7 +45,7 @@ const shoppingCartStore = useShoppingCartStore();
 const { applyPreset } = useColors();
 let theme = ref(getItemFromLs('vuestic-docs-theme'));
 let colorThemeValue = ref(theme.value == 'dark');
-let themeSet = false;
+let themeSet = false; // know when the color theme has been set
 
 // If color theme is not yet in local storage, set it
 if(localStorageAvailable && !isItemInLs('vuestic-docs-theme')) {
@@ -65,12 +65,6 @@ function changeColorTheme() {
             theme.value == 'light' ?
                 theme.value = 'dark' :
                 theme.value = 'light';
-        // if(theme.value == 'light') {
-        // theme.value = 'dark';
-        // }
-        // else {
-        //     theme.value = 'light'; 
-        // }
     }
     themeSet = true;
     // If theme color is not in LS, the initial value will be null
