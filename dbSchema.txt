@@ -2,17 +2,17 @@ TODO: Look into a default value, to avoide undefined values
 
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) UNIQUE,
-    short_description TEXT,
-    description TEXT,
-    price_in_cents INTEGER,
-    quantity INTEGER,
-    main_image_name VARCHAR(255),
-    image_names VARCHAR(255) ARRAY,
-    specifications JSON,
-    category VARCHAR(255),
-    visible Boolean,
-    added_on_timestamp TIMESTAMP
+    name VARCHAR(255) DEFAULT '' UNIQUE,
+    short_description TEXT DEFAULT '',
+    description TEXT DEFAULT '',
+    price_in_cents INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
+    main_image_name VARCHAR(255) DEFAULT '',
+    image_names VARCHAR(255)  DEFAULT '[]',
+    specifications JSON DEFAULT '{}',
+    category VARCHAR(255) DEFAULT '',
+    visible Boolean NOT NULL,
+    added_on_timestamp TIMESTAMP NOT NULL
 );
 
 CREATE TABLE purchases (
@@ -32,6 +32,15 @@ CREATE TABLE purchases (
 CREATE TABLE images(
     id SERIAL PRIMARY KEY,
     file_name TEXT NOT NULL UNIQUE
+);
+
+
+
+// NOT IN USE. Exploring.
+CREATE TABLE product_images(
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER REFERENCES products.id ON DELETE CASCADE
+    image_id INTEGER REFERENCES images.id ON DELETE CASCADE
 );
 
 INSERT INTO images (file_name) VALUES ('product-image-1.jpg');

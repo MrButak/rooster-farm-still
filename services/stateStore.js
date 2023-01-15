@@ -321,7 +321,14 @@ export const useAdminStore = defineStore('adminStore', {
             let response = await $fetch(`/api/admin/image/get-all`, {
 
             });
-            Object.assign(this.allImageBucketData, response.imageData);
+            switch(response) {
+                case '200':
+                    Object.assign(this.allImageBucketData, response.imageData);
+                    break;
+                default:
+                    // TODO: Display error to user
+            }
+            
         },
         // Admin adds images. Used in component AddImageToProductModal.vue
         mainImageBGcolor(mainImageObjForProduct, imageFileName) {
