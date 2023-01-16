@@ -1,8 +1,9 @@
 <template>
 <!-- TODO: set this header Globally using conditions -->
 <Header />
-        
-<div v-if="productLoaded" class="flex flex-col md:flex-row">
+
+<va-inner-loading :loading="!productLoaded" :size="60">
+<div v-if="productLoaded" class="flex flex-col md:flex-row p-1 sm:px-8">
     <va-carousel
         class=""
         :items="imageUrlArray(productData[0].image_names)" 
@@ -64,23 +65,20 @@
             </va-button>
         </div>
             
-
         </div>
         </va-card-content>
     </va-card>
     </div>
 </div>
-
-<va-button class="mr-2 mb-2" @click="$vaToast.init({ message: 'success color', color: 'success' })">success</va-button>
+</va-inner-loading>
 
 </template>
-
 
 
 <script setup>
 
 import { ref, onMounted, computed } from 'vue';
-import { useShoppingCartStore } from '~~/services/stateStore';
+import { useShoppingCartStore, createImageUrlsFromArray } from '~~/services/stateStore';
 import { getItemFromLs } from '../../services/lsManager';
 
 import { useColors } from 'vuestic-ui';
@@ -108,13 +106,19 @@ let addToCartButtonText = computed(() => {
 
 // Function accepts an Array of Strings and prepends each string with the AWS S3 bucket url
 function imageUrlArray(imageNameArray) {
-		// Default images if none
-		if(!imageNameArray || !imageNameArray.length) {
-			return ['https://picsum.photos/1505', 'https://picsum.photos/1504', 'https://picsum.photos/1503']
-		}
-		return imageNameArray.map((imageName) => {
-				return `${config.public.AWS_S3_BUCKET_BASE_URL}${imageName}`
-		});
+
+    let imageUrlArray = createImageUrlsFromArray(productData[0].image_names);
+
+    // Default images if none
+    if(!imageUrlArray.length) {
+        return ['https://picsum.photos/1505', 'https://picsum.photos/1504', 'https://picsum.photos/1503'];
+    };
+   
+    return createImageUrlsFromArray(productData[0].image_names);
+
+    // return createImageUrlsFromArray(productData[0].image_names).length ?
+    //     createImageUrlsFromArray(productData[0].image_names) :
+    //     ['https://picsum.photos/1505', 'https://picsum.photos/1504', 'https://picsum.photos/1503'];
 };
 
 onMounted(() => {

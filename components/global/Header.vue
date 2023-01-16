@@ -51,6 +51,8 @@
     </nav>
 </Transition>
 </span>
+<!-- Spacer below the header -->
+<div class="h-11 sm:h-28"></div>
 </template>
 
 
