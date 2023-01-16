@@ -11,6 +11,11 @@
 />
 
 <h1 class="va-h1 text-center">Shopping Cart</h1>
+
+<va-inner-loading 
+    :loading ="shoppingCartLoading"
+    :size="60"
+    >
 <div v-if="allProducts.length && shoppingCartItems.length" class="row row justify-center shopping-cart-products-wrapper">
     <div class="flex md6 lg4">
         <va-card>
@@ -66,7 +71,7 @@
 
 <div 
     class="flex flex-col items-center mt-8" 
-    v-else
+    v-else-if="!shoppingCartLoading"
     >
     <div 
         class="flex flex-col justify-center items-center gap-8 p-4"
@@ -87,9 +92,9 @@
         </div>
     </div>
 </div>
+</va-inner-loading>
 
 </template>
-
 
 
 <script setup>
@@ -107,7 +112,7 @@ nextTick(() => {
 });
 
 let emptyShoppingCartIcon = ref(null);
-
+let shoppingCartLoading = ref(true); // Start loading spinner
 
 
 // Pinia store
@@ -120,19 +125,22 @@ let shoppingCartItems = reactive([]); // products from Local Storage
 let allProducts = reactive([]); // Database
 let selectedProductId = null;
 
-onMounted(() => {
+;(async() => {
 
+
+    let productsDbData = await $fetch('/api/get-products');
+    productsDbData.forEach((product) => allProducts.push(product));
+    await loadItemsInShoppingCart();
+    // Stop loading spinner
+    shoppingCartLoading.value = !shoppingCartLoading.value;
+})();
+
+// TODO: Double check Vue's life cycle methods to determine the best time to check for 3rd party scripts
+onMounted(() => {
+    
     // Set the .svg to either light or dark mode here. The Vuestic.dev color theme is currently hard set to 'light' and there is a flash before the color mode is gotten from Local Store.
     emptyShoppingCartIcon.value = getItemFromLs('vuestic-docs-theme') == 'dark' ?
-        emptyShoppingCartSvgDarkMode : emptyShoppingCartSvgLightMode;
-
-    // Get products from DB so we know how many is in stock and the prices have not been tampered with in LS
-    (async() => {
-        let productsDbData = await $fetch('/api/get-products');
-        productsDbData.forEach((product) => allProducts.push(product));
-    })();
-    loadItemsInShoppingCart();
-
+            emptyShoppingCartSvgDarkMode : emptyShoppingCartSvgLightMode;
     // I've having to set a Boolean to determine if these scripts have already been loaded and that they are only loaded once
     if(!uiStore.thirdPartyScriptsLoaded) {
         useHead({
@@ -170,14 +178,14 @@ function calculateSubtotal() {
 };
 
 // Function gets shopping cart from LS and pushes them into a Component var
-function loadItemsInShoppingCart() {
+async function loadItemsInShoppingCart() {
 
     if(!localStorageAvailable) { return };
 
     let shoppingCart = getItemFromLs('RVSshoppingCart');
     if(!shoppingCart) { return };
 
-    // Add shopping cart items from LS to component regionField
+    // Add shopping cart items from LS to component State
     shoppingCart.forEach((product) => {
         shoppingCartItems.push(product);
     });
