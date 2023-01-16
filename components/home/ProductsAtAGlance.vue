@@ -1,8 +1,14 @@
 <template>
-
+    <va-inner-loading 
+            :loading ="productLoading"
+            :size="60"
+            >
+<div class="product-container">
 <div 
-    v-if="productStore.allProducts.length" 
-    class="product-container">
+    v-if="productStore.allProducts.length"
+    class="product-container"
+    >
+    
     <div 
         v-for="product, index in productStore.allProducts" 
         :class="{'flex-row-reverse': index / 2 == 0}"
@@ -34,23 +40,26 @@
             </va-card-content>
         </va-card>
     </div>
-</div>
 
+</div>
+</div>
+</va-inner-loading>
 </template>
 
 
 <script setup>
+
 
 import { useProductStore, createImageUrlFromString } from '~~/services/stateStore';
 const productStore = useProductStore();
 
 const router = useRouter();
 
-// Backend call gets all products from DB
-(async() => {
+let productLoading = ref(true);
+;(async() => {
     await productStore.getAllProducts();
+    productLoading.value = !productLoading.value
 })();
-
 </script>
 
 
