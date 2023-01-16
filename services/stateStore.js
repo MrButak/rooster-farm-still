@@ -236,23 +236,23 @@ export const useAdminStore = defineStore('adminStore', {
         ]
     }),
     getters: {
-			// Create an Array of objects
-			imageListObjArry: (state) => {
-				const adminStore = useAdminStore()
-				let imageObjArray = [];
-				if(state.allImageBucketData.length) {
-					state.allImageBucketData.forEach((img) => {
-						imageObjArray.push(
-							{
-                                key: img.Key, // file name: some-img.jpg
-                                lastModified: new Date(img.LastModified).toLocaleString(), 
-                                displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
-							}
-						);
-					})
-				};
-				return imageObjArray;
-			}
+        // Create an Array of objects
+        imageListObjArry: (state) => {
+            const adminStore = useAdminStore()
+            let imageObjArray = [];
+            if(state.allImageBucketData.length) {
+                state.allImageBucketData.forEach((img) => {
+                    imageObjArray.push(
+                        {
+                            key: img.Key, // file name: some-img.jpg
+                            lastModified: new Date(img.LastModified).toLocaleString(), 
+                            displayed: adminStore.getAllImagesDisplayedForProduct(img) // Products that use this image
+                        }
+                    );
+                })
+            };
+            return imageObjArray;
+        }
     },
     actions: {
         // Sidebar actions
@@ -304,7 +304,6 @@ export const useAdminStore = defineStore('adminStore', {
                     };
     
                 });
-                
             };
             
             return productNames;
@@ -323,7 +322,9 @@ export const useAdminStore = defineStore('adminStore', {
             });
             switch(response) {
                 case '200':
-                    Object.assign(this.allImageBucketData, response.imageData);
+                    if(response.imageData.length) {
+                        Object.assign(this.allImageBucketData, JSON.parse(JSON.stringify(response.imageData)));
+                    };
                     break;
                 default:
                     // TODO: Display error to user
@@ -347,7 +348,10 @@ function createImageUrlFromString(fileName) {
 };
 
 function createImageUrlsFromArray(fileNameArray) {
-    if(!fileNameArray || !fileNameArray.length) { return [] };
+    
+    // Checking for Array value. Reason: The default row value for  products.image_names is an empty postgres Array. That is coming back from the DB as an Object. So when that Object is sent here there is an error, because this fucntion expects an Array of Strings.
+    if(!fileNameArray || !fileNameArray.length || !Array.isArray(fileNameArray)) { return [] };
+    console.log({fileNameArray})
     const config = useRuntimeConfig();
     return fileNameArray.map((fileName) => {return config.public.AWS_S3_BUCKET_BASE_URL + fileName});
 };

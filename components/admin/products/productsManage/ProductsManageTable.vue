@@ -77,7 +77,6 @@ const productStore = useProductStore();
 let selectedProductId = ref(0);
 
 const input = ref('');
-// let allProducts = reactive([]);
 
 function totalImageCount(productId) {
     let selectedProductIndex = productStore.allProducts.findIndex(product => product.id == productId);

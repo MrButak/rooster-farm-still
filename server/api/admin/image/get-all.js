@@ -16,6 +16,7 @@ const listObjectsInBucket = async (bucketName) => {
         const objects = await s3
         .listObjectsV2({
             Bucket: bucketName,
+            // Opts:
             // ContinuationToken: 'STRING_VALUE',
             // Delimiter: 'product-images',
             // EncodingType: url,
@@ -27,7 +28,7 @@ const listObjectsInBucket = async (bucketName) => {
             // StartAfter: 'STRING_VALUE'
         })
         .promise();
-        return false;
+        return objects; 
     }
     catch(err) {
         console.log(err);
@@ -39,14 +40,11 @@ export default defineEventHandler (async event => {
     
     let allImageData = await listObjectsInBucket(process.env.AWS_S3_IMAGE_BUCKET_NAME);
     
-    if(allImageData || allImageData.Contents.length) {
-        return { status: 200, imageData: allImageData.Contents };
-    };
+    return allImageData ? { status: '200', imageData: allImageData.Contents } :
+        {status: '500', error: 'Unknown error retrieving images'};
+}); 
 
-    return {status: '500', error: 'Unknown error retrieving images'};
-});
-
-// Empty bucket response
+// Response with images
 // {
     // IsTruncated: false,
 //     Contents: [
@@ -66,27 +64,11 @@ export default defineEventHandler (async event => {
 //         Size: 56409,
 //         StorageClass: 'STANDARD'
 //       },
-//       {
-//         Key: 'product-image-4.jpg',
-//         LastModified: 2023-01-14T17:10:59.000Z,
-//         ETag: '"2f7ab77f20650e46734d1d1e11067aed"',
-//         ChecksumAlgorithm: [],
-//         Size: 147317,
-//         StorageClass: 'STANDARD'
-//       },
-//       {
-//         Key: 'product-image-5.jpg',
-//         LastModified: 2023-01-14T17:10:59.000Z,
-//         ETag: '"e14fe1e3b94a0c2b6ce6d54308697714"',
-//         ChecksumAlgorithm: [],
-//         Size: 222833,
-//         StorageClass: 'STANDARD'
-//       }
 //     ],
 //     Name: 'rvs-images',
 //     Prefix: '',
 //     MaxKeys: 1000,
 //     CommonPrefixes: [],
-//     KeyCount: 4
+//     KeyCount: 2
 //   }
   

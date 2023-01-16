@@ -13,6 +13,7 @@ CREATE TABLE products (
     category VARCHAR(255) DEFAULT '',
     visible Boolean NOT NULL,
     added_on_timestamp TIMESTAMP NOT NULL
+    // Consider adding a product_details [TEXT]. Display a bullet point list of the products selling points. Example: * Made in the USA, *Handcrafted, *100% Leather
 );
 
 CREATE TABLE purchases (

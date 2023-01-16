@@ -1,50 +1,19 @@
 <template>
 
-
-<!-- <div 
-    v-if="productStore.allProducts.length" 
-    class="w-full flex flex-col items-center gap-9">
-    <div 
-        v-for="product in productStore.allProducts" 
-        class="sm:w-2/3 md:w-1/2 md:p-0 w-full max-w-lg px-8">
-        <va-card>
-            <va-image
-                :src="createImageUrlFromString(product.main_image_name)"
-            />
-            <va-card-content>
-                <h6 class="va-h6">{{ product.name }}</h6>
-            </va-card-content>
-            <va-card-content>
-                <p>{{ product.description }}</p>
-            </va-card-content>
-            <va-card-content>
-                <p><b>${{ product.price_in_cents / 100 }}</b></p>
-            </va-card-content>
-            <va-card-content align="center">
-                <va-button 
-                    @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">
-                    See More
-                </va-button>
-            </va-card-content>
-        </va-card>
-    </div>
-</div> -->
-
-
 <div 
     v-if="productStore.allProducts.length" 
     class="product-container">
     <div 
-        v-for="product in productStore.allProducts" 
+        v-for="product, index in productStore.allProducts" 
+        :class="{'flex-row-reverse': index / 2 == 0}"
         class="product-wrapper">
+        
         <va-image
-            class="product-image"
+            class="product-image rounded"
             :src="createImageUrlFromString(product.main_image_name)"
         />
 
-        
-        <va-card class="product-card">
-            
+        <va-card class="product-card rounded-none">
             <va-card-content>
                 <h6 class="va-h6">{{ product.name }}</h6>
             </va-card-content>
@@ -54,14 +23,16 @@
             <va-card-content>
                 <p><b>${{ product.price_in_cents / 100 }}</b></p>
             </va-card-content>
-            <va-card-content align="center">
+            <va-card-content 
+                align="center"
+                class="see-more-btn-wrapper"
+                >
                 <va-button 
                     @click="router.push({ path: `/product/${product.name.replaceAll(' ', '-') }` })">
                     See More
                 </va-button>
             </va-card-content>
         </va-card>
-        
     </div>
 </div>
 
@@ -84,7 +55,6 @@ const router = useRouter();
 
 
 <style lang="scss">
-
 
 .product-container {
     display: flex;
@@ -119,11 +89,18 @@ const router = useRouter();
 }
 
 @media (min-width: 1024px) {
+    .product-container {
+        gap: 6rem;
+    }
     .product-wrapper {
         display: flex;
-        flex-direction: row;
         flex-wrap: nowrap;
         width: 80%;
+    }
+    .see-more-btn-wrapper {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
     }
     .product-image {
         min-width: 50%;
