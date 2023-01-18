@@ -78,11 +78,15 @@ let selectedProductId = ref(0);
 
 const input = ref('');
 
+// Calculate the total images a product is using
 function totalImageCount(productId) {
     let selectedProductIndex = productStore.allProducts.findIndex(product => product.id == productId);
     let selectedProduct = productStore.allProducts[selectedProductIndex];
 
-    return !selectedProduct.image_names || selectedProduct.image_names.length;
+    if(!selectedProduct.main_image_name) {
+        return !selectedProduct.image_names || selectedProduct.image_names.length;
+    }
+    return !selectedProduct.image_names || selectedProduct.image_names.length + 1;
 };
 
 function handleShowProductImages(productId) {

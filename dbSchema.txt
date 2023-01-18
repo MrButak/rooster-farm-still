@@ -2,18 +2,17 @@ TODO: Look into a default value, to avoide undefined values
 
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) DEFAULT '' UNIQUE,
-    short_description TEXT DEFAULT '',
-    description TEXT DEFAULT '',
+    name VARCHAR(255) NOT NULL UNIQUE,
+    short_description TEXT,
+    description TEXT,
     price_in_cents INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
-    main_image_name VARCHAR(255) DEFAULT '',
-    image_names VARCHAR(255)  DEFAULT '[]',
-    specifications JSON DEFAULT '{}',
-    category VARCHAR(255) DEFAULT '',
+    main_image_name VARCHAR(255),
+    image_names VARCHAR(255) [],
+    specifications JSON,
+    category VARCHAR(255),
     visible Boolean NOT NULL,
     added_on_timestamp TIMESTAMP NOT NULL
-    // Consider adding a product_details [TEXT]. Display a bullet point list of the products selling points. Example: * Made in the USA, *Handcrafted, *100% Leather
 );
 
 CREATE TABLE purchases (

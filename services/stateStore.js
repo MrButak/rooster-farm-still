@@ -236,7 +236,7 @@ export const useAdminStore = defineStore('adminStore', {
         ]
     }),
     getters: {
-        // Create an Array of objects
+        // Create an Array of all image objects in State objects
         imageListObjArry: (state) => {
             const adminStore = useAdminStore()
             let imageObjArray = [];
