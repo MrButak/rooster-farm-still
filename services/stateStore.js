@@ -164,11 +164,11 @@ export const useAdminStore = defineStore('adminStore', {
     state: () => ({
         // Add product
         productToAdd: {
-            name: null,
+            name: '',
             price_in_cents: null,
             quantity: null,
-            short_description: null,
-            description: null,
+            short_description: '',
+            description: '',
             main_image_name: null,
             image_names: [], // Array of Strings
             specifications: [], // Array of Objects

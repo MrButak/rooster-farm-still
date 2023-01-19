@@ -23,7 +23,6 @@ export default defineNuxtConfig({
                 presets: {
                     light: {
                         primary: '#ffd166',
-
                         secondary: '#767C88',
                         success: '#3D9209',
                         info: '#158DE3',
@@ -39,7 +38,6 @@ export default defineNuxtConfig({
                         focus: '#FFFF00',
                         backgroundLanding: '#f4f9fc',
                         backgroundLandingBorder: 'rgba(155, 179, 206, 0.8)'
-                        
                     },
                     dark: {
                         primary: '#ffd166',

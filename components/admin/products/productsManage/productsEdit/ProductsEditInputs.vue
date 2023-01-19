@@ -111,7 +111,8 @@ Component displays all inputs for editing the product:
 </div>
 
 <div class="flex w-[95%]">
-    <va-input
+    <v-md-editor :ref="longDescriptionInput" v-model="adminStore.productToEdit.description" height="400px"></v-md-editor>
+    <!-- <va-input
         class="mb-4"
         v-model="adminStore.productToEdit.description"
         :readonly="!canEditLongDescriptionInput"
@@ -120,7 +121,7 @@ Component displays all inputs for editing the product:
         :autosize="true"
         :rules="[(v) => v.length && v.length < 10000 || `Must be under 10,000 characters`]"
         >
-    </va-input>
+    </va-input> -->
 </div>
 
 </template>

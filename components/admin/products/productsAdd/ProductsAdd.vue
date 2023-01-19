@@ -84,7 +84,8 @@
 </div>
 
 <div class="flex w-[95%]">
-    <va-input
+    <v-md-editor v-model="adminStore.productToAdd.description" height="400px"></v-md-editor>
+    <!-- <va-input
         class="mb-4"
         v-model="adminStore.productToAdd.description"
         type="textarea"
@@ -93,7 +94,7 @@
         placeholder="product's detailed description: this text will appear on the product's page"
         :rules="[(v) => v.length && v.length < 10000 || `Must be under 10,000 characters`]"
         >
-    </va-input>
+    </va-input> -->
 </div>
 
 <ProductsEditImages 
@@ -145,6 +146,7 @@ import Toast from '~~/components/global/Toast.vue';
 const { init, close, closeAll } = useToast();
 const adminStore = useAdminStore();
 
+let text = ref('')
 // Confirm exit modal
 let showConfirmExitCreateProductModal = ref(false);
 
