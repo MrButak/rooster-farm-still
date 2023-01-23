@@ -50,7 +50,7 @@ function sendPaymentSuccessEmail(paymentIntent) {
     
     apiInstance.sendTransacEmail(sendSmtpEmail).then(function(data) {
         console.log('email API called successfully.');
-        console.log(data);
+        // console.log(data);
         
     }, function(error) {
         console.error(error);

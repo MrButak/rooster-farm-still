@@ -104,24 +104,15 @@ Component displays all inputs for editing the product:
             <va-icon
                 :name="editLongDescriptionIcon.name"
                 :color="editLongDescriptionIcon.color"
-                @click="canEditLongDescriptionInput = !canEditLongDescriptionInput; longDescriptionInput.focus()"
+                @click="canEditLongDescriptionInput = !canEditLongDescriptionInput"
             />
         </span>
 	</h5>
 </div>
 
 <div class="flex w-[95%]">
-    <v-md-editor :ref="longDescriptionInput" v-model="adminStore.productToEdit.description" height="400px"></v-md-editor>
-    <!-- <va-input
-        class="mb-4"
-        v-model="adminStore.productToEdit.description"
-        :readonly="!canEditLongDescriptionInput"
-        type="textarea"
-        ref="longDescriptionInput"
-        :autosize="true"
-        :rules="[(v) => v.length && v.length < 10000 || `Must be under 10,000 characters`]"
-        >
-    </va-input> -->
+    <!-- https://code-farmer-i.github.io/vue-markdown-editor/ -->
+    <v-md-editor :mode="determineVueMarkdownEditorMode" v-model="adminStore.productToEdit.description" height="400px"></v-md-editor>
 </div>
 
 </template>
@@ -135,6 +126,11 @@ const adminStore = useAdminStore();
 
 onMounted(() => {
 	console.log(adminStore.productToEdit)
+});
+
+let determineVueMarkdownEditorMode = computed(() => {
+    return canEditLongDescriptionInput.value ?
+        "editable" : "preview"
 });
 
 // Product name
@@ -167,14 +163,12 @@ let editShortDescriptionIcon = computed(() => {
 });
 // Product long description
 let canEditLongDescriptionInput = ref(false);
-let longDescriptionInput = ref(null);
 let editLongDescriptionIcon = computed(() => {
     return !canEditLongDescriptionInput.value ?
 			{name: 'edit', color: 'info'} : {name: 'done', color: 'danger'};
 });
 
 function productNameValidation(str) {
-    // A-Z a-z 0-9 !@#$%^&*()-_=/\(){}[]+/\<>,.|
     return !(/[^\w\(A-Za-z0-9)/ \-_?!@#$%^&*(){}+/\\<>,.|[\]]/g).test(str) 
         && str.trim().length > 0;  
 };

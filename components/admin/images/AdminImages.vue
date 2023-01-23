@@ -263,7 +263,7 @@ async function handleDeleteImages() {
                         tPropIconColor: '#000000'
                     })
                 });
-                console.log(response.data);
+                // console.log(response.data);
         };
         // Stop loading spinner
         deleteImageLoading.value = !deleteImageLoading.value;
