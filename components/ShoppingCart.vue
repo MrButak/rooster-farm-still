@@ -2,7 +2,7 @@
 
 <span 
     @click="router.push({path: '/shopping-cart'})" 
-    class="shopping-cart-wrapper"
+    class="shopping-cart-wrapper cursor-pointer"
     >
     <img class="shopping-cart-icon" :src="shoppingCartIcon" />
     <p 

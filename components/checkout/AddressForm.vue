@@ -115,7 +115,6 @@ const uiStore = useUiStore();
 const router = useRouter();
 
 let autocomplete = {};
-let errorMessage = ref('');
 let addressField1 = ref(null);
 
 onMounted(() => {
