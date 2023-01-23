@@ -83,13 +83,13 @@
 
     </va-data-table>
 </div>
-
 <!-- Thumbnail -->
 <div v-if="imageView == 'thumbnail'" class="flex flex-wrap gap-4">
     <div v-for="imageObj in adminStore.allImageBucketData" 
             class="flex flex-col !flex-initial w-32 " 
             :style="{'backgroundColor': adminStore.imagePreviewBgColor(imageObj)}"
         >
+        
         <va-checkbox
             v-model="adminStore.imageSelection"
             :array-value="imageObj.Key"

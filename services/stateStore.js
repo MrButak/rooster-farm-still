@@ -236,7 +236,7 @@ export const useAdminStore = defineStore('adminStore', {
         ]
     }),
     getters: {
-        // Create an Array of all image objects in State objects
+        // Create an Array of all image objects
         imageListObjArry: (state) => {
             const adminStore = useAdminStore()
             let imageObjArray = [];
@@ -321,9 +321,10 @@ export const useAdminStore = defineStore('adminStore', {
 
             });
             
-            switch(response) {
+            switch(response.status) {
                 case '200':
                     if(response.imageData.length) {
+                        console.log(response)
                         Object.assign(this.allImageBucketData, JSON.parse(JSON.stringify(response.imageData)));
                     };
                     break;
