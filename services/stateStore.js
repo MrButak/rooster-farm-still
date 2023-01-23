@@ -320,6 +320,7 @@ export const useAdminStore = defineStore('adminStore', {
             let response = await $fetch(`/api/admin/image/get-all`, {
 
             });
+            
             switch(response) {
                 case '200':
                     if(response.imageData.length) {
