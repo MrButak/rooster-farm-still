@@ -32,12 +32,17 @@
 
         <div class="overflow-y-scroll h-64 pt-4">
             <!-- description and specification tabs -->
-            <text v-if="(productDetailsTabs == 0)">{{ productData[0].description }}</text>
+            <!-- vue mark-down editor creates the html from mark-down -->
+            <span 
+                v-if="(productDetailsTabs == 0)" 
+                v-html="xss.process(VueMarkdownEditor.vMdParser.themeConfig.markdownParser.render(productData[0].description))">
+            </span>
             <span v-else>
                 <p v-for="spec in productData[0].specifications">
                     {{ Object.keys(spec)[0] }}: {{ Object.values(spec)[0] }}
                 </p>
             </span>
+            
         </div>
         
         <text>Price: ${{ (productData[0].price_in_cents / 100) * quantitySelect }}</text>
@@ -78,6 +83,7 @@
 <script setup>
 
 import { ref, onMounted, computed } from 'vue';
+import VueMarkdownEditor, { xss } from '@kangc/v-md-editor';
 import { useShoppingCartStore, createImageUrlsFromArray } from '~~/services/stateStore';
 import { getItemFromLs } from '../../services/lsManager';
 
@@ -87,6 +93,7 @@ const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'))
 });
+
 
 let productDetailsTabs = ref(0);
 // Pinia store

@@ -83,13 +83,13 @@
 
     </va-data-table>
 </div>
-
 <!-- Thumbnail -->
 <div v-if="imageView == 'thumbnail'" class="flex flex-wrap gap-4">
     <div v-for="imageObj in adminStore.allImageBucketData" 
             class="flex flex-col !flex-initial w-32 " 
             :style="{'backgroundColor': adminStore.imagePreviewBgColor(imageObj)}"
         >
+        
         <va-checkbox
             v-model="adminStore.imageSelection"
             :array-value="imageObj.Key"
@@ -97,7 +97,7 @@
         <va-image 
             class="w-32"
             @click="adminStore.viewedImage = imageObj; showImageModal = !showImageModal"
-            :src="imageUrl(imageObj.Key)"
+            :src="createImageUrlFromString(imageObj.Key)"
         />
         <p class="w-32 truncate ...">{{ imageObj.Key }}</p>
     </div>
@@ -117,7 +117,7 @@
     <template #content="{ ok }">
         <va-image 
             :contain="true"
-            :src="imageUrl(adminStore.viewedImage.Key)" 
+            :src="createImageUrlFromString(adminStore.viewedImage.Key)" 
         />
         <va-card-title>
             {{ adminStore.viewedImage.Key }}
@@ -172,7 +172,7 @@
 
 <script setup>
 
-import { useAdminStore, useProductStore } from '~~/services/stateStore';
+import { useAdminStore, useProductStore, createImageUrlFromString } from '~~/services/stateStore';
 import Toast from '~~/components/global/Toast.vue';
 const { init, close, closeAll } = useToast();
 const adminStore = useAdminStore();
@@ -263,7 +263,7 @@ async function handleDeleteImages() {
                         tPropIconColor: '#000000'
                     })
                 });
-                console.log(response.data);
+                // console.log(response.data);
         };
         // Stop loading spinner
         deleteImageLoading.value = !deleteImageLoading.value;

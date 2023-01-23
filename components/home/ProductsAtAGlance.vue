@@ -23,7 +23,7 @@
                 <h6 class="va-h6">{{ product.name }}</h6>
             </va-card-content>
             <va-card-content>
-                <p>{{ product.description }}</p>
+                <p>{{ product.short_description }}</p>
             </va-card-content>
             <va-card-content>
                 <p><b>${{ product.price_in_cents / 100 }}</b></p>

@@ -46,8 +46,8 @@ export default defineEventHandler (async event => {
     // 1 .Delete from images table in DB
     // 2. Delete image names from products table image_names[] column
     if(!response.Errors.length) {
-            console.log(response.Deleted)
-            console.log('***************')
+            // console.log(response.Deleted)
+            // console.log('***************')
 			await deleteImagesFromDb(response.Deleted);
 			await deleteImageNameFromProduct(response.Deleted)
 			return {status: '200', data: response.Deleted}

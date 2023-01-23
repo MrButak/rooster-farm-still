@@ -44,14 +44,6 @@
 
     </va-data-table>
 
-    <!-- @filtered="filteredCount = $event.allProducts.length"   -->
-    <!-- <va-alert class="mt-3" color="info" outline>
-      <span>
-        Number of filtered items:
-        <va-chip>{{ filteredCount }}</va-chip>
-      </span>
-    </va-alert> -->
-
     <!-- Confirm edit popup modal -->
     <va-modal 
         v-model="adminStore.showConfirmEditModal" :message="adminStore.confirmEditModalMessage" title="Edit?" 
