@@ -8,12 +8,11 @@
     v-if="productStore.allProducts.length"
     class="product-container"
     >
-    
+    <!-- Below is a dynamic class name using a tailwind class -->
     <div 
         v-for="product, index in productStore.allProducts" 
-        :class="{'flex-row-reverse': index / 2 == 0}"
+        :class="{'flex-row-reverse': index % 2 == 0}"
         class="product-wrapper">
-        
         <va-image
             class="product-image rounded"
             :src="createImageUrlFromString(product.main_image_name)"

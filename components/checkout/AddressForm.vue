@@ -10,7 +10,7 @@
                 <va-input
                     class="mb-4 w-full"
                     v-model="orderStore.userShippingData.nameField"
-                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    :rules="[(v) => v.length > 0 || `Can not be empty`]"
                     placeholder="name"
                     bordered
                 />
@@ -20,7 +20,7 @@
                 <va-input
                     class="mb-4 w-full"
                     v-model="orderStore.userShippingData.emailField"
-                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    :rules="[(v) => emailRegex.test(v) || `Must be valid email`]"
                     placeholder="email"
                     bordered
                 />
@@ -38,7 +38,7 @@
         <va-input
             class="mb-4"
             v-model="orderStore.userShippingData.addressField2"
-            :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+            :rules="[]"
             bordered
         />
 
@@ -48,7 +48,7 @@
                 <va-input
                     class="mb-4 w-full"
                     v-model="orderStore.userShippingData.cityField"
-                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    :rules="[(v) => v.length > 0 || `Can not be empty`]"
                     placeholder="city"
                     bordered
                 />
@@ -58,7 +58,7 @@
                 <va-input
                     class="mb-4 w-full"
                     v-model="orderStore.userShippingData.regionField"
-                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    :rules="[(v) => v.length > 0 || `Can not be empty`]"
                     placeholder="state/province"
                     bordered
                 />
@@ -71,7 +71,7 @@
                 <va-input
                     class="mb-4 w-full"
                     v-model="orderStore.userShippingData.postalField"
-                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    :rules="[(v) => postalCodeRegex.test(v) || `Must be valid postal code`]"
                     placeholder="postal code"
                     bordered
                 />
@@ -81,7 +81,7 @@
                 <va-input
                     class="mb-4 w-full"
                     v-model="orderStore.userShippingData.countryField"
-                    :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+                    :rules="[(v) => v.length > 0 || `Can not be blank`]"
                     placeholder="postal code"
                     bordered
                 />
@@ -93,7 +93,7 @@
             class="mb-4"
             type="textarea"
             v-model="orderStore.userShippingData.additionalNote"
-            :rules="[(v) => v.length > 3 || `Fulfill the condition`]"
+            :rules="[]"
             placeholder="additional notes"
             bordered
         />
@@ -106,6 +106,7 @@
 
 import { onMounted } from 'vue';
 import { useOrderStore, useUiStore } from '../../services/stateStore';
+import { emailRegex, postalCodeRegex } from '~~/services/validationManager';
 
 // Pinia store
 const orderStore = useOrderStore();

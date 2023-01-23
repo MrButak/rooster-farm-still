@@ -3,7 +3,7 @@
 <div class="flex justify-center py-8">
     <div class="flex justify-between gap-8 w-full max-w-2xl">
         <va-button class="w-8" @click="orderStore.currentCheckoutStep = 1; router.push('/shopping-cart')">Back to Cart</va-button>
-        <div class="flex w-1/4">
+        <div class="flex w-1/4 gap-2">
             <va-button class="w-8" v-if="orderStore.currentCheckoutStep !== 1" @click="determineCheckoutStep('prev')">Previous</va-button>
             <va-button class="w-8" v-if="orderStore.currentCheckoutStep !== 3" @click="determineCheckoutStep('next')">Next</va-button>
         </div>
@@ -12,8 +12,6 @@
 
 
 </template>
-
-
 
 <script setup>
 import { useOrderStore } from '../../services/stateStore';
@@ -27,7 +25,7 @@ function determineCheckoutStep(direction) {
     
     switch(direction) {
         case 'prev':
-                orderStore.currentCheckoutStep == 2 ?
+            orderStore.currentCheckoutStep == 2 ?
             orderStore.currentCheckoutStep = 1 :
             orderStore.currentCheckoutStep = 2;
             return;
@@ -39,7 +37,6 @@ function determineCheckoutStep(direction) {
 };
 
 </script>
-
 
 
 <style lang="scss" scoped>
