@@ -3,28 +3,29 @@
             :loading ="productLoading"
             :size="60"
             >
-<div class="product-container">
-<div 
-    v-if="productStore.allProducts.length"
-    class="product-container"
-    >
-    <!-- Below is a dynamic class name using a tailwind class -->
-    <div 
-        v-for="product, index in productStore.allProducts" 
-        :class="{'flex-row-reverse': index % 2 == 0}"
-        class="product-wrapper">
-        <va-image
-            class="product-image rounded"
-            :src="createImageUrlFromString(product.main_image_name)"
-        />
 
-        <va-card class="product-card rounded-none">
+<div class="main-container">
+<div
+    v-if="productStore.allProducts.length"
+    class="products-container"
+    >
+    <div v-for="product, index in productStore.allProducts"
+        class="product-wrapper"
+        >
+        <div class="product-card-wrapper">
+        <va-card>
+            <va-card-content>
+                <va-image
+                    class=""
+                    :src="createImageUrlFromString(product.main_image_name)"
+                />
+            </va-card-content>
             <va-card-content>
                 <h6 class="va-h6">{{ product.name }}</h6>
             </va-card-content>
-            <va-card-content>
+            <!-- <va-card-content>
                 <p>{{ product.short_description }}</p>
-            </va-card-content>
+            </va-card-content> -->
             <va-card-content>
                 <p><b>${{ product.price_in_cents / 100 }}</b></p>
             </va-card-content>
@@ -38,8 +39,8 @@
                 </va-button>
             </va-card-content>
         </va-card>
+        </div>
     </div>
-
 </div>
 </div>
 </va-inner-loading>
@@ -64,66 +65,55 @@ let productLoading = ref(true);
 
 <style lang="scss">
 
-.product-container {
+
+.main-container {
+    display: flex;
+    justify-content: center;
+}
+.products-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1.8rem;
+    width: 100%;
+    padding: 0 1rem;
+}
+.product-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    gap: 2.25rem;
     width: 100%;
 }
-
-.product-wrapper {
-    width: 95%;
+.product-card-wrapper {
+    width: 100%;
+    text-align: center;
 }
 
-
 @media (min-width: 540px) {
+    .products-container {
+        gap: 3rem;
+        // padding: 0 2rem;
+    }
     .product-wrapper {
-        width: 80%;
+        width: 44%;
     }
 }
 
 @media (min-width: 640px) {
-    .product-wrapper {
-        width: 70%;
-    }
 }
 
 @media (min-width: 768px) {
+
+    .products-container {
+        max-width: 1024px;
+    }
     .product-wrapper {
-        width: 60%;
+        width: 28%;
     }
 }
 
 @media (min-width: 1024px) {
-    .product-container {
-        gap: 6rem;
-    }
-    .product-wrapper {
-        display: flex;
-        flex-wrap: nowrap;
-        width: 80%;
-    }
-    .see-more-btn-wrapper {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-    }
-    .product-image {
-        min-width: 50%;
-    }
-    
-    .product-card {
-        min-width: 50%;
-        min-height: 100%;
-    }
 }
 @media (min-width: 1920px) {
-    .product-wrapper {
-        max-width: 48rem;
-    }
-   
 }
-
 </style>
