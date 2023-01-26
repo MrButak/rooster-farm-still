@@ -2,7 +2,7 @@
 
 <NuxtPage />
 <Footer />
-<va-switch
+<!-- <va-switch
     v-model="colorThemeValue"
     color="#5123a1"
     off-color="#ffd300"
@@ -16,7 +16,7 @@
         />
     </div>
     </template>
-</va-switch>
+</va-switch> -->
 
 </template>
 
