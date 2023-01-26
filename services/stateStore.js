@@ -324,7 +324,7 @@ export const useAdminStore = defineStore('adminStore', {
             switch(response.status) {
                 case '200':
                     if(response.imageData.length) {
-                        console.log(response)
+                        // console.log(response)
                         Object.assign(this.allImageBucketData, JSON.parse(JSON.stringify(response.imageData)));
                     };
                     break;
@@ -353,7 +353,7 @@ function createImageUrlsFromArray(fileNameArray) {
     
     // Checking for Array value. Reason: The default row value for  products.image_names is an empty postgres Array. That is coming back from the DB as an Object. So when that Object is sent here there is an error, because this fucntion expects an Array of Strings.
     if(!fileNameArray || !fileNameArray.length || !Array.isArray(fileNameArray)) { return [] };
-    console.log({fileNameArray})
+    // console.log({fileNameArray})
     const config = useRuntimeConfig();
     return fileNameArray.map((fileName) => {return config.public.AWS_S3_BUCKET_BASE_URL + fileName});
 };

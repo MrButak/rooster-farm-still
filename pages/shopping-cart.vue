@@ -106,6 +106,7 @@ import emptyShoppingCartSvgLightMode from '~~/public/img/empty-shopping-cart-lig
 import emptyShoppingCartSvgDarkMode from '~~/public/img/empty-shopping-cart-dark-mode.svg';
 import { useColors } from 'vuestic-ui';
 
+const config = useRuntimeConfig();
 const { applyPreset } = useColors();
 nextTick(() => {
     applyPreset(getItemFromLs('vuestic-docs-theme'));
@@ -124,9 +125,7 @@ let showRemoveItemModal = ref(false);
 let shoppingCartItems = reactive([]); // products from Local Storage
 let allProducts = reactive([]); // Database
 let selectedProductId = null;
-function c() {
-    console.log('callback success')
-}
+
 ;(async() => {
 
 
@@ -149,7 +148,7 @@ onMounted(() => {
             script: [
                 {
                     // using `Function.prototype` as a stand-in for a callback function - as I don't see the need for a callback at the moment. More info here: https://stackoverflow.com/a/75191938
-                    src: `https://maps.googleapis.com/maps/api/js?key=AIzaSyBOIP84BkhD_JvqsFPGBosvmBOFCVg-ylw&callback=Function.prototype&libraries=places`,
+                    src: `https://maps.googleapis.com/maps/api/js?key=${config.public.GOOGLE_MAPS_API}&callback=Function.prototype&libraries=places`,
                     defer: true,
                     async: true
                 },
