@@ -1,8 +1,9 @@
 #! /bin/bash
-source ${HOME}/.bashrc
+# source ${HOME}/.bashrc
 
 cd /var/www/rooster-farm-still
-export NODE_ENV=development
+export NODE_ENV=production
+export PORT=2300
 npm run build
 npm run start
 
